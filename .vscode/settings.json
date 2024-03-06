@@ -1,0 +1,12 @@
+{
+    "editor.formatOnSave": true,
+    "latex-workshop.latexindent.args": [
+        "-c",
+        "%DIR%/",
+        "%TMPFILE%",
+        "-y=defaultIndent: '%INDENT%'",
+        "-m",
+        "-l=%DIR%/latexindent.yaml"
+    ],
+    "latex-workshop.latex.outDir": "%DIR%/output"
+}

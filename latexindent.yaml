@@ -1,0 +1,5 @@
+defaultIndent: "    " # Adjust indentation if desired
+modifyLineBreaks:
+  preserveBlankLines: 0
+  textWrapOptions:
+    columns: 80
