@@ -1,13 +1,18 @@
 \section{Notational syntax}
-The terminology and its notation used throughout this article will closely align with \cite{delimi}, although not all aspects will be presented here. This section will cover what is necessary to reach our dynamic inquiry epistemic logic model. Recall that in \textbf{DEL}s, factual information is represented in the propositional language and is therefore also the inquiry language of the oracle $\mathscr{P}$:
-$$
-	\gamma::= p\:|\:\neg\gamma|(\gamma\land\gamma)
-$$
+The terminology and its notation used throughout this article will closely
+align with \cite{delimi}, although not all aspects will be presented here. This
+section will cover what is necessary to reach our dynamic inquiry epistemic
+logic model. Recall that in \textbf{DEL}s, factual information is represented
+in the propositional language and is therefore also the inquiry language of the
+oracle $\mathscr{P}$: $$ \gamma::= p\:|\:\neg\gamma|(\gamma\land\gamma) $$
 
-where \textbf{P} is a countable set of atomic propositions and $p \in \mathbf{P}$. This reads as a proposition is either a fact, the negation of a proposition or the conjunction of multiple propositions.\\
-By the previous definition, we can now describe the \textit{static IMI epistemic language} $\mathscr{L_s}$, which is defined as:
+where \textbf{P} is a countable set of atomic propositions and $p \in
+	\mathbf{P}$. This reads as a proposition is either a fact, the negation of a
+proposition or the conjunction of multiple propositions.\\ By the previous
+definition, we can now describe the \textit{static IMI epistemic language}
+$\mathscr{L_s}$, which is defined as:
 \begin{align*}
 	\varphi ::= p |\neg\varphi|(\varphi \land \varphi) | K_a\varphi | A_a\varphi | \phi\gamma \\| R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i) | R_a((\varphi_1,...,\varphi_k), \varphi_j) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}}
 \end{align*}
-where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly knows that $\varphi$", the \textbf{awareness operator} $A_a\varphi$ reads as "agent \textit{a} is aware of $\varphi$", the formula $\phi\gamma$ reads as $\gamma$ is in the answer set of the oracle. $R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i)$ reads as "$\gamma_i$ is the answer the oracle will provide to question $\gamma_1,...,\gamma_k$", similarly $R_a$ denotes what answer agent \textit{a} will answer to a question. 
+where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly knows that $\varphi$", the \textbf{awareness operator} $A_a\varphi$ reads as "agent \textit{a} is aware of $\varphi$", the formula $\phi\gamma$ reads as $\gamma$ is in the answer set of the oracle. $R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i)$ reads as "$\gamma_i$ is the answer the oracle will provide to question $\gamma_1,...,\gamma_k$", similarly $R_a$ denotes what answer agent \textit{a} will answer to a question.
 
