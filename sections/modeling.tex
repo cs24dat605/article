@@ -5,26 +5,28 @@ that will be modeled will have two factions, henceforth known as the town and
 mafia. The town wins when they have eliminated all mafia members, and the mafia
 wins when their factions have the non-strict numerical majority of players. The
 game is played out in rounds consisting of four phases, which happen in order,
-until either win-condition is met: \\ The night phase is where different roles
-perform private or public actions to gain information or spread misinformation.
-The morning phase is where public results of the night phase are revealed to
-all players. The roles of the players who died during the night phase is revealed at
-this time. The day phase is where players try to influence each other's
-worldviews through communicative actions. The voting phase is where players
-vote for who to lynch according to their individual worldviews. The voting
-phase can end in a majority vote which will result in a lynching of that
-player, killing them and revealing their role publicly, or in a tie, which will
-result in the phase ending with no lynching. \\ \\ The possible roles that a player
-can play in this modeling of the game, and their associated actions, are: Town
-Roles: A Villager has no special actions. The Sheriff must choose one player
-each night and privately gain knowledge of their faction. The investigator must choose one
-player each night and privately gain knowledge of a selection of roles that that player
-may have, one of them being true. The Doctor must choose one player each night
-and protect them from any harm that may come to them during the night. The
-Escort must choose one player each night and prevent them from performing any
-actions during the night phase. The Veteran may choose to go on alert during
-the night phase, if they do so, then anyone visiting them at night will die.
-The Vigilante may choose to kill any one player during the night phase, if that
+until either win-condition is met:
+
+The night phase is where different roles perform private or public actions to
+gain information or spread misinformation. The morning phase is where public
+results of the night phase are revealed to all players. The roles of the
+players who died during the night phase is revealed at this time. The day phase
+is where players try to influence each other's worldviews through communicative
+actions. The voting phase is where players vote for who to lynch according to
+their individual worldviews. The voting phase can end in a majority vote which
+will result in a lynching of that player, killing them and revealing their role
+publicly, or in a tie, which will result in the phase ending with no lynching.
+\\ \\ The possible roles that a player can play in this modeling of the game,
+and their associated actions, are: Town Roles: A Villager has no special
+actions. The Sheriff must choose one player each night and privately gain
+knowledge of their faction. The investigator must choose one player each night
+and privately gain knowledge of a selection of roles that that player may have,
+one of them being true. The Doctor must choose one player each night and
+protect them from any harm that may come to them during the night. The Escort
+must choose one player each night and prevent them from performing any actions
+during the night phase. The Veteran may choose to go on alert during the night
+phase, if they do so, then anyone visiting them at night will die. The
+Vigilante may choose to kill any one player during the night phase, if that
 player is revealed to be a member of the town during the morning phase, the
 vigilante loses their killing ability, and will die the following morning.
 Mafia Roles: The Godfather must choose one player each night who will die. The
@@ -44,9 +46,10 @@ should always be more players belonging to the town than the mafia, and that
 the players of the town have no reason to lie, it is presumed that the world
 with fewest “marks” must be the true world, which the player will base their
 decisions on. A few modifications to their methodology have been made, in order
-to better suit a multi-round game. \\ First, the communicative actions for the
-game have been altered slightly. In this simulation, players can choose between
-6 different communicative actions:
+to better suit a multi-round game.
+
+First, the communicative actions for the game have been altered slightly. In
+this simulation, players can choose between 6 different communicative actions:
 
 \begin{enumerate}
     \item Claim to have a certain role.
@@ -57,32 +60,38 @@ game have been altered slightly. In this simulation, players can choose between
     \item Do not say anything.
 \end{enumerate}
 The purpose of these actions are to mimic the in-person game as closely as
-possible. Players will each be able to take a variable amount of communicative 
+possible. Players will each be able to take a variable amount of communicative
 actions before the
 phase concludes. Players choose which actions to take, based on which action
 will influence others’ most towards their own world view. If multiple actions
 are in accordance with their world view, then they may choose to inquire other
-players in order to maximize their information gain. \\ When public information is
-revealed, like the role of a killed player, all players must update their
-worldviews, eliminating all worlds not in accordance with this information.
-This will slowly limit the possible worlds, granting more information to the
-town. \\ The marks generated by communicative actions are associated with the
-player that generated it, meaning that whenever public information is revealed
-about that player, villagers may either discard or reinforce said marks,
-depending on whether the player was revealed to be a member of the mafia,
-meaning that may have had incentive to lie, or if they were a villager, meaning
-they should have only told the truth. \\ Another thing, kept track of by the
-players, are the active and inactive worlds. An active world is a world that is
-true based on the public and private information available to a player. An
-inactive world is a world that is true based on the public information
-available, but false based on the private information available. The need for
-inactive worlds, is that a player cannot assume that other players are aware of
-private information, so these worlds must be included when deciding which
-communicative actions to perform during the day phase. An example: \\ Player 1 is
-a seer, and has used their nightly action to look at the faction of player 2,
-which gave them the private information that player 2's faction is of the town.
-Player 1 can now mark all worlds where player 2 is part of the mafia as
-inactive, as they are factually false, but since this is not public information
-player 1 knows that not everyone knows this, and these worlds must therefore
-still be considered when choosing communicative actions, even if just for
-knowing which worlds to avoid promoting.
+players in order to maximize their information gain.
+
+When public information is revealed, like the role of a killed player, all
+players must update their worldviews, eliminating all worlds not in accordance
+with this information. This will slowly limit the possible worlds, granting
+more information to the town.
+
+The marks generated by communicative actions are associated with the player
+that generated it, meaning that whenever public information is revealed about
+that player, villagers may either discard or reinforce said marks, depending on
+whether the player was revealed to be a member of the mafia, meaning that may
+have had incentive to lie, or if they were a villager, meaning they should have
+only told the truth.
+
+Another thing, kept track of by the players, are the active and inactive
+worlds. An active world is a world that is true based on the public and private
+information available to a player. An inactive world is a world that is true
+based on the public information available, but false based on the private
+information available. The need for inactive worlds, is that a player cannot
+assume that other players are aware of private information, so these worlds
+must be included when deciding which communicative actions to perform during
+the day phase. An example:
+
+Player 1 is a seer, and has used their nightly action to look at the faction of
+player 2, which gave them the private information that player 2's faction is of
+the town. Player 1 can now mark all worlds where player 2 is part of the mafia
+as inactive, as they are factually false, but since this is not public
+information player 1 knows that not everyone knows this, and these worlds must
+therefore still be considered when choosing communicative actions, even if just
+for knowing which worlds to avoid promoting.
