@@ -1,4 +1,6 @@
 \documentclass[twocolumn]{article}
+\input{preamble.tex}
+
 
 % Bibliography used for citing
 \usepackage[backend=biber,
@@ -26,7 +28,7 @@
 	Nicklas Peter Kvist Gislinge \\ Aalborg University \\ ngisli21@student.aau.dk
 }
 \maketitle
-
+\clearpage
 \begin{abstract}
 	Abstract goes here.
 \end{abstract}
@@ -44,5 +46,9 @@
 \printbibliography[heading=bibintoc, title=Bibliography]
 \label{bib:mybiblio}
 
+\input{sections/terminology.tex}
+\input{sections/semantics.tex}
 
+\clearpage
+\printbibliography[title={References}]
 \end{document}

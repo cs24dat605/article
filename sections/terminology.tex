@@ -12,7 +12,36 @@ proposition or the conjunction of multiple propositions.\\ By the previous
 definition, we can now describe the \textit{static IMI epistemic language}
 $\mathscr{L_s}$, which is defined as:
 \begin{align*}
-	\varphi ::= p |\neg\varphi|(\varphi \land \varphi) | K_a\varphi | A_a\varphi | \phi\gamma \\| R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i) | R_a((\varphi_1,...,\varphi_k), \varphi_j) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}}
+	\varphi ::= p \sep\neg\varphi\sep(\varphi \land \varphi) \sep K_a\varphi \sep A_a\varphi \sep \phi\gamma \sep\\ R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i) \sep R_a((\varphi_1,...,\varphi_k), \varphi_j) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}}
 \end{align*}
-where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly knows that $\varphi$", the \textbf{awareness operator} $A_a\varphi$ reads as "agent \textit{a} is aware of $\varphi$", the formula $\phi\gamma$ reads as $\gamma$ is in the answer set of the oracle. $R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i)$ reads as "$\gamma_i$ is the answer the oracle will provide to question $\gamma_1,...,\gamma_k$", similarly $R_a$ denotes what answer agent \textit{a} will answer to a question.
+where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly knows that $\varphi$", the \textbf{awareness operator} $A_a\varphi$ reads as "agent \textit{a} is aware of $\varphi$", the formula $\phi\gamma$ reads as $\gamma$ is in the answer set of the oracle. $R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i)$ reads as "$\gamma_i$ is the answer the oracle will provide to question $\gamma_1,...,\gamma_k$", similarly $R_a$ denotes what answer agent \textit{a} will answer to a question. \\
+While $A_a\varphi$ does not have an impact on the epistemic attitude of an agent's beliefs, it is necessary to include when describing explicit and implicit knowledge \cite{delimi}, as per our previous definition of $K_a\varphi$ only captures implicit knowledge, explicit is defined as:
+$$
+	Ex_a\varphi = K_a(\varphi \land A_a\varphi)
+$$
+Such that knowledge is defined as both the proposition $\varphi$ and the awareness of this, and as a consequence of this also avoid logical omniscience \cite{fagin87}\cite{vanbenthem2010}. We can now define the \textit{IMI epistemic model}, a tuple:
+$$
+	M = \langle W, \sim_{a\in Ag}, V, A_{a\in Ag}, \gamma, R_{\gamma,a\in Ag}\rangle
+$$
+where: 
+\begin{itemize}
+	\setlength\itemsep{-0.4em}
+	\item W is non empty set of worlds.
+	\item $\sim_{a\in Ag} \subseteq W \times W$ is a binary equivalence relation representing the indistinguishability relation of agent $a$. 
+	\item $V : W \rightarrow \mathscr{P}(P)$ is the atomic valuation function for a proposition in a given world.
+	\item $A_a : W \rightarrow \mathscr{P}(\mathscr{L_s})$ is the awareness function of agent $a$, which for each world $w \in W$ represents the formulas that $a$ is aware of in $w$.
+	\item $\Phi : W \rightarrow \mathscr{P}(\mathscr{p}) $ likewise assigns the set of formulas which the oracle knows at world $w$, and $\Phi(w)$ represents the answer set of the oracle in $w$.
+\end{itemize}
+and $R_{\Phi}$, $R_{a}$ are similarly the functions evaluating the answering rule of respectively to the oracle or an agent $a$ in a given world. By our static epistemic language \staticlang and model $M$, we can define the following semantics:
+
+\begin{gather*}
+	M, w |= p \iff p \in V(w) \\
+	M, w |= \neg\varphi \iff M, w \not\models \varphi\\
+	M, w |= (\varphi \land \psi) \iff M, w |= \varphi, M, w |= \psi \\
+	M, w |= \know \iff \forall u\in W, u \sim_{a} M, u |= \varphi \\
+	M, w |= \aware \iff \varphi \in A_a(w) \\
+	M, w |= \Phi\gamma \iff \gamma \in \Phi(w) \\
+	M, w |= R_a((\varphi_1,...,\varphi_k), \varphi_j) \iff ((\varphi_1,...,\varphi_k), \varphi_j) \in R_a(w) \\
+	M, w |= R_\Psi((\varphi_1,...,\varphi_k), \varphi_j) \iff ((\varphi_1,...,\varphi_k), \varphi_j) \in R_\Psi(w)
+\end{gather*}
 
