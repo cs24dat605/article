@@ -1,4 +1,6 @@
 \documentclass[twocolumn]{article}
+\input{preamble.tex}
+
 
 \begin{document}
 \title{Title}
@@ -12,12 +14,16 @@
 	Author Name 4 \\ Institution 4 \\ Email: author4@email.com
 }
 \maketitle
-
+\clearpage
 \begin{abstract}
 	Abstract goes here.
 \end{abstract}
 
 \input{sections/introduction}
 \input{sections/related-works.tex}
+\input{sections/terminology.tex}
+\input{sections/semantics.tex}
 
+\clearpage
+\printbibliography[title={References}]
 \end{document}
