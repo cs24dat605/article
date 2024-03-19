@@ -1,18 +1,6 @@
 \documentclass[twocolumn]{article}
+\input{preamble.tex}
 
-% Bibliography used for citing
-\usepackage[backend=biber,
-  bibencoding=utf8,
-  style=numeric-comp
-]{biblatex}
-\addbibresource{bib/mybib.bib}
-
-
-\usepackage{amsmath}
-\usepackage{semantic}
-\usepackage{mathrsfs}
-\usepackage[scr=esstix,cal=boondox]{mathalfa} 
-\mathlig{-><-}{\rightarrow\leftarrow}
 
 \begin{document}
 \title{Title}
@@ -26,7 +14,7 @@
 	Nicklas Peter Kvist Gislinge \\ Aalborg University \\ ngisli21@student.aau.dk
 }
 \maketitle
-
+\clearpage
 \begin{abstract}
 	Abstract goes here.
 \end{abstract}
@@ -44,5 +32,6 @@
 \printbibliography[heading=bibintoc, title=Bibliography]
 \label{bib:mybiblio}
 
-
+\clearpage
+\printbibliography[title={References}]
 \end{document}

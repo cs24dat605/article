@@ -1,11 +1,19 @@
-\usepackage[
-backend=bibtex,
-style=alphabetic,
-sorting=ynt
+% Bibliography used for citing
+\usepackage[backend=biber,
+bibencoding=utf8,
+style=numeric-comp
 ]{biblatex}
+\addbibresource{bib/mybib.bib}
 \addbibresource{bibliography.bib}
 \usepackage{amsmath}
 \usepackage{semantic}
 \usepackage{mathrsfs}
 \usepackage[scr=esstix,cal=boondox]{mathalfa} 
 \mathlig{-><-}{\rightarrow\leftarrow}
+\newcommand{\sep}{\:|\:}
+\newcommand{\oracle}{$\mathscr{P}$}
+\newcommand{\staticlang}{$\mathscr{L}_s$}
+\newcommand{\aware}{A_a\varphi}
+\newcommand{\know}{K_a\varphi}
+
+
