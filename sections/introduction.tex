@@ -1,51 +1,71 @@
 \section{Introduction}
-Social deductions games have become increasingly popular, with many new 
-variants being released in recent years. These games typically include different roles, actions and intense discussions adding complexity to an 
-otherwise simple game premise. 
+Social deductions games have become increasingly popular, with many new
+variants being released in recent years. These games typically include
+different roles, actions and intense discussions adding complexity to an
+otherwise simple game premise.
 
-These games pit players against each other 
-through lies and deceit, tempting players into manipulating others with the 
-intent to further their own goals. In general, these games have two factions,
-or teams, with players being given roles that may belong to either team. These 
-roles may be simple, having no additional ‘special’ actions, or they may be 
-able to impact the course of the game, and the gathering of information, in 
-unique ways. Furthermore, these games typically have different, competing, win 
-conditions for each faction. One such game is 
-the online video game ‘Town of Salem’. It is a social deduction game based on 
-the game ‘Werewolf’, which itself is inspired by the original version of the 
-game ‘Mafia’. These three games share the similarities, that there are 
-typically two unequally sized teams, the town, being the larger, and the 
-werewolves/mafia, being the smaller. The smaller team will henceforth be 
-referred to as the Mafia. The games also share that they consist of four 
-phases, the night phase where special actions take place, the morning phase 
-where the public results of the night phase are revealed, the day phase where 
-people discuss based on their acquired information, and the voting phase where 
-everyone on both teams vote on who to lynch during the day phase. Then, the 
-game repeats with a new night phase. 
+These games pit players against each other through lies and deceit, tempting
+players into manipulating others with the intent to further their own goals. In
+general, these games have two factions, or teams, with players being given
+roles that may belong to either team. These roles may be simple, having no
+additional ‘special’ actions, or they may be able to impact the course of the
+game, and the gathering of information, in unique ways. Furthermore, these
+games typically have different, competing, win conditions for each faction.
 
-The base game has two factions; the town and the mafia. The town wins by 
-collectively lynching all of the mafia members, and the mafia wins by achieving 
-a numerical player majority within the game. The roles most often used in these 
-games include: An uninformed, town-allied majority with no special powers. The 
-mafia, which will slowly eliminate the majority during the multiple night 
-phases, and attempt to secretly spread misinformation throughout the town. 
-Investigative roles, allied to the town, which have different methods for 
-acquiring facts, such as privately viewing another player’s team during the 
-night phase. 
+One such game is the online video game ‘Town of Salem’. It is a social
+deduction game based on the game ‘Werewolf’, which itself is inspired by the
+original version of the game ‘Mafia’. These three games share the similarities,
+that there are typically two unequally sized teams, the town, being the larger,
+and the werewolves/mafia, being the smaller. The smaller team will henceforth
+be referred to as the Mafia. The games also share that they consist of four
+phases, the night phase where special actions take place, the morning phase
+where the public results of the night phase are revealed, the day phase where
+people discuss based on their acquired information, and the voting phase where
+everyone on both teams vote on who to lynch during the day phase. Then, the
+game repeats with a new night phase.
 
-However, one thing that is often overlooked in these games, is the simple fact, 
-that in a game with multiple roles, being assigned one with no special actions, can 
-feel boring, making the assigned player feel disinterested in the game. One 
-method used to remedy this, is to add additional roles to the town team, since 
-this team mostly consists of uninformed players with no special abilities. A 
-side-effect of this is that the win rate of the town increases, as the addition 
-of these roles necessarily result in more information being acquired by the 
-town team. What we would like to investigate in this paper is the which roles 
-could be added to the mafia team in order to equalize this growing unfair win 
-rate. We would like to see which mafia roles have the highest impact on win 
-rate, based on the number of initial players, the ratio of teams, different 
-play-styles, and the starting composition of the town team. \\
-This will be analyzed by utilizing a self-developed, console-based simulation 
-of the game, utilizing a probabilistic approach to decision making, with a 
-foundation in epistemic logic. The game will be modeled with different role 
+The base game has two factions; the town and the mafia. The town wins by
+collectively lynching all of the mafia members, and the mafia wins by achieving
+a numerical player majority within the game. The roles most often used in these
+games include: An uninformed, town-allied majority with no special powers. The
+mafia, which will slowly eliminate the majority during the multiple night
+phases, and attempt to secretly spread misinformation throughout the town.
+Investigative roles, allied to the town, which have different methods for
+acquiring facts, such as privately viewing another player’s team during the
+night phase.
+
+One thing that is often overlooked in these games, is the simple fact, that in
+a game with multiple roles, being assigned one with no special actions, can
+feel boring, making the assigned player feel disinterested in the game. One
+method used to remedy this, is to add additional roles to the town team, since
+this team mostly consists of uninformed players with no special abilities.
+
+A side-effect of this is that the win rate of the town increases, as the
+addition of these roles necessarily result in more information being acquired
+by the town team. What we would like to investigate in this paper is which
+roles could be added to the mafia team in order to equalize this growing unfair
+win rate. We would like to see which mafia roles have the highest impact on win
+rate, based on the number of initial players, the ratio of teams, different
+play-styles, and the starting composition of the town team.
+
+This will be analyzed by utilizing a self-developed, console-based simulation
+of the game, utilizing a probabilistic approach to decision making, with a
+foundation in epistemic logic. The game will be modeled with different role
 actions, voting strategies, communicative actions, and levels of selflessness.
+
+A sizable amount of research has been put into the field of social deduction
+games. However, much of that research has been focused on strategies relating
+to when and how to utilize different communicative actions\cite{commitment}.
+Others focus on ways for the town to detect the mafia
+members\cite{werewolf_stealth}, or protect key town members from the
+mafia\cite{werewolf_nash_equilibrium}, and others still focus on the different
+decision making strategies that can be implemented in multi agent systems,
+which these games can be modeled
+as\cite{modelling_multi_agent_epistemic_systems}\cite{multi_agent_epistemic_planner_common_knowledge}\cite{probibalistic_multiagent_systems}.
+
+However, one thing that is noticeably absent from this research is analyses
+with the focus of "evening the odds" for the mafia team when faced with a town
+full of special roles. The outcome of such an analysis might be a game setup
+where everyone involved can have a role with special abilities, meaning that
+players will likely be more engaged and active, throughout all stages of the
+game.
