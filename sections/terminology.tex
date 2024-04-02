@@ -12,9 +12,9 @@ our dynamic inquiry epistemic logic model. Recall that in \textbf{DEL}s,
 factual information is represented in the propositional language and is
 therefore also the inquiry language of the oracle $\mathscr{I}$: 
 
-$$ 
-\gamma::= p \sep\:\neg\gamma\sep(\gamma\land\gamma) 
-$$
+\begin{align}
+	\gamma::= p \sep\:\neg\gamma\sep(\gamma\land\gamma) 
+\end{align}
 
 where \textbf{P} is a countable set of atomic propositions and $p \in
 	\mathbf{P}$, $\oracle$ is the entity representing Nature i.e. common knowledge
@@ -22,16 +22,17 @@ based on Hintikka \cite{hintikka88}, $\varphi$ reads as a proposition is either
 a fact, the negation of a proposition or the conjunction of propositions. The oracle should be perceived as being the source of common knowledge between agents, and therefore also do not have any notion of which agents know what, or any distinguish-ability between worlds, as they are all the same in the eyes of the oracle.
 We can now extend the previous definitions to describe the \textit{static IMI
 	epistemic language} \staticlang, as follows:
-\begin{align*}
-	\varphi ::= p \sep\neg\varphi\sep(\varphi \land \varphi) \sep K_a\varphi \sep \phi\gamma \sep \\ R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i) \sep R_a((\varphi_1,...,\varphi_n), \varphi_j) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}},\\ \gamma, \gamma_1,..,\gamma_k \in \oracle, k, n \in \mathbb{N}, i \in 1..k, j \in 1..n
-\end{align*}
+\begin{align}
+	\begin{split}
+		\varphi ::= p \sep\neg\varphi\sep(\varphi \land \varphi) \sep K_a\varphi \sep \phi\gamma \\ \sep R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i) \sep R_a((\varphi_1,...,\varphi_n), \varphi_j) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}},\\ \gamma, \gamma_1,..,\gamma_k \in \oracle, k, n \in \mathbb{N}, i \in 1..k, j \in 1..n
+	\end{split}
+\end{align}
 where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly knows that $\varphi$", the formula $\phi\gamma$ reads as "$\gamma$ is in the answer set of the oracle". $R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i)$ reads as "$\gamma_i$ is the answer the oracle will provide to question $\gamma_1,...,\gamma_k$", similarly $R_a$ denotes what answer agent \textit{a} will answer to a question. \\
 
 We can now define the \textit{IMI epistemic model}, a tuple:
-$$
-	M = \langle W, \sim_{a\in Ag}, V, A_{a\in Ag}, \Phi, R_{\Phi
-		,a\in Ag}\rangle
-$$
+\begin{align}
+	M = \langle W, \sim_{a\in Ag}, V, A_{a\in Ag}, \Phi, R_{\Phi, a\in Ag}\rangle
+\end{align}
 where:
 \begin{itemize}
 	\setlength\itemsep{-0.4em}
@@ -53,7 +54,7 @@ Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so
 	M, w |= R_a \iff \oset \in R_a(w) \\
 	M, w |= R_\Phi \iff \aset \in R_\Phi(w)
 \end{gather}
-While (1), (2), (3) and (5) are trivial, (4) explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer functions (6), (7) are likewise only satisfied in a world given a model, when the pair of answers is epistemically reachable in that world. 
+While (4), (5), (6) and (8) are trivial, (7) explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer functions (9), (10) are likewise only satisfied in a world given a model, when the pair of answers is epistemically reachable in that world. 
 \subsubsection*{Information Update}
 To convert our static language to dynamic, we introduce the information update operator: $|$, which by a given model: \\$M = \dilmodel$, then the model 
 \begin{flalign*}
