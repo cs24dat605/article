@@ -1,6 +1,6 @@
 Social deduction scenarios can be expressed or modeled differently depending on the methods used to solve them. While other noteworthy fields such as machine learning could possibly also be used, we see an intriguing similarity between epistemology and social deduction, which lies in the nature how these games played. Often it's a game between players (agents), which need to keep track of who said what, and who knows what, and what these truths entails. Additionally, recent developments in the field have largely been focused on exactly these multi-agent systems and artificial intelligence. 
 
-\section{Notational syntax}
+\section{Dynamic Inquiry Language}
 The terminology and its notation used throughout this article will closely
 align with Yacien Hamami \cite{delimi}, although not all aspects will be
 presented here. While Hamami uses an awareness operator to distinguish between explicit/implicit knowledge, and to avoid logical omniscience, we disregard this, as it is not within the scope of this article. \newline
@@ -9,17 +9,20 @@ modeling prerequisites, and to argue for the correctness of this, in terms of
 resemblance with reality. This section will cover what is necessary to reach
 our dynamic inquiry epistemic logic model. Recall that in \textbf{DEL}s,
 factual information is represented in the propositional language and is
-therefore also the inquiry language of the oracle $\mathscr{I}$: $$ \gamma::= p
-	\sep\:\neg\gamma\sep(\gamma\land\gamma) $$
+therefore also the inquiry language of the oracle $\mathscr{I}$: 
+
+$$ 
+\gamma::= p \sep\:\neg\gamma\sep(\gamma\land\gamma) 
+$$
 
 where \textbf{P} is a countable set of atomic propositions and $p \in
 	\mathbf{P}$, $\oracle$ is the entity representing Nature i.e. common knowledge
 based on Hintikka \cite{hintikka88}, $\varphi$ reads as a proposition is either
 a fact, the negation of a proposition or the conjunction of propositions. The oracle should be perceived as being the source of common knowledge between agents, and therefore also don't have any notion of which agents know what, or any distinguish-ability between worlds, as they are all the same in the eyes of the oracle.
 We can now extend the previous definitions to describe the \textit{static IMI
-	epistemic language} $\mathscr{L_s}$, as follows:
+	epistemic language} \staticlang, as follows:
 \begin{align*}
-	\varphi ::= p \sep\neg\varphi\sep(\varphi \land \varphi) \sep (\varphi \lor \varphi) \sep K_a\varphi \sep \phi\gamma \sep \\ R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i) \sep R_a((\varphi_1,...,\varphi_k), \varphi_j) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}}
+	\varphi ::= p \sep\neg\varphi\sep(\varphi \land \varphi) \sep K_a\varphi \sep \phi\gamma \sep \\ R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i) \sep R_a((\varphi_1,...,\varphi_n), \varphi_j) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}},\\ \gamma, \gamma_1,..,\gamma_k \in \oracle, k, n \in \mathbb{N}, i \in 1..k, j \in 1..n
 \end{align*}
 where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly knows that $\varphi$", the formula $\phi\gamma$ reads as "$\gamma$ is in the answer set of the oracle". $R_\gamma((\gamma_1,...,\gamma_k,), \gamma_i)$ reads as "$\gamma_i$ is the answer the oracle will provide to question $\gamma_1,...,\gamma_k$", similarly $R_a$ denotes what answer agent \textit{a} will answer to a question. \\
 
@@ -32,21 +35,31 @@ where:
 \begin{itemize}
 	\setlength\itemsep{-0.4em}
 	\item W is non empty set of worlds.
-	\item $\sim_{a\in Ag} \subseteq W \times W$ is a binary equivalence relation representing the indistinguishability relation of agent $a$.
+	\item $\sim_{a\in Ag} \subseteq W \times W$ is a binary equivalence relation representing the indistinguishability relation of agent $a$, meaning that the relation is reflexive, transitive and symmetric.
 	\item $V : W \rightarrow \mathscr{P}(\mathbf{P})$ is the atomic valuation function, which yields the propositions which are true in each world. 
 	\item $\Phi : W \rightarrow \powset(\mathscr{I}) $ likewise assigns the set of formulas which the oracle knows at world $w$, and $\Phi(w)$ represents the answer set of the oracle in $w$.
-	\item $R_{\Phi} : W \rightarrow \powset(\oracle) \times \oracle$
+	\item $R_{\Phi} : W \rightarrow \powset(\oracle) \times \oracle$ is the oracle answering function, which associates a pair of the form \oset $\:$ for each world $w \in W$, where $(\gamma_1,...,\gamma_k) \subseteq \oracle$ and $\gamma_i \in \oracle$.
+	\item $R_a : W \rightarrow \powset(\staticlang) \times \staticlang$ is the answering rule of agent \textit{a} associating each world $w \in W$ of a pair of the form \aset $\:$ where $(\varphi_1,...,\varphi_n) \subseteq \staticlang$ and $\varphi_j \in \staticlang$.
 \end{itemize}
-$R_{\Phi}$, $R_{a}$ are similarly the functions evaluating the answering rule to the oracle or an agent $a$ in a given world and $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so agents are able to model or predict in possible worlds, based on what they know, what another agent will answer. We hypothesize that answering correct accordingly to a world, should imply some s
-ense of truthfulness to the actual world. By our static epistemic language \staticlang and model $M$, we can define the following semantics:
+Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so agents are able to model or predict in possible worlds, based on what they know, what another agent will answer. They are modeled as pairs of a series questions to one answer, because the provided answer to a series of questions can be a conjunction of propositions. We hypothesize that answering correct accordingly to a world, should imply some sense of truthfulness to the actual world. By our static epistemic language \staticlang and model $M$, we can define the following semantics:
 
-\begin{gather*}
+\begin{gather}
 	M, w |= p \iff p \in V(w) \\
 	M, w |= \neg\varphi \iff M, w \not\models \varphi\\
 	M, w |= (\varphi \land \psi) \iff M, w |= \varphi, M, w |= \psi \\
 	M, w |= \know \iff \forall u\in W, u \sim_{a} M, u |= \varphi \\
 	M, w |= \Phi\gamma \iff \gamma \in \Phi(w) \\
-	M, w |= R_a((\varphi_1,...,\varphi_k), \varphi_j) \iff ((\varphi_1,...,\varphi_k), \varphi_j) \in R_a(w) \\
-	M, w |= R_\Psi((\varphi_1,...,\varphi_k), \varphi_j) \iff ((\varphi_1,...,\varphi_k), \varphi_j) \in R_\Psi(w)
-\end{gather*}
-We introduce the answering rule of the 
+	M, w |= R_a \iff \oset \in R_a(w) \\
+	M, w |= R_\Phi \iff \aset \in R_\Phi(w)
+\end{gather}
+While (1), (2), (3) and (5) are trivial, (4) explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent do not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer functions \anso, \ansa are likewise only satisfied in a world given a model, when the pair of answers is epistemically reachable in that world. 
+\subsubsection*{Information Update}
+To convert our static language to dynamic, we introduce the information update operator: $|$, which by a given model: \\$M = \dilmodel$, then the model $M|\varphi = \langle W', \sim'_{a\in Ag}, V', A'_{a\in Ag}, \Phi', R'_{\Phi, a\in Ag}\rangle$\\ where $\proposition \in \dynlang$, is given by:
+
+\begin{itemize}
+	\item $W' := w' \in W | M, w' \models \proposition$
+	\item $\sim'_a := \sim_a \cap \:(W' \times W')$, for all $a \in Ag$
+	\item $V' := V | W'$
+	\item $\Phi' := \Phi | W'$
+	\item $R'_{\Phi, a\in Ag} := R'_{\Phi, a\in Ag} | W$ 
+\end{itemize}
