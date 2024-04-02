@@ -57,7 +57,7 @@ While (1), (2), (3) and (5) are trivial, (4) explains that the knowledge of some
 To convert our static language to dynamic, we introduce the information update operator: $|$, which by a given model: \\$M = \dilmodel$, then the model $M|\varphi = \langle W', \sim'_{a\in Ag}, V', A'_{a\in Ag}, \Phi', R'_{\Phi, a\in Ag}\rangle$\\ where $\proposition \in \dynlang$, is given by:
 
 \begin{itemize}
-	\item $W' := w' \in W | M, w' \models \proposition$
+	\item $W' := w' \in W,  M, w' \models \proposition$
 	\item $\sim'_a := \sim_a \cap \:(W' \times W')$, for all $a \in Ag$
 	\item $V' := V | W'$
 	\item $\Phi' := \Phi | W'$
