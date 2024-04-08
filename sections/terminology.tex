@@ -18,7 +18,7 @@ therefore also the inquiry language of the oracle $\mathscr{I}$:
 
 where \textbf{P} is a countable set of atomic propositions and $p \in
 	\mathbf{P}$, $\oracle$ is the entity representing Nature i.e. common knowledge
-based on Hintikka \cite{hintikka88}, $\varphi$ reads as a proposition is either
+based on Hintikka \cite{hintikka88}, $\gamma$ reads as a proposition is either
 a fact, the negation of a proposition or the conjunction of propositions. The oracle should be perceived as being the source of common knowledge between agents, and therefore also do not have any notion of which agents know what, or any distinguish-ability between worlds, as they are all the same in the eyes of the oracle.
 We can now extend the previous definitions to describe the \textit{static IMI
 	epistemic language} \staticlang, as follows:
@@ -43,18 +43,18 @@ where:
 	\item $R_{\Phi} : W \rightarrow \powset(\oracle) \times \oracle$ is the oracle answering function, which associates a pair of the form \oset $\:$ for each world $w \in W$, where $(\gamma_1,...,\gamma_k) \subseteq \oracle$ and $\gamma_i \in \oracle$.
 	\item $R_a : W \rightarrow \powset(\staticlang) \times \staticlang$ is the answering rule of agent \textit{a} associating each world $w \in W$ of a pair of the form \aset $\:$ where $(\varphi_1,...,\varphi_n) \subseteq \staticlang$ and $\varphi_j \in \staticlang$.
 \end{itemize}
-Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so agents are able to model or predict in possible worlds, based on what they know, what another agent will answer. They are modeled as pairs of a series of questions to one answer, because the provided answer to a series of questions can be a conjunction of propositions. We hypothesize that answering correct accordingly to a world, should imply some sense of truthfulness to the actual world. By our static epistemic language \staticlang and model $M$, we can define the following semantics:
+Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so agents are able to model or predict in possible worlds, based on what they know, what another agent will answer. They are modeled as pairs of a series of questions to one answer, because the provided answer to a series of questions can be a conjunction of propositions. We hypothesize that answering correct accordingly to a world, should imply some sense of truthfulness to this world. By our static epistemic language \staticlang and model $M$, we can define the following semantics:
 
 \begin{gather}
 	M, w |= p \iff p \in V(w) \\
 	M, w |= \neg\varphi \iff M, w \not\models \varphi\\
 	M, w |= (\varphi \land \psi) \iff M, w |= \varphi, M, w |= \psi \\
-	M, w |= \know \iff \forall u\in W, u \sim_{a} M, u |= \varphi \\
+	M, w |= \know \iff \forall u\in W, u \sim_{a} w \implies M, u |= \varphi \\
 	M, w |= \Phi\gamma \iff \gamma \in \Phi(w) \\
 	M, w |= R_a \iff \oset \in R_a(w) \\
 	M, w |= R_\Phi \iff \aset \in R_\Phi(w)
 \end{gather}
-While (4), (5), (6) and (8) are trivial, (7) explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer functions (9), (10) are likewise only satisfied in a world given a model, when the pair of answers is epistemically reachable in that world. 
+While (4), (5), (6) and (8) are trivial, (7) explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer functions (9), (10) are likewise only satisfied in a world given a model, when the pair of question and answer is epistemically reachable in that world. 
 \subsubsection*{Information Update}
 To convert our static language to dynamic, we introduce the information update operator: $|$, which by a given model: 
 \begin{align}
