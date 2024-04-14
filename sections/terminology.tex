@@ -31,7 +31,7 @@ where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varph
 
 We can now define the \textit{IMI epistemic model}, a tuple:
 \begin{align}
-	M = \langle W, \sim_{a\in Ag}, V, A_{a\in Ag}, \Phi, R_{\Phi, a\in Ag}\rangle
+	M = \langle W, \sim_{a\in Ag}, V, \Phi, R_{\Phi, a\in Ag}\rangle
 \end{align}
 where:
 \begin{itemize}
@@ -59,16 +59,16 @@ While (4), (5), (6) and (8) are trivial, (7) explains that the knowledge of some
 \subsubsection*{Information Update}
 To extend our static language \staticlang\: to a dynamic language, which we will donate as \dynlang, we introduce three new operators, the \textit{public information update operator}, the \textit{agent question operator} and the \textit{inference operator}: 
 
-\begin{align}
+\begin{equation}
 	\pubop \sep \agquestop \sep \infop
-\end{align}
+\end{equation}
 The information update operator \pubop\: reads as "after public announcement of $\psi$, then \proposition is the case", with $\varphi, \psi \in \staticlang$. Formulas of the form \agquestop\: are read as "\proposition is the case after agent \textit{a} has asked the question $(\varphi_1,...,\varphi_n)$ to agent \textit{b}", and \infop\: is read as "\proposition is the case after agent \textit{a} as logically inferred $\psi_c$ from premises $\{\psi_1,...,\psi_m\}$". We can then describe this update by a given model identical to (3), and a model $M'$ defined as:
 \begin{flalign}
 	M|\varphi &= M' \\
-	M' &= \langle W', \sim'_{a\in Ag}, V', A'_{a\in Ag}, \Phi', R'_{\Phi, a\in Ag}\rangle
+	M' &= \langle W', \sim'_{a\in Ag}, V', \Phi', R'_{\Phi, a\in Ag}\rangle
 \end{flalign}
 \\ 
-In which $\proposition \in \dynlang$. Note that the expression in (11) refers to a model update. This should be understood as $M'$ is the model in which all worlds where $\varphi$ is false or are not contained, are removed. The members of $M'$ is then given by:
+In which $\proposition \in \dynlang$. Note that the expression $M|\varphi$ in (11) refers to a model update. This should be understood as $M'$ is the model in which all worlds where $\varphi$ is false or are not contained, are removed. The members of $M'$ is then given by:
 
 \begin{itemize}
 	\item $W' := \left\{ w' \in W \land M, w' \models \proposition \right\}$
@@ -83,5 +83,7 @@ While all three operators are inherently information updates and follow the abov
 	\begin{align}
 		M^{a,b}_{Q_A}?(w) := M |\varphi_i
 	\end{align}
+	\item Otherwise, $M^{a,b}_{Q_{A}}?(w) := M$
 \end{itemize}
+Such that the updated model satisfy the worlds in which \proposition is also satisfied
 
