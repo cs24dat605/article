@@ -51,8 +51,8 @@ Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so
 	M, w |= (\varphi \land \psi) \iff M, w |= \varphi, M, w |= \psi \\
 	M, w |= \know \iff \forall u\in W, u \sim_{a} w \implies M, u |= \varphi \\
 	M, w |= \Phi\gamma \iff \gamma \in \Phi(w) \\
-	M, w |= R_a \iff \oset \in R_a(w) \\
-	M, w |= R_\Phi \iff \aset \in R_\Phi(w)
+	M, w |= R_\Phi \iff \oset \in R_\Phi(w) \\
+	M, w |= R_a \iff \aset \in R_a(w)
 \end{gather}
 While (4), (5), (6) and (8) are trivial, (7) explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer functions (9), (10) are likewise only satisfied in a world given a model, when the pair of question and answer is epistemically reachable in that world. 
 
@@ -79,11 +79,35 @@ In which $\proposition \in \dynlang$. Note that the expression $M|\varphi$ in (1
 \end{itemize}
 While all three operators are inherently information updates and follow the above listed transformations, the \textit{agent question operator}, which we will denote as $Q_a$ and the inference operator denoted by $I$ have additional constraints. An agent should not be able to ask a question without knowledge of it's presupposition and it should be a part of the opposing agent's answer set. This can be described as:
 \begin{itemize}
-	\item If there exists $\varphi \in Q_a$ such that $M, w \models K_b\varphi$ and $(Q_a, \varphi_i) \in R_b (w)$, then:
+	\item If there exists $\varphi \in Q_a$ such that $M, w \models K_b\varphi$ and $(Q_a, \varphi_i) \in R_b (w)$, with $a, b \in Ag$ and $Q_A = (\proposition_1,...,\proposition_n) \in \powset(\staticlang))$ then:
 	\begin{align}
 		M^{a,b}_{Q_A}?(w) := M |\varphi_i
 	\end{align}
 	\item Otherwise, $M^{a,b}_{Q_{A}}?(w) := M$
 \end{itemize}
-Such that the updated model satisfy the worlds in which \proposition is also satisfied
+Such that the updated model satisfy the worlds in which \proposition\: is also satisfied. Informally this can described as the updated world $M|\varphi_i$ contains the worlds in which the answer to $Q_a$ is also the expected answer, based on the answering rule (10). Additionally we constrain the $Q_a$ operator, such that agent $a$ asking question $Q_A = (\varphi_1,..., \varphi_n)$ should have knowledge about at least one of the propositions. Since questions are regarded as potentially a series of questions, and during an interrogation an agent can infer from intermediate answers, this is necessary. We formally describe the precondition to $Q_a$:
 
+\begin{gather}
+	pre_{a,b}(Q_A) := K_a\Biggl(\bigvee\limits_{i\in \left[[1,n \right]]}\varphi_i\Biggr)
+\end{gather}
+The inference operator $I$ as we described earlier, can simply denoted as a model update containing the conclusion based on the premises ${\psi_1,...,\psi_m} \hookrightarrow \psi_c$. We formally describe this as:
+
+\begin{itemize}
+	\item Let $M$ and $DEL_{IMI}$ model, $a\in Ag$ and ${\psi_1,...,\psi_m} \hookrightarrow \psi_c \in \staticlang$, then the model update is given by: 
+	\begin{gather}
+		M^a_I(w) := M|\psi_c
+	\end{gather}
+\end{itemize} 
+Extending the definition of the precondition to the \textit{agent operator}, we also require the agent to be knowledgeable about both the premise, and that the conclusion follows from these. We describe this by:
+\begin{gather}
+	\nonumber pre_{a,b}(I) := \\ \bigwedge\limits_{i\in \left[[1,m \right]]}K_a\psi_i \land K_a\Biggl(\Biggl(\bigwedge\limits_{i\in \left[[1,m \right]]}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
+\end{gather}
+We now have the prerequisites for defining the semantics of our dynamic language \dynlang. They are based on the previous listed in (4)-(10) describing the \staticlang, extending it with the newly introduced \textit{information update operator}, \textit{agent question operator} and \textit{inference operator}:
+\begin{gather}
+	M, w \models [\psi!]\varphi \iff M, w \models \psi \implies M|\psi, w \models \varphi \\
+	M, w \models [Q_A?]_{a,b}\varphi \iff M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi \\
+	M, w \models [I]_a\varphi \iff M, w \models pre_a(i) \implies M^a_I(w), w \models \varphi
+\end{gather}
+Informally, these simply explain that the semantics for the update of worlds only hold if their preconditions hold, which then in turn implies that the worlds accessible after the model update includes the conclusive proposition. \\
+
+We have now formally described the definitive language of \dynlang, which lays the foundation for our  implementation of simulating our modeled social deduction game. 
