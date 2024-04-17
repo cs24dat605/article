@@ -41,7 +41,7 @@ where:
 	\item $V : W \rightarrow \mathscr{P}(\mathbf{P})$ is the atomic valuation function, which yields the propositions which are true in each world. 
 	\item $\Phi : W \rightarrow \powset(\mathscr{I}) $ likewise assigns the set of formulas which the oracle knows at world $w$, and $\Phi(w)$ represents the answer set of the oracle in $w$.
 	\item $R_{\Phi} : W \rightarrow \powset(\oracle) \times \oracle$ is the oracle answering function, which associates a pair of the form \oset $\:$ for each world $w \in W$, where $(\gamma_1,...,\gamma_k) \subseteq \oracle$ and $\gamma_i \in \oracle$.
-	\item $R_a : W \rightarrow \powset(\staticlang) \times \staticlang$ is the answering rule of agent \textit{a} associating each world $w \in W$ of a pair of the form \aset $\:$ where $(\varphi_1,...,\varphi_n) \subseteq \staticlang$ and $\varphi_j \in \staticlang$.
+	\item $R_a : W \rightarrow \powset(\staticlang) \times \staticlang$ is the answering rule of agent \textit{a} associating each world $w \in W$ with a pair of the form \aset $\:$ where $(\varphi_1,...,\varphi_n) \subseteq \staticlang$ and $\varphi_j \in \staticlang$.
 \end{itemize}
 Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so agents are able to model or predict in possible worlds, based on what they know, what another agent will answer. They are modeled as pairs of a series of questions to one answer, because the provided answer to a series of questions can be a conjunction of propositions. We hypothesize that answering correct accordingly to a world, should imply some sense of truthfulness to this world. By our static epistemic language \staticlang\: and model $M$, we can define the following semantics:
 
@@ -62,13 +62,13 @@ To extend our static language \staticlang\: to a dynamic language, which we will
 \begin{equation}
 	\pubop \sep \agquestop \sep \infop
 \end{equation}
-The information update operator \pubop\: reads as "after public announcement of $\psi$, then \proposition is the case", with $\varphi, \psi \in \staticlang$. Formulas of the form \agquestop\: are read as "\proposition is the case after agent \textit{a} has asked the question $(\varphi_1,...,\varphi_n)$ to agent \textit{b}", and \infop\: is read as "\proposition is the case after agent \textit{a} as logically inferred $\psi_c$ from premises $\{\psi_1,...,\psi_m\}$". We can then describe this update by a given model identical to (3), and a model $M'$ defined as:
+The information update operator \pubop\: reads as "after public announcement of $\psi$, then \proposition is the case", with $\varphi, \psi \in \staticlang$. Formulas of the form \agquestop\: are read as "\proposition is the case after agent \textit{a} has asked the question $(\varphi_1,...,\varphi_n)$ to agent \textit{b}", and \infop\: is read as "\proposition is the case after agent \textit{a} has logically inferred $\psi_c$ from premises $\{\psi_1,...,\psi_m\}$". We can then describe this update by a given model identical to (3), and a model $M'$ defined as:
 \begin{flalign}
 	M|\varphi &= M' \\
 	M' &= \langle W', \sim'_{a\in Ag}, V', \Phi', R'_{\Phi, a\in Ag}\rangle
 \end{flalign}
 \\ 
-In which $\proposition \in \dynlang$. Note that the expression $M|\varphi$ in (11) refers to a model update. This should be understood as $M'$ is the model in which all worlds where $\varphi$ is false or are not contained, are removed. The members of $M'$ is then given by:
+In which $\proposition \in \dynlang$. Note that the expression $M|\varphi$ in (12) refers to a model update. This should be understood as $M'$ is the model in which all worlds where $\varphi$ is false or are not contained, are removed. The members of $M'$ is then given by:
 
 \begin{itemize}
 	\item $W' := \left\{ w' \in W \land M, w' \models \proposition \right\}$
@@ -79,28 +79,28 @@ In which $\proposition \in \dynlang$. Note that the expression $M|\varphi$ in (1
 \end{itemize}
 While all three operators are inherently information updates and follow the above listed transformations, the \textit{agent question operator}, which we will denote as $Q_a$ and the inference operator denoted by $I$ have additional constraints. An agent should not be able to ask a question without knowledge of it's presupposition and it should be a part of the opposing agent's answer set. This can be described as:
 \begin{itemize}
-	\item If there exists $\varphi \in Q_a$ such that $M, w \models K_b\varphi$ and $(Q_a, \varphi_i) \in R_b (w)$, with $a, b \in Ag$ and $Q_A = (\proposition_1,...,\proposition_n) \in \powset(\staticlang))$ then:
+	\item When $Q_A = (\varphi_1,...,\varphi_n) \in \powset(\staticlang))$, then if there exists $\varphi \in Q_A$ such that $M, w \models K_b\varphi$ and $(Q_A, \varphi_i) \in R_b (w)$, with $a, b \in Ag$ and then:
 	\begin{align}
 		M^{a,b}_{Q_A}?(w) := M |\varphi_i
 	\end{align}
 	\item Otherwise, $M^{a,b}_{Q_{A}}?(w) := M$
 \end{itemize}
-Such that the updated model satisfy the worlds in which \proposition\: is also satisfied. Informally this can described as the updated world $M|\varphi_i$ contains the worlds in which the answer to $Q_a$ is also the expected answer, based on the answering rule (10). Additionally we constrain the $Q_a$ operator, such that agent $a$ asking question $Q_A = (\varphi_1,..., \varphi_n)$ should have knowledge about at least one of the propositions. Since questions are regarded as potentially a series of questions, and during an interrogation an agent can infer from intermediate answers, this is necessary. We formally describe the precondition to $Q_a$:
+Such that the updated model satisfy the worlds in which \proposition\: is also satisfied. Informally this can described as the updated world $M|\varphi_i$ contains the worlds in which the answer to $Q_a$ is also the expected answer, based on the answering rule (10). Additionally we constrain the $Q_a$ operator, such that agent $a$ asking question $Q_A = (\varphi_1,..., \varphi_n)$ should have knowledge about at least one of the propositions. Since questions are regarded as potentially a series of questions, and during an interrogation an agent can infer from intermediate answers, this is necessary. We formally describe the precondition to in \dynlang, where $Q_A = (\varphi_1,...,\varphi_n)$:
 
 \begin{gather}
-	pre_{a,b}(Q_A) := K_a\Biggl(\bigvee\limits_{i\in \left[[1,n \right]]}\varphi_i\Biggr)
+	pre_{a,b}(Q_A) := K_a\Biggl(\bigvee\limits_{i\in 1,n}\varphi_i\Biggr)
 \end{gather}
 The inference operator $I$ as we described earlier, can simply denoted as a model update containing the conclusion based on the premises ${\psi_1,...,\psi_m} \hookrightarrow \psi_c$. We formally describe this as:
 
 \begin{itemize}
-	\item Let $M$ and $DEL_{IMI}$ model, $a\in Ag$ and ${\psi_1,...,\psi_m} \hookrightarrow \psi_c \in \staticlang$, then the model update is given by: 
+	\item Let $M$ be a $DEL_{IMI}$ model, $\psi_1,...,\psi_m, \psi_c \in \staticlang$, $a\in Ag$, $I=\{\psi_1,...,\psi_m\} \hookrightarrow \psi_c$, then the model update is given by: 
 	\begin{gather}
 		M^a_I(w) := M|\psi_c
 	\end{gather}
 \end{itemize} 
-Extending the definition of the precondition to the \textit{agent operator}, we also require the agent to be knowledgeable about both the premise, and that the conclusion follows from these. We describe this by:
+Similar to the definition of the precondition to the \textit{agent operator}, we also require the agent to be knowledgeable about both the premise, and that the conclusion follows from these. We describe this by:
 \begin{gather}
-	\nonumber pre_{a,b}(I) := \\ \bigwedge\limits_{i\in \left[[1,m \right]]}K_a\psi_i \land K_a\Biggl(\Biggl(\bigwedge\limits_{i\in \left[[1,m \right]]}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
+	\nonumber pre_{a,b}(I) := \\ \bigwedge\limits_{i\in1,m}K_a\psi_i \land K_a\Biggl(\Biggl(\:\bigwedge\limits_{i\in 1,m}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
 \end{gather}
 We now have the prerequisites for defining the semantics of our dynamic language \dynlang. They are based on the previous listed in (4)-(10) describing the \staticlang, extending it with the newly introduced \textit{information update operator}, \textit{agent question operator} and \textit{inference operator}:
 \begin{gather}
