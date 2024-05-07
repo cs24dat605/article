@@ -88,7 +88,7 @@ While \cref{sem:1}, \cref{sem:2} and \cref{sem:3} are trivial, \cref{sem:4} expl
 To extend our static language \staticlang\: to a dynamic language, which we will donate as \dynlang, we introduce three new operators, the \textit{public information update operator}, the \textit{agent question operator} and the \textit{inference operator}: 
 
 \begin{equation}
-	\pubop \sep \agquestop \sep \infop
+	\pubop \sep \agquestop \sep \infop \label{eq:6}
 \end{equation}
 The information update operator \pubop \: reads as "after public announcement of $\psi$, then \proposition is the case", with $\varphi, \psi \in \staticlang$. Formulas of the form \agquestop\: are read as "\proposition is the case after agent \textit{a} has asked the question $(\varphi_1,...,\varphi_n)$ to agent \textit{b}", and \infop\: is read as "\proposition is the case after agent \textit{a} has logically inferred $\psi_c$ from premises $\{\psi_1,...,\psi_m\}$". All these require some notion of model update, which we will define by a given model similar to \cref{eq:3}, and a model $M'$ as:
 \begin{flalign}
@@ -138,3 +138,15 @@ We now have the prerequisites for defining the semantics of our dynamic language
 Informally, these simply explain that the semantics for the update of worlds only hold if their preconditions hold, which then in turn implies that the worlds accessible after the model update includes the conclusive proposition. \\
 
 We have now formally described the definitive language of \dynlang, which lays the foundation for our  implementation of simulating our modeled social deduction game. 
+
+
+\subsection{Example}
+A round of our modeled game can be expressed in the dynamic inquiry language. We let agent \textit{a} be sheriff and $\varphi$ = "agent \textit{a} is a sheriff", and agent \textit{b} and $\psi$ = $(\psi_1 \lor \psi_2 \lor .. \lor \psi_{n-1})$ = "agent \textit{b} is a villager or godfather or .." for all \textit{n} roles, except sheriff, which agent \textit{a} knows himself is. Agent \textit{c} will be godfather represented by $\gamma = (\gamma_1 \lor \gamma_2 \lor .. \lor \gamma_{n-1}) $ . The round then starts with communicative actions, where agent \textit{b} says "I am villager", represented by $(p \lor \neg p)$, and by inference if what agent \textit{b} says is correct, then it is also true that they are their mentioned role. This is represented by $p \rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a villager. Agent \textit{c} also says they are a villager, represented by $q$.
+
+$G = K_a(\varphi \land \psi \land\gamma)\land p \rightarrow \psi_1 \land q \rightarrow \gamma_1 \land (p \lor \neg p) \land (q \lor \neg q)$ \label{eq:7}
+
+When the night phase comes, agent \textit{a} will interrogate agent \textit{b}, resulting in now agent \textit{a} knowing the role of agent \textit{b}. During the same night, agent \textit{b} is killed by the mafia, and then publicly revealed. Recall from \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that everything before the public announcement and the announcement itself is now applicable. Simplifying the expression results in:
+
+$G' = K_a(\varphi \land \psi_1 \land \gamma_2) \land p \land \neg q$
+
+Agent \textit{a} now knows that agent \textit{c} is the godfather.
