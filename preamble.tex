@@ -13,6 +13,17 @@ style=numeric-comp
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{cleveref}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{light-gray}{gray}{0.85}
+\lstset{
+	numbers=left,
+	breaklines=true,
+	backgroundcolor=\color{light-gray},
+	tabsize=2,
+	basicstyle=\ttfamily,
+	literate={\ \ }{{\ }}1
+}
 \crefname{equation}{}{}
 \mathlig{-><-}{\rightarrow\leftarrow}
 \newcommand{\sep}{\:|\:}
