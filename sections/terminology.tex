@@ -141,12 +141,39 @@ We have now formally described the definitive language of \dynlang, which lays t
 
 
 \subsection{Example}
-A round of our modeled game can be expressed in the dynamic inquiry language. We let agent \textit{a} be sheriff and $\varphi$ = "agent \textit{a} is a sheriff", and agent \textit{b} and $\psi$ = $(\psi_1 \lor \psi_2 \lor .. \lor \psi_{n-1})$ = "agent \textit{b} is a villager or godfather or .." for all \textit{n} roles, except sheriff, which agent \textit{a} knows himself is. Agent \textit{c} will be godfather represented by $\gamma = (\gamma_1 \lor \gamma_2 \lor .. \lor \gamma_{n-1}) $ . The round then starts with communicative actions, where agent \textit{b} says "I am villager", represented by $(p \lor \neg p)$, and by inference if what agent \textit{b} says is correct, then it is also true that they are their mentioned role. This is represented by $p \rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a villager. Agent \textit{c} also says they are a villager, represented by $q$.
+A round of our modeled game can be expressed in the dynamic inquiry language. In a model defined as \cref{eq:3}, we let agents \textbf{Ag} = \{a, b, c\}, where \textit{a} is a sheriff and $\varphi$ = "agent \textit{a} is a sheriff", and agent \textit{b} and $\psi$ = $(\psi_1 \lor \psi_2 \lor .. \lor \psi_{n-1})$ = "agent \textit{b} is a villager or godfather or .." for all \textit{n} roles, except sheriff, which agent \textit{a} knows himself is. Agent \textit{c} will be godfather represented by $\gamma = (\gamma_1 \lor \gamma_2 \lor .. \lor \gamma_{n-1}) $. In our simulation, we generate $W$ by creating all possible worlds, based on the aforementioned propositions, by appendix C this is simply the function call \lstinline{generateWorlds()}. The round then starts with communicative actions, where agent \textit{b} says "I am villager", represented by $(p \lor \neg p)$, and by inference if what agent \textit{b} says is correct, then it is also true that they are their mentioned role. This is represented by $p \rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a villager. Agent \textit{c} also says they are a villager, represented by $q$. 
 
-$G = K_a(\varphi \land \psi \land\gamma)\land p \rightarrow \psi_1 \land q \rightarrow \gamma_1 \land (p \lor \neg p) \land (q \lor \neg q)$ \label{eq:7}
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily, numbers=left, xleftmargin=0.5cm, firstnumber=17, caption={Snippet from appendix C}, captionpos=b]
+func communicate():
+	world = getMostPlausibleWorld()
+	action = self.getAction(world)
+	
+	if (action is inqure or accuse)
+		player = getHighestInformationGainPlayer()
+		question = getHighestInformationQuestion(player)
+		communicativeAction = self.ask(player, question)
+	...
+	updatePossibleWorlds(communicativeAction)
+\end{lstlisting}
+When the agents communicate this, they choose which action to take, based on what communicative action will result in the most amount of worlds being marked as inactive. While $p \lor \neg p$ doesn't directly cause worlds to be, the result whenever we find out whether $p$ or $\neg p$ will. This also includes following implications from the resulting propositions. Afterwards, we update our worlds, to include the newly acquired information. 
 
-When the night phase comes, agent \textit{a} will interrogate agent \textit{b}, resulting in now agent \textit{a} knowing the role of agent \textit{b}. During the same night, agent \textit{b} is killed by the mafia, and then publicly revealed. Recall from \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that everything before the public announcement and the announcement itself is now applicable. Simplifying the expression results in:
+This whole sequence can be expressed by the following formula:
 
-$G' = K_a(\varphi \land \psi_1 \land \gamma_2) \land p \land \neg q$
+\begin{align}
+	\begin{split}
+		G = K_a(\varphi \land \psi \land\gamma)\land p \rightarrow \psi_1 \land q \rightarrow \gamma_1 \\ \land (p \lor \neg p) \land (q \lor \neg q) \label{eq:7}
+	\end{split}
+\end{align}
 
+When the night phase comes, agent \textit{a} will interrogate agent \textit{b}, resulting in now agent \textit{a} knowing the role of agent \textit{b}. During the same night, agent \textit{b} is killed by the mafia, and then publicly revealed. Recall from \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that everything before the public announcement and the announcement itself is now applicable. In our simulation, this is done by calling \lstinline[]{updatePossibleWorlds(information)}, displayed in \ref{lstlisting:2} 
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily, numbers=left, xleftmargin=0.5cm, firstnumber=31, caption={Snippet from appendix C \label{lstlisting:2}}, captionpos=b]
+func updatePossibleWorlds(information)
+	foreach (player in game.Players)
+		foreach (possibleWorld in player.possibleWorlds)
+			possibleWorld.UpdateMarks(information)
+\end{lstlisting}
+Which simply iterates over all players and all their respective worlds, and updates the information. Now recall back to \cref{eq:7}, after the newly acquired information of $\varphi_1$ we can simplifying the expression, which results in:
+\begin{align}
+G' = K_a(\varphi \land \psi_1 \land \gamma_2) \land p \land \neg q
+\end{align}
 Agent \textit{a} now knows that agent \textit{c} is the godfather.
