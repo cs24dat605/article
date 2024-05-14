@@ -1,24 +1,65 @@
-\section*{Appendix B}\label{app:B}
-\begin{center}
-	\textbf{Semantic Examples}
-\end{center}
-\textbf{(1)} \\
-If one inquires another, the answer, gamma, could be of any of the 
-following forms: \textit{"I believe that person 1 is a member of the mafia."}, \textit{"I believe 
-that person 1 is not a member of the mafia."}, or \textit{"I believe that person 1 is a 
-member of the mafia, and that person 2 is a member of the town."}  \\ \\
-\textbf{(2)} \\
-No more oracle? \\ \\
-\textbf{(3)} \\
-This describes every individual agent's worldview. It consists of a 
-non-empty set of possible worlds, in which some are epistemicly equivalent to 
-each other. This is due to the agent's limited knowledge. These worlds contain facts, 
-such as a person 1-2-3 being role x-y-z. Furthermore, agents implicitly know 
-all inference rules, such as, \textit{"if no one was killed during the night, then both 
-the mafioso and the godfather were targeted by escorts."} Using this rule, an 
-escort may be able to infer that, if that was the result of the night phase, 
-then their target during the night is very likely to be one of those roles.  \\ 
-\\
-\textbf{(11), (12), (13)} \\
-Simply states that a given agent can now update their worldview when a public announcement adds a new proposition to the common knowledge. The new worldview is a subset of the original worldview, in which 
-all worlds where the proposition does not hold are excluded. 
+\section{Appendix B}\label{app:B}
+\begin{lstlisting}[language=Python, xleftmargin=0.5cm]
+	func StartGame():
+	loadGameConfiguration();
+	generateWorlds();
+	
+	while(!gameFinished)
+	dayPhase()
+	nightPhase()
+	checkFinnished()
+	
+	func dayPhase():
+	foreach (Player in game.Players)
+	communicate()
+	votes += voting()
+	
+	killMostVoted(votes)
+	
+	func communicate():
+	world = getMostPlausibleWorld()
+	action = self.getAction(world)
+	
+	if (action is inqure or accuse)
+	player = getHighestInformationGainPlayer()
+	question = getHighestInformationQuestion(player)
+	communicativeAction = self.ask(player, question)
+	
+	else if (action is defend)
+	communicativeAction = self.claimRole()
+	
+	updatePossibleWorlds(communicativeAction)
+	
+	func updatePossibleWorlds(information):
+	foreach (player in game.Players)
+	foreach (possibleWorld in player.possibleWorlds)
+	possibleWorld.UpdateMarks(information)
+	
+	func voting():
+	world = getMostPlausibleWorld()
+	suspiciousPlayer = getPossibleMafiaPlayer(world)
+	return suspiciousPlayer
+	
+	func nightPhase():
+	handleActionSequence()
+	
+	func handleActionSequence():
+	precedenceList = sortByActionPrecedence(game.Players)
+	
+	foreach (player in precedenceList)
+	player.performNightAction(action)
+	
+	foreach (player in game.Players)
+	player.updatePossibleWorlds(player.actionResult)
+	
+	
+	func performNightAction():
+	// We choose Sheriff as an example
+	if (self.role == Sheriff)
+	world = getMostPlausibleWorld()
+	
+	suspiciousPlayers = getSortedPossibleMafiaPlayers(world)
+	suspiciousPlayers.remove(self.previousTargets)
+	
+	self.actionResult = interrogate(suspiciousPlayer[0])
+\end{lstlisting}
