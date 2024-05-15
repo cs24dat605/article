@@ -7,7 +7,7 @@ between epistemology and social deduction, which lies in the nature how these
 games played. Often it's a game between players (agents), which need to keep
 track of who said what, and who knows what, and what these truths entails.
 Additionally, recent developments in the field have largely been focused on
-exactly these multi-agent systems and artificial intelligence.
+exactly these multiagent systems and artificial intelligence.
 
 \section{Dynamic Inquiry Language}
 The terminology and its notation used throughout this article will closely
@@ -170,7 +170,7 @@ deduction game.
 A round of our modelled game can be expressed in the dynamic inquiry language.
 In a model defined as \cref{eq:3}, we let agents be \textbf{Ag} = \{a, b, c\},
 where \textit{a} is a sheriff, \textit{b} is a villager, and \textit{c} is a
-godfather. This round is viewed from the sheriffs perspective, so he does not
+godfather. This round is viewed from the sheriffs' perspective, so he does not
 know the roles of the other players, only that one of them must have be either
 one. He then has a set of propositions \{$\varphi$, $\psi$\, $\gamma$\} where
 $\varphi$ = "agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor
@@ -226,7 +226,7 @@ Recall from \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which
 informally is that everything before the public announcement and the
 announcement itself is now applicable. In our simulation, this is done by
 calling \lstinline[]{updatePossibleWorlds(information)}, displayed in
-\ref{lst:updateWorlds}
+\ref{lst:updateWorld}
 \begin{lstlisting}[basicstyle=\footnotesize\ttfamily, numbers=left, xleftmargin=0.5cm, firstnumber=31, caption={Snippet from appendix C \label{lstlisting:2}}, captionpos=b]
 func updatePossibleWorlds(information)
 	foreach (player in game.Players)
