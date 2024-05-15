@@ -21,6 +21,8 @@
 		\Function{dayPhase}{}
 		\ForAll{p $in$ game.Ps}
 		\State p.communicate()
+		\EndFor
+		\ForAll{p $in$ game.Ps}
 		\State votes $\gets$ votes + voting()
 		\EndFor
 
