@@ -8,5 +8,6 @@
         "-m",
         "-l=%DIR%/latexindent.yaml"
     ],
-    "latex-workshop.latex.outDir": "%DIR%/output"
+    "latex-workshop.latex.outDir": "%DIR%/output",
+    "ltex.language": "en-GB"
 }
