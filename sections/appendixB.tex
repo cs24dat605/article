@@ -30,7 +30,7 @@
 \end{algorithm}
 
 \begin{algorithm}
-	\caption{communication}
+	\caption{Communication}
 	\begin{algorithmic}[1]
 		\Function{communicate}{}
 		\State world $\gets$ getMostPlausibleWorld()
@@ -45,6 +45,19 @@
 		\EndIf
 
 		\State updatePossibleWorlds(commAction)
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Update possible worlds}
+	\begin{algorithmic}[1]
+		\Function{updatePossWorlds}{information}
+		\ForAll{p $in$ game.Ps}
+		\ForAll{possWorld $in$ p.possWorlds}
+		\State possWorld.UpdateMarks(information)
+		\EndFor
+		\EndFor
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
