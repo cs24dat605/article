@@ -1,0 +1,91 @@
+\section{Implementation}\label{sec:implementation}
+A round of our modeled game can be expressed in the dynamic inquiry language. 
+In a model defined as \cref{eq:3}, we let agents be \textbf{Ag} = \{a, b, c\}, 
+where \textit{a} is a sheriff, \textit{b} is a villager, and \textit{c} is a 
+godfather. This round is viewed from the sheriffs perspective, so he does not 
+know the roles of the other players, only that one of them must have be either 
+one. He then has a set of propositions \{$\varphi$, $\psi$\, $\gamma$\} 
+where 
+$\varphi$ = "agent \textit{a} 
+is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor .. 
+\lor \psi_{n-1})$ = "agent \textit{b} is a villager or godfather or ..." for 
+all 
+\textit{n} roles, except sheriff, which agent \textit{a} knows he himself is. 
+$\gamma$ = $(\gamma_1 \lor 
+\gamma_2 \lor .. \lor \gamma_{n-1}) $ = "agent \textit{c} is a villager or 
+godfather or...". \\
+In our simulation, we generate $W$ by 
+creating all possible worlds, based on the aforementioned propositions, by 
+utilizing the pseudocode function \lstinline{generateWorlds()} provided in 
+appendix \ref{app:B}. \\
+The round then starts with communicative actions, where agent \textit{b} says 
+"I am villager", represented for agent \textit{a} by $(p \lor \neg p)$, meaning 
+that agent \textit{a} does not yet know whether agent \textit{b}'s statement is 
+true or false. But, by inference he may deduce that if what agent \textit{b} 
+says is correct, then it is also true that they are their mentioned role. This 
+is represented by $p \rightarrow \psi_1$ where $\psi_1$ is agent 
+\textit{b} is a villager, and oppositely $\neg p \rightarrow \neg \psi_1$ where 
+$\neg \psi_1$ is agent 
+\textit{b} is not a villager. \\
+Agent \textit{c} also says that they are a 
+villager, 
+represented by $q$ in a similar manner. 
+
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily, numbers=left, 
+xleftmargin=0.5cm, firstnumber=17, caption={Snippet from appendix C}, 
+captionpos=b]
+	func communicate():
+	world = getMostPlausibleWorld()
+	action = self.getAction(world)
+	
+	if (action is inqure or accuse)
+	player = getHighestInformationGainPlayer()
+	question = getHighestInformationQuestion(player)
+	communicativeAction = self.ask(player, question)
+	...
+	updatePossibleWorlds(communicativeAction)
+\end{lstlisting}\label{lst:communicate}
+When the agents communicate this, they choose which action to take, based on 
+what communicative action will result in the most amount of worlds being marked 
+as inactive. While $p \lor \neg p$ doesn't directly cause worlds to become 
+inactive, the inference that they provide whenever they are confirmed true or 
+false may lead to the deactivation of worlds. This also includes following 
+implications from the resulting propositions.\\
+This whole sequence can be expressed by the following formula:
+
+\begin{align}
+	\begin{split}
+		G = K_a(\varphi \land \psi \land\gamma)\land p \rightarrow \psi_1 \land 
+		q \rightarrow \gamma_1 \\ \land (p \lor \neg p) \land (q \lor \neg q) 
+		\label{eq:7}
+	\end{split}
+\end{align}
+
+When the night phase comes, agent \textit{a} will interrogate agent \textit{b}, 
+resulting in agent \textit{a} knowing the faction of agent \textit{b}, which 
+does not directly prove $p \lor \neg p$, but also does not directly disprove 
+it. During the same night, agent \textit{b} is killed by the godfather, agent 
+\textit{c}. The killing is then publicly announced during the morning phase. 
+Recall from \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which 
+informally is that everything before the public announcement and the 
+announcement itself is now applicable. In our simulation, this is done by 
+calling \lstinline[]{updatePossibleWorlds(information)}, displayed in 
+\ref{lst:updateWorlds} 
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily, numbers=left, 
+xleftmargin=0.5cm, firstnumber=31, caption={Snippet from appendix C 
+\label{lstlisting:2}}, captionpos=b]
+	func updatePossibleWorlds(information)
+	foreach (player in game.Players)
+	foreach (possibleWorld in player.possibleWorlds)
+	possibleWorld.UpdateMarks(information)
+\end{lstlisting}\label{lst:updateWorld}
+Which simply iterates over all players and all their respective worlds, and 
+updates the information. Now recall back to \cref{eq:7}, after the newly 
+acquired information of $\psi_1$, the role of agent \textit{b}, we can now 
+simplify the expression, which results in:
+\begin{align}
+	G' = K_a(\varphi \land \psi_1 \land \neg \gamma_1) \land p \land \neg q
+\end{align}
+Agent \textit{a} can now infer that agent \textit{c} is the godfather, since he 
+knows that he is not the sheriff, nor a villager, since agent \textit{b} was 
+the only villager.
