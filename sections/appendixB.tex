@@ -19,8 +19,8 @@
 	\caption{Day phase}
 	\begin{algorithmic}[1]
 		\Function{dayPhase}{}
-		\ForAll{ply $in$ game.Plys}
-		\State ply.communicate()
+		\ForAll{p $in$ game.Ps}
+		\State p.communicate()
 		\State votes $\gets$ votes + voting()
 		\EndFor
 
@@ -37,9 +37,9 @@
 		\State action $\gets$ self.getAction(world)
 
 		\If{action is inquire or accuse}
-		\State ply $\gets$ getHighestInfoGainPly()
-		\State question $\gets$ getHighestInfoQuestion(ply)
-		\State commAction $\gets$ self.ask(ply, question)
+		\State p $\gets$ getHighestInfoGainP()
+		\State question $\gets$ getHighestInfoQuestion(p)
+		\State commAction $\gets$ self.ask(p, question)
 		\ElsIf{action is defend}
 		\State commAction $\gets$ self.claimRole()
 		\EndIf
@@ -56,10 +56,10 @@
 		\If{self.role == Sheriff}
 		\State world $\gets$ getMostPlausibleWorld()
 
-		\State susPlys $\gets$ getSortedPossMafPlys(world)
-		\State susPlys.remove(self.previousTargets)
+		\State susPs $\gets$ getSortedPossMafPs(world)
+		\State susPs.remove(self.previousTargets)
 
-		\State self.actResult $\gets$ interrogate(susPlys[0])
+		\State self.actResult $\gets$ interrogate(susPs[0])
 		\EndIf
 		\EndFunction
 
