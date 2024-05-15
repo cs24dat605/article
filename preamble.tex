@@ -1,7 +1,7 @@
 % Bibliography used for citing
 \usepackage[backend=biber,
-bibencoding=utf8,
-style=numeric-comp
+	bibencoding=utf8,
+	style=numeric-comp
 ]{biblatex}
 \addbibresource{bib/mybib.bib}
 \addbibresource{bibliography.bib}
@@ -15,6 +15,8 @@ style=numeric-comp
 \usepackage{cleveref}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \definecolor{light-gray}{gray}{0.85}
 \lstset{
 	numbers=left,
@@ -42,5 +44,4 @@ style=numeric-comp
 \newcommand{\pubop}{\ensuremath{\left[\psi!\right]\varphi}}
 \newcommand{\agquestop}{\ensuremath{\left[(\varphi_1,...,\varphi_n)?\right]_{a,b} \varphi}}
 \newcommand{\infop}{\ensuremath{\left[\{\psi_1,...,\psi_m \}\hookrightarrow \psi_c\right]_a \varphi}}
-
 

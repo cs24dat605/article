@@ -1,65 +1,132 @@
 \section{Appendix B}\label{app:B}
-\begin{lstlisting}[language=Python, xleftmargin=0.5cm]
-	func StartGame():
-	loadGameConfiguration();
-	generateWorlds();
-	
-	while(!gameFinished)
-	dayPhase()
-	nightPhase()
-	checkFinnished()
-	
-	func dayPhase():
-	foreach (Player in game.Players)
-	communicate()
-	votes += voting()
-	
-	killMostVoted(votes)
-	
-	func communicate():
-	world = getMostPlausibleWorld()
-	action = self.getAction(world)
-	
-	if (action is inqure or accuse)
-	player = getHighestInformationGainPlayer()
-	question = getHighestInformationQuestion(player)
-	communicativeAction = self.ask(player, question)
-	
-	else if (action is defend)
-	communicativeAction = self.claimRole()
-	
-	updatePossibleWorlds(communicativeAction)
-	
-	func updatePossibleWorlds(information):
-	foreach (player in game.Players)
-	foreach (possibleWorld in player.possibleWorlds)
-	possibleWorld.UpdateMarks(information)
-	
-	func voting():
-	world = getMostPlausibleWorld()
-	suspiciousPlayer = getPossibleMafiaPlayer(world)
-	return suspiciousPlayer
-	
-	func nightPhase():
-	handleActionSequence()
-	
-	func handleActionSequence():
-	precedenceList = sortByActionPrecedence(game.Players)
-	
-	foreach (player in precedenceList)
-	player.performNightAction(action)
-	
-	foreach (player in game.Players)
-	player.updatePossibleWorlds(player.actionResult)
-	
-	
-	func performNightAction():
-	// We choose Sheriff as an example
-	if (self.role == Sheriff)
-	world = getMostPlausibleWorld()
-	
-	suspiciousPlayers = getSortedPossibleMafiaPlayers(world)
-	suspiciousPlayers.remove(self.previousTargets)
-	
-	self.actionResult = interrogate(suspiciousPlayer[0])
-\end{lstlisting}
+\begin{algorithm}
+	\caption{StartGame}
+	\begin{algorithmic}[1]
+		\Function{StartGame}{}
+		\State loadGameConfiguration()
+		\State generateWorlds()
+
+		\While{!gameFinished}
+		\State dayPhase()
+		\State nightPhase()
+		\State checkFinished()
+		\EndWhile
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Day phase}
+	\begin{algorithmic}[1]
+		\Function{dayPhase}{}
+		\ForAll{p $in$ game.Ps}
+		\State p.communicate()
+		\State votes $\gets$ votes + voting()
+		\EndFor
+
+		\State killMostVoted(votes)
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{communication}
+	\begin{algorithmic}[1]
+		\Function{communicate}{}
+		\State world $\gets$ getMostPlausibleWorld()
+		\State action $\gets$ self.getAction(world)
+
+		\If{action is inquire or accuse}
+		\State p $\gets$ getHighestInfoGainP()
+		\State question $\gets$ getHighestInfoQuestion(p)
+		\State commAction $\gets$ self.ask(p, question)
+		\ElsIf{action is defend}
+		\State commAction $\gets$ self.claimRole()
+		\EndIf
+
+		\State updatePossibleWorlds(commAction)
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Night action}
+	\begin{algorithmic}[1]
+		\Function{performNightAction}{}
+		\If{self.role == Sheriff}
+		\State world $\gets$ getMostPlausibleWorld()
+
+		\State susPs $\gets$ getSortedPossMafPs(world)
+		\State susPs.remove(self.previousTargets)
+
+		\State self.actResult $\gets$ interrogate(susPs[0])
+		\EndIf
+		\EndFunction
+
+		\Statex
+	\end{algorithmic}
+\end{algorithm}
+
+% \begin{lstlisting}[language=Python, xleftmargin=0.5cm]
+% 	func StartGame():
+% 	loadGameConfiguration();
+% 	generateWorlds();
+
+% 	while(!gameFinished)
+% 	dayPhase()
+% 	nightPhase()
+% 	checkFinnished()
+
+% 	func dayPhase():
+% 	foreach (Player in game.Plys)
+% 	communicate()
+% 	votes += voting()
+
+% 	killMostVoted(votes)
+
+% 	func communicate():
+% 	world = getMostPlausibleWorld()
+% 	action = self.getAction(world)
+
+% 	if (action is inqure or accuse)
+% 	player = getHighestInfoGainPlayer()
+% 	question = getHighestInfoQuestion(player)
+% 	commAction = self.ask(player, question)
+
+% 	else if (action is defend)
+% 	commAction = self.claimRole()
+
+% 	updatePossibleWorlds(commAction)
+
+% 	func updatePossibleWorlds(information):
+% 	foreach (player in game.Plys)
+% 	foreach (possibleWorld in player.possibleWorlds)
+% 	possibleWorld.UpdateMarks(information)
+
+% 	func voting():
+% 	world = getMostPlausibleWorld()
+% 	susPlayer = getPossibleMafiaPlayer(world)
+% 	return susPlayer
+
+% 	func nightPhase():
+% 	handleActionSequence()
+
+% 	func handleActionSequence():
+% 	precedenceList = sortByActionPrecedence(game.Plys)
+
+% 	foreach (player in precedenceList)
+% 	player.performNightAction(action)
+
+% 	foreach (player in game.Plys)
+% 	player.updatePossibleWorlds(player.actionResult)
+
+% 	func performNightAction():
+% 	// We choose Sheriff as an example
+% 	if (self.role == Sheriff)
+% 	world = getMostPlausibleWorld()
+
+% 	susPlys = getSortedPossMafiaPlys(world)
+% 	susPlys.remove(self.previousTargets)
+
+% 	self.actionResult = interrogate(susPlayer[0])
+% \end{lstlisting}
