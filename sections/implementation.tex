@@ -1,126 +1,182 @@
 \section{Implementation}\label{sec:implementation}
-With the theory explained, we can now explore our implementation, which aims to 
-be as true to reality as possible, while being equivalent to the theory. At the 
-end of this section, we will go through an example round of our implementation, 
+With the theory explained, we can now explore our implementation, which aims to
+be as true to reality as possible, while being equivalent to the theory. At the
+end of this section, we will go through an example round of our implementation,
 but before doing that, we will need to build the foundation of it.
 \subsection{The Knowledge of Agents}\label{TheKnowledgeOfAgents}
-The knowledge and logical propositions of agents has been chosen to be 
-represented with a truth-table approach. Every agent has their own 
-two-dimensional array, in which is contained every single combination of 
-players and roles. This means, that the more players and roles there are, the 
-larger this table becomes.\\ 
-Each column in this table can be viewed as one possible world, since it 
-contains a set of player-and-role tuples, and it is unique in regard to all 
-other columns in the array. However, it is important to note, that while every 
-player's table may contain some shared columns, each of their tables, as a 
-whole, are unique. This is due to each agent excluding columns that are not in 
-accordance with the role that they have been given.\\ 
-For example: agent, \textit{a}, if given the role of sheriff, will exclude all 
-columns where their role is not sheriff, while another agent \textit{b} may 
+The knowledge and logical propositions of agents has been chosen to be
+represented with a truth-table approach. Every agent has their own
+two-dimensional array, in which is contained every single combination of
+players and roles. This means, that the more players and roles there are, the
+larger this table becomes.\\ Each column in this table can be viewed as one
+possible world, since it contains a set of player-and-role tuples, and it is
+unique in regard to all other columns in the array. However, it is important to
+note, that while every player's table may contain some shared columns, each of
+their tables, as a whole, are unique. This is due to each agent excluding
+columns that are not in accordance with the role that they have been given.\\
+For example: agent, \textit{a}, if given the role of sheriff, will exclude all
+columns where their role is not sheriff. While another agent \textit{b} may
 keep some of those columns, since they do not know the role of \textit{a}.\\
-Furthermore, each column also contains data on who have made what claims, and 
-whether that claim is true or false in this given column. This is represented 
-by a nested array for each columns, which keeps track of the lies of players, 
-in that given world. Going forward, these marked lies will be known as 
-\textit{marks}, and what is important to know is that, if a world has many 
-marks, then it means that many players have lied if this world is true. It is 
-also important to remember, that we keep track of who contributed to each mark 
+Furthermore, each column also contains data on who have made what claims, and
+whether that claim is true or false in this given column. This is represented
+by a nested array for each column, which keeps track of the lies of players, in
+that given world. Going forward, these marked lies will be known as
+\textit{marks}, and what is important to know is that, if a world has many
+marks, then it means that many players have lied if this world is true. It is
+also important to remember, that we keep track of who contributed to each mark
 in a given world. This will be explained further in the following sections.
 \subsection{Updating Knowledge}\label{UpdatingKnowledge}
-When a new fact is revealed, such as when a player dies and their role is 
-revealed, all players will immediately exclude all columns in which the dead 
-player is anything other than their revealed role. A player dying is the way 
-that most roles learn new facts.\\
-Furthermore, depending on the role that died, all players update the marks that 
-the dead player contributed to.\\
-For example: A sheriff has a nightly action which allows them to gain more 
-information that regular villagers can. Therefore, the marks that a sheriff has 
-contributed to, should be weighed more heavily than those of other roles. To 
-emulate this other players add an additional 1 marks, to any marks that were 
-contributed to by the sheriff, to further denote the importance of their 
-opinions. \\
-Conversely, should the dead player be revealed to be a member of the mafia, all 
-players will detract 1 from the marks that the dead player contributed to, 
-since the mafia member may have had some reason to deceive the other players, 
-which they would like to account for when they realize that they may have been 
-deceived. 
+New facts prompt agents to refine their knowledge. For instance, when a player
+dies and their role is revealed, all players immediately exclude any
+possibilities where the deceased player holds a role different from the
+revealed one. Player deaths are the primary way most roles acquire new facts.\\
+Furthermore, depending on the role that died, all players update the marks that
+the dead player contributed to.\\ For example: A sheriff has a nightly action
+which allows them to gain more information that regular villagers can.
+Therefore, the marks that a sheriff has contributed to, should be weighed more
+heavily than those of other roles. To emulate this other players add a mark, to
+any marks that were contributed to by the sheriff, to further denote the
+importance of their opinions. \\ Conversely, should the dead player be revealed
+to be a member of the mafia, all players will detract 1 from the marks that the
+dead player contributed to, since the mafia member may have had some reason to
+deceive the other players, which they would like to account for when they
+realize that they may have been deceived.
 \subsection{Communicative Actions}\label{CommunicativeActions}
-Communicative actions are the main way to contribute to marks in a given 
-column. Let us assume that agent \textit{a} chooses the following communicative 
-action: "\textit{1. Claim to have a certain role.}" and states, truthfully, 
-"\textit{I am a Sheriff}". This will prompt all other players to add 1 mark to 
-all columns in which \textit{a} is not a sheriff. In this sense, all other 
-players have just noted all the world in which \textit{a} has told the truth, 
-the columns without marks, and the ones where they have lied, the ones with 
-marks. The next play then chooses a communicative actions, leading to a similar 
-course of actions from the other players. \\
-The result of all players communicating will be that players 
-have added a significant amount of marks to their individual worlds. This 
-means that they will each now have some worlds which are more likely to be true 
-than others, since we assume that most people tell the truth, due to 
-townspeople having no incentive to lie. This ranking of worlds will be useful 
-going forward.\\
-Almost all choices in the simulation is in some way related to the amount of 
-marks in their active worlds. The following pseudokode relates to how an agent 
-chooses what communicative action to perform: \\
-\textbf{\*Insert Pseudokode Here\*}\footnote[1]{check for defend, if yes, 
-defend, if no, check top 1\% of worlds, check who most unsure of, pick accuse 
-or inquire randomly.}\\
-The choice of who to target is based on the belief that any proposition 
-regarding that player will result in the most amount of worlds being marked as 
+Communicative actions are the main way to contribute to marks in a given
+column. Let us assume that agent \textit{a} chooses the following communicative
+action: "\textit{1. Claim to have a certain role.}" and states, truthfully,
+"\textit{I am a Sheriff}". This will prompt all other players to add 1 mark to
+all columns in which \textit{a} is not a sheriff. In this sense, all other
+players have just noted all the world in which \textit{a} has told the truth,
+the columns without marks, and the ones where they have lied, the ones with
+marks. The next player then chooses a communicative action, leading to a
+similar course of actions from the other players. \\ The result of all players
+communicating will be that players have added a significant amount of marks to
+their individual worlds. This means that they will each now have some worlds
+which are more likely to be true than others, since we assume that most people
+tell the truth, due to townspeople having no incentive to lie. This ranking of
+worlds will be useful going forward.\\ Almost all choices in the simulation is
+in some way related to the amount of marks in their active worlds. The
+following pseudocode relates to how an agent chooses what communicative action
+to perform: \\
+\begin{algorithm}[H]
+	\caption{GetHighInfoGainP(me, tWorlds)}
+	\begin{algorithmic}
+		\If{nonAccused.Count $>$ 0 OR Game.Round = 0}
+		\State (p, wID) $\gets$ GetNonAccused(me)
+		\If{wID != -1}
+		\State \Return (p, wID)
+		\EndIf
+		\EndIf
+
+		\State (p, wID) $\gets$ GetMostContradictory(tWorlds, me)
+		\If{wID != -1}
+		\State \Return (p, wID)
+		\EndIf
+
+		\State w $\gets$ random world from me.PossWorlds
+		\State p $\gets$ random player from w.PossPlayers
+		\State \Return (p, index of w in me.PossWorlds)
+	\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[H]
+	\caption{GetNonAccused(me)}
+	\begin{algorithmic}
+		\If{Game.Round != 0 AND nonAccused.Count = 0}
+		\State \Return (null, -1)
+		\EndIf
+
+		\If{nonAccused.Count = 0 AND Game.Round = 0}
+		\State nonAccused $\gets$ all players in me.PossWorlds[0]
+		\EndIf
+
+		\ForAll{accusation in me.nonAccu}
+		\State me.nonAccu.Remove(accusation.Acusse)
+		\EndFor
+
+		\State me.nonAccu.Remove(me)
+
+		\If{nonAccused.Count != 0}
+		\State \Return nonAccused[randomI]
+		\EndIf
+
+		\State \Return (null, -1)
+	\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[H]
+	\caption{GetMostContradictory(tWorlds, me)}
+	\begin{algorithmic}
+		\State roleCounts $\gets$ getRoleCounts(tWorlds)
+
+		\ForAll{w in tWorlds}
+		\ForAll{p in w.PossPlayers where p != me AND p is alive}
+		\State contraScore $\gets$ secondHighest / highest
+		\If{contraScore > maxScore}
+		\State mostContradictory $\gets$ p
+		\State maxScore $\gets$ contraScore
+		\State wID $\gets$ index of w
+		\EndIf
+		\EndFor
+		\EndFor
+		\State \Return (mostContradictory, wID)
+	\end{algorithmic}
+\end{algorithm}
+\footnote[1]{Check for defend, if yes,
+	defend, if no, check top 1\% of worlds, check who most unsure of, pick accuse
+	or inquire randomly.}\\
+The choice of whom to target is based on the belief that any proposition
+regarding that player will result in the most amount of worlds being marked as
 inactive whenever it is proven or disproven.
 \subsection{Voting}\label{Voting}
-When communication and the addition of marks has finished, the game moves on to 
-the voting phase. Each player chooses who to vote for, in a very similar manner 
-to the choice of target for their communicative action. They chose the world 
-with the least marks, i.e. the one they find to be the most likely. If there 
-are multiple, then they pick randomly between them. They then select a random 
-member of the mafia from that world, and then vote for that person.\footnote[2]{
-check top world, if there are multiple, pick random, pic random mafia within 
-chosen world.} 
+When communication and the addition of marks has finished, the game moves on to
+the voting phase. Each player chooses who to vote for, in a very similar manner
+to the choice of target for their communicative action. They chose the world
+with the least marks, i.e., the one they find to be the most likely. If there
+are multiple, then they pick randomly between them. They then select a random
+member of the mafia from that world, and then vote for that
+person.\footnote[2]{ Check top world, if there are multiple, pick random, pic
+	random mafia within chosen world.}
 \subsection{Nightly Actions}\label{NightlyActions}
-Nightly actions are a bit more tailored towards each role. For example: The 
-godfather simply tries to kill whomever is the sheriff in their most likely 
-world. The doctor tries to save whomever is the sheriff in their most likely 
-world, and the sheriff checks all of his active worlds, summarizes who have 
-lied in these world, i.e. who has contributed to marks in these worlds, and 
-then inspects the one with the most marks, provided he has not already 
-inspected them. 
+Nightly actions are a bit more tailored towards each role. For example: The
+godfather simply tries to kill whomever is the sheriff in their most likely
+world. The doctor tries to save whomever is the sheriff in their most likely
+world, and the sheriff checks all of his active worlds, summarizes who have
+lied in these world, i.e., who has contributed to marks in these worlds, and
+then inspects the one with the most marks, provided he has not already
+inspected them.
 \subsection{Weak Inference}\label{WeakInference}
-While our simulation does not include any actual inference rules, it does mimic 
-a kind of inference. As facts are revealed, columns, i.e. worlds, are removed, 
-meaning that one may slowly infer the roles of players while not knowing their 
-actual role, but the roles of other players. Furthermore, as people die and 
-marks are added or altered based on how trustworthy the given victims role 
-were, another kind of weak inference is performed, as players do not base their 
-decisions on worlds that are unlikely. 
+While our simulation does not include any actual inference rules, it does mimic
+a kind of inference. As facts are revealed, columns, i.e., worlds, are removed,
+meaning that one may slowly infer the roles of players while not knowing their
+actual role, but the roles of other players. Furthermore, as people die and
+marks are added or altered based on how trustworthy the given victims' role
+were, another kind of weak inference is performed, as players do not base their
+decisions on worlds that are unlikely.
 \subsection{A Round of the Game}\label{ARoundOfTheGame}
 A round of our modeled game can be expressed in the dynamic inquiry language.
-In a model defined as \cref{eq:3}, we let there be 10 agents \textbf{Ag} = \{a, 
-b, c, ..., j\},
-where \textit{a} is a sheriff, \textit{b} is a godfather, and the rest are 
-villagers. This round is viewed from the sheriffs perspective, so he does not
-know the roles of the other players, only the amount of each role that is in 
-the game, i.e. 1 sheriff, 1 godfather, and 8 villagers. He then has a set of 
-propositions \{$\varphi$, $\psi$\, $\gamma$, ...\} where
-$\varphi$ = "agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor 
-.. \lor \psi_{n-1})$ = "agent \textit{b} is a villager or godfather or ..." for 
-all \textit{10} roles, except sheriff, which agent \textit{a} knows he himself 
-is. $\gamma$ = $(\gamma_1 \lor \gamma_2 \lor .. \lor \gamma_{n-1}) $ = "agent 
-\textit{c} is a villager or godfather or...", and so on for each player. \\ 
-In our simulation, we generate $W$ by creating all possible worlds, based on 
-the aforementioned propositions, by utilizing the pseudocode function 
-\lstinline{generateWorlds()} provided in appendix \ref{app:B}. \\ 
-A round then starts with communicative actions, where agent \textit{b} says "I 
-am villager", represented for agent \textit{a} by $(p \lor \neg p)$, meaning 
-that agent \textit{a} does not yet know whether agent \textit{b}'s statement is 
-true or false. But, by inference he may deduce that if what agent \textit{b} 
-says is correct, then it is also true that they are the mentioned role. This is 
-represented by $p \rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a 
-villager, and oppositely $\neg p \rightarrow \neg \psi_1$ where $\neg \psi_1$ 
-is agent \textit{b} is not a villager. \\
-Agent \textit{c} also says that they are a villager, represented by $q$ in a
-similar manner.
+In a model defined as \cref{eq:3}, we let there be 10 agents \textbf{Ag} = \{a,
+b, c, ..., j\}, where \textit{a} is a sheriff, \textit{b} is a godfather, and
+the rest are villagers. This round is viewed from the sheriffs' perspective, so
+he does not know the roles of the other players, only the amount of each role
+that is in the game, i.e., 1 sheriff, 1 godfather, and 8 villagers. He then has
+a set of propositions \{$\varphi$, $\psi$\, $\gamma$, ...\} where $\varphi$ =
+"agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor .. \lor
+	\psi_{n-1})$ = "agent \textit{b} is a villager or godfather or ..." for all
+\textit{10} roles, except sheriff, which agent \textit{a} knows he himself is.
+$\gamma$ = $(\gamma_1 \lor \gamma_2 \lor .. \lor \gamma_{n-1}) $ = "agent
+\textit{c} is a villager or godfather or...", and so on for each player. \\ In
+our simulation, we generate $W$ by creating all possible worlds, based on the
+aforementioned propositions, by utilizing the pseudocode function
+\lstinline{generateWorlds()} provided in appendix \ref{app:B}. \\ A round then
+starts with communicative actions, where agent \textit{b} says "I am villager",
+represented for agent \textit{a} by $(p \lor \neg p)$, meaning that agent
+\textit{a} does not yet know whether agent \textit{b}'s statement is true or
+false. But, by inference he may deduce that if what agent \textit{b} says is
+correct, then it is also true that they are the mentioned role. This is
+represented by $p \rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a
+villager, and oppositely $\neg p \rightarrow \neg \psi_1$ where $\neg \psi_1$
+is agent \textit{b} is not a villager. \\ Agent \textit{c} also says that they
+are a villager, represented by $q$ in a similar manner.
 
 \begin{algorithm}
 	\caption{Communication}
@@ -144,15 +200,14 @@ similar manner.
 
 When the agents communicate this, they choose which action to take, based on
 what communicative action will result in the most amount of worlds being marked
-as inactive, whenever the proposition provided by the communicative action is 
-proven or disproven. 
-This whole sequence of the original example can be expressed by the following 
-formula:
+as inactive, whenever the proposition provided by the communicative action is
+proven or disproven. This whole sequence of the original example can be
+expressed by the following formula:
 
 \begin{align}
 	\begin{split}
-		G = K_a(\varphi \land \psi \land\gamma)\land \\ 
-		p \rightarrow \psi_1 \land \neg p \rightarrow \neg \psi_1 \land \\
+		G = K_a(\varphi \land \psi \land\gamma)\land                        \\
+		p \rightarrow \psi_1 \land \neg p \rightarrow \neg \psi_1 \land     \\
 		q \rightarrow \gamma_1 \land \neg q \rightarrow \neg \gamma_1 \land \\
 		(p \lor \neg p) \land (q \lor \neg q)
 		\label{eq:7}
@@ -160,18 +215,18 @@ formula:
 \end{align}
 
 When the night phase comes, agent \textit{a} will interrogate agent \textit{b},
-resulting in agent \textit{a} knowing the faction of agent \textit{b}. Agent 
-\textit{a} will come to know that agent \textit{b} is a member of the mafia. 
-Directly proving $\neg p$, since the role of a villager belongs to the town 
-faction, not the mafia faction. This action also excludes all active world from 
-the sheriff's knowledge, where agent \textit{b} is a member of the town, 
-leaving him only with world wherein he is a member of the mafia, which in this 
-case mans he must be the godfather. During the same night, agent \textit{b} 
-targets, agent \textit{c}, killing him. The killing is then publicly announced 
-during the morning phase, along with the role of the victim. Recall from 
-\cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that 
-everything before the public announcement, and the announcement itself, is now 
-applicable. In our simulation, this is done by calling 
+resulting in agent \textit{a} knowing the faction of agent \textit{b}. Agent
+\textit{a} will come to know that agent \textit{b} is a member of the mafia.
+Directly proving $\neg p$, since the role of a villager belongs to the town
+faction, not the mafia faction. This action also excludes all active world from
+the sheriff's knowledge, where agent \textit{b} is a member of the town,
+leaving him only with world wherein he is a member of the mafia, which in this
+case means he must be the godfather. During the same night, agent \textit{b}
+targets, agent \textit{c}, killing him. The killing is then publicly announced
+during the morning phase, along with the role of the victim. Recall from
+\cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that
+everything before the public announcement, and the announcement itself, is now
+applicable. In our simulation, this is done by calling
 \lstinline[]{updatePossibleWorlds(information)}, displayed in
 \ref{lst:updateWorld}
 
@@ -190,16 +245,16 @@ applicable. In our simulation, this is done by calling
 
 Which simply iterates over all players and all their respective worlds, and
 updates the information. Now recall back to \cref{eq:7}, after the newly
-acquired information of both $\neg \psi_1$, the knowledge that agent \textit{b} 
-is not a villager, and $\gamma_2$, the role of agent \textit{c} we can now 
+acquired information of both $\neg \psi_1$, the knowledge that agent \textit{b}
+is not a villager, and $\gamma_2$, the role of agent \textit{c} we can now
 simplify the previous expression, which results in:
 \begin{align}
 	G' = K_a(\varphi \land \neg \psi_1 \land \gamma_1) \land \neg p \land q
 \end{align}
-Furthermore, as agent \textit{a} began with the knowledge of agent \textit{b} 
-being either a godfather, or a villager, and they now know that they are not a 
-villager, they can infer that they must be a godfather, since that is the only 
-world that has not been excluded, based on the knowledge they gained during the 
+Furthermore, as agent \textit{a} began with the knowledge of agent \textit{b}
+being either a godfather, or a villager, and they now know that they are not a
+villager, they can infer that they must be a godfather, since that is the only
+world that has not been excluded, based on the knowledge they gained during the
 night. \\
-The game then continues with a new communication phase, and the game goes on, 
+The game then continues with a new communication phase, and the game goes on,
 for a short while longer, until the godfather has been voted out...
