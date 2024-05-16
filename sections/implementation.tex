@@ -14,9 +14,14 @@ count P and one role R1.
 	W(P,R1) := \frac{P!}{R1!(P-R1)!}\
 \end{gather}
 For each subsequent role that is added, the formula is expanded with
-\begin{gather}
-	W(P, R1, R2) := \frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot R2!\cdot(P-R1-R2)}\
-\end{gather}\footnote{If the number of players equals the number of roles, then the formula collapses into P!}
+\begin{equation}
+\begin{gathered}
+	W(P, R1, R2) := \\
+	\frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot 
+	R2!\cdot(P-R1-R2)}\
+\end{gathered}\footnote{If the number of players equals the 
+number of roles, then the formula collapses into P!.}
+\end{equation}
 Each agent excludes possible-worlds that are not in
 accordance with the role that they have been given.\\
 For example: agent, \textit{a}, if given the role of sheriff, will exclude all
@@ -122,9 +127,7 @@ to perform: \\
 		\State \Return (mostContradictory, wID)
 	\end{algorithmic}
 \end{algorithm}
-\footnote[1]{check for
-	defend, if yes, defend, if no, check top 1\% of worlds, check who most unsure
-	of, pick accuse or inquire randomly.}\\ The choice of who to target is based on
+The choice of who to target is based on
 the belief that any proposition regarding that player will result in the most
 amount of worlds being marked as inactive whenever it is proven or disproven.
 \subsection{Voting}\label{Voting}
@@ -134,8 +137,7 @@ to the choice of target for their communicative action. They chose the world
 with the least marks, i.e. the one they find to be the most likely. If there
 are multiple, then they pick randomly between them. They then select a random
 member of the mafia from that world, and then vote for that
-person.\footnote[2]{ check top world, if there are multiple, pick random, pic
-	random mafia within chosen world.} \todo{Hvad er den her fodnote?}
+person.
 \subsection{Nightly Actions}\label{NightlyActions}
 Nightly actions are a bit more tailored towards each role. For example: The
 godfather simply tries to kill whomever is the sheriff in their most likely
