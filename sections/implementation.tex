@@ -10,7 +10,12 @@ two-dimensional array, in which is contained every single combination of
 players and roles. This means, that the more players and roles there are, the
 larger this table becomes.\todo{vis formularen her? vi er stadig i det tekniske område}\\ Each column in this table can be viewed as one
 possible world, since it contains a set of player-and-role tuples, and it is
-unique in regard to all other columns in the array. However, it is important to
+unique in regard to all other columns in the array.
+\begin{gather}
+	G:=(P, W, ) \mapsto \frac{P!\cdot(P-W)!}{W!\cdot(P-W)!\cdot S!\cdot(P-W-S)} \\
+	g(P,W) := \frac{P!}{W!(P-W)!}
+\end{gather}
+However, it is important to
 note, that while every player's table may contain some shared columns, each of
 their tables, as a whole, are unique. This is due to each agent excluding
 columns that are not in accordance with the role that they have been given.\\
