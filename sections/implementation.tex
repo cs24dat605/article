@@ -8,7 +8,7 @@ The knowledge and logical propositions of agents has been chosen to be
 represented with a truth-table approach. Every agent has their own
 two-dimensional array, in which is contained every single combination of
 players and roles. This means, that the more players and roles there are, the
-larger this table becomes.\\ Each column in this table can be viewed as one
+larger this table becomes.\todo{vis formularen her? vi er stadig i det tekniske område}\\ Each column in this table can be viewed as one
 possible world, since it contains a set of player-and-role tuples, and it is
 unique in regard to all other columns in the array. However, it is important to
 note, that while every player's table may contain some shared columns, each of
@@ -34,7 +34,7 @@ Furthermore, depending on the role that died, all players update the marks that
 the dead player contributed to.\\ For example: A sheriff has a nightly action
 which allows them to gain more information that regular villagers can.
 Therefore, the marks that a sheriff has contributed to, should be weighed more
-heavily than those of other roles. To emulate this other players add a mark, to
+heavily than those of other roles.\todo{kan ikke lide hvor uspecifikt dette er} To emulate this other players add a mark, to
 any marks that were contributed to by the sheriff, to further denote the
 importance of their opinions. \\ Conversely, should the dead player be revealed
 to be a member of the mafia, all players will detract 1 from the marks that the
@@ -134,7 +134,7 @@ to the choice of target for their communicative action. They chose the world
 with the least marks, i.e., the one they find to be the most likely. If there
 are multiple, then they pick randomly between them. They then select a random
 member of the mafia from that world, and then vote for that
-person.\footnote[2]{ Check top world, if there are multiple, pick random, pic
+person.\footnote[2]{ Check top world, if there are multiple, pick
 	random mafia within chosen world.}
 \subsection{Nightly Actions}\label{NightlyActions}
 Nightly actions are a bit more tailored towards each role. For example: The
@@ -256,5 +256,6 @@ being either a godfather, or a villager, and they now know that they are not a
 villager, they can infer that they must be a godfather, since that is the only
 world that has not been excluded, based on the knowledge they gained during the
 night. \\
-The game then continues with a new communication phase, and the game goes on,
-for a short while longer, until the godfather has been voted out...
+The game then continues with a new communication phase, in which the Sheriff will 
+most likely try to claim that agent \textit{b} is a part of the mafia, and try to 
+convince the other agents to vote him out.
