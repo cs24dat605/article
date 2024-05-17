@@ -16,13 +16,13 @@ count P and one role R1.
 
 For each subsequent role that is added, the formula is expanded with
 \begin{equation}
-\begin{gathered}
-	W: P, R1, R2\in  \mathbb{N} \mapsto \\
-	\frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot
-		R2!\cdot(P-R1-R2)}\
-\footnote{If the number of players equals the
-	number of roles, then the formula collapses into P!.}
-\end{gathered}
+	\begin{gathered}
+		W: P, R1, R2\in  \mathbb{N} \mapsto \\
+		\frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot
+			R2!\cdot(P-R1-R2)}\
+		\footnote{If the number of players equals the
+			number of roles, then the formula collapses into P!.}
+	\end{gathered}
 \end{equation}
 Each agent excludes possible-worlds that are not in
 accordance with the role that they have been given.\\
@@ -67,68 +67,88 @@ worlds will be useful going forward.\\ Almost all choices in the simulation is
 in some way related to the amount of marks in their active worlds. The
 following pseudo code relates to how an agent chooses what communicative action
 to perform: \\
-\begin{algorithm}[H]
-	\caption{GetHighInfoGainP(me, tWorlds)}
-	\begin{algorithmic}
-		\If{nonAccused.Count $>$ 0 OR Game.Round = 0}
-		\State (p, wID) $\gets$ GetNonAccused(me)
-		\If{wID != -1}
-		\State \Return (p, wID)
-		\EndIf
-		\EndIf
+\begin{figure}[H]
+	\begin{algorithm}[H]
+		\caption{GetHighInfoGainP(me, tWorlds)}
+		\begin{algorithmic}
+			\If{nonAccused.Count $>$ 0 OR Game.Round = 0}
+			\State (p, wID) $\gets$ GetNonAccused(me)
+			\If{wID != -1}
+			\State \Return (p, wID)
+			\EndIf
+			\EndIf
 
-		\State (p, wID) $\gets$ GetMostContradictory(tWorlds, me)
-		\If{wID != -1}
-		\State \Return (p, wID)
-		\EndIf
+			\State (p, wID) $\gets$ GetMostContradictory(tWorlds, me)
+			\If{wID != -1}
+			\State \Return (p, wID)
+			\EndIf
 
-		\State w $\gets$ random world from me.PossWorlds
-		\State p $\gets$ random player from w.PossPlayers
-		\State \Return (p, index of w in me.PossWorlds)
-	\end{algorithmic}
-\end{algorithm}
-\begin{algorithm}[H]
-	\caption{GetNonAccused(me)}
-	\begin{algorithmic}
-		\If{Game.Round != 0 AND nonAccused.Count = 0}
-		\State \Return (null, -1)
-		\EndIf
+			\State w $\gets$ random world from me.PossWorlds
+			\State p $\gets$ random player from w.PossPlayers
+			\State \Return (p, index of w in me.PossWorlds)
+		\end{algorithmic}
+	\end{algorithm}
+	\caption{Get the highest information gain player returns a player based on different factors.
+		At first, it prioritizes non accused players as shown in figure \ref{fig:GetNonAccused}.
+		Then find the most contradictory information as shown in figure \ref{fig:GetMostContradictory}.
+		Otherwise, choose a random world and a random player within.
+	}
+	\label{fig:GetHighInfoGainP}
+\end{figure}
+\begin{figure}[H]
+	\begin{algorithm}[H]
+		\caption{GetNonAccused(me)}
+		\begin{algorithmic}
+			\If{nonAccused.Count = 0 AND Game.Round = 0}
+			\State nonAccused $\gets$ all players in me.PossWorlds[0]
+			\EndIf
 
-		\If{nonAccused.Count = 0 AND Game.Round = 0}
-		\State nonAccused $\gets$ all players in me.PossWorlds[0]
-		\EndIf
+			\ForAll{accusation in me.nonAccu}
+			\State me.nonAccu.Remove(accusation.Acusse)
+			\EndFor
 
-		\ForAll{accusation in me.nonAccu}
-		\State me.nonAccu.Remove(accusation.Acusse)
-		\EndFor
+			\State me.nonAccu.Remove(me)
 
-		\State me.nonAccu.Remove(me)
+			\If{nonAccused.Count != 0}
+			\State \Return nonAccused[randomI]
+			\EndIf
 
-		\If{nonAccused.Count != 0}
-		\State \Return nonAccused[randomI]
-		\EndIf
+			\State \Return (null, -1)
+		\end{algorithmic}
+	\end{algorithm}
+	\caption{First round we append all players to the non accused list and remove the player itself from the list
+		Then returning a random player if the list is non-empty}
+	\label{fig:GetNonAccused}
+\end{figure}
+\begin{figure}[H]
+	\begin{algorithm}[H]
+		\caption{GetMostContradictory(tWorlds, me)}
+		\begin{algorithmic}
+			\State roleCounts $\gets$ getRoleCounts(tWorlds)
 
-		\State \Return (null, -1)
-	\end{algorithmic}
-\end{algorithm}
-\begin{algorithm}[H]
-	\caption{GetMostContradictory(tWorlds, me)}
-	\begin{algorithmic}
-		\State roleCounts $\gets$ getRoleCounts(tWorlds)
+			\ForAll{w in tWorlds}
+			\ForAll{p in w.PossPlayers where p != me AND p is alive}
+			\State highest $\gets$ roleCounts[p].Max()
+			\State secHighest $\gets$ roleCounts[p].SecondMax()
 
-		\ForAll{w in tWorlds}
-		\ForAll{p in w.PossPlayers where p != me AND p is alive}
-		\State contraScore $\gets$ secondHighest / highest
-		\If{contraScore > maxScore}
-		\State mostContradictory $\gets$ p
-		\State maxScore $\gets$ contraScore
-		\State wID $\gets$ index of w
-		\EndIf
-		\EndFor
-		\EndFor
-		\State \Return (mostContradictory, wID)
-	\end{algorithmic}
-\end{algorithm}
+			\State contraScore $\gets$ secHighest / highest
+			\If{contraScore $>$ maxScore}
+			\State mostContradictory $\gets$ p
+			\State maxScore $\gets$ contraScore
+			\State wID $\gets$ index of w
+			\EndIf
+			\EndFor
+			\EndFor
+			\State \Return (mostContradictory, wID)
+		\end{algorithmic}
+	\end{algorithm}
+	\caption{Starting by storing a list of role counts for players in the top 1\% of worlds.
+		Iterating over the top 1\% of worlds and for each possible player find their highest and second-highest role counts.
+		Calculating a contradction score based on the 2 top role counts and checking if it's the highest contradiction score found.
+		Returning the maxScore once all possible players have been checked.
+	}
+	\label{fig:GetMostContradictory}
+\end{figure}
 The choice of who to target is based on
 the belief that any proposition regarding that player will result in the most
 amount of worlds being marked as inactive whenever it is proven or disproven.

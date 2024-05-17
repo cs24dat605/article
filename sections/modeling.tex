@@ -16,19 +16,20 @@ The night phase is where different roles perform private or public actions to
 gain information or spread misinformation. The morning phase is where public
 results of the night phase are revealed to all players. The role of players who
 died during the night phase is revealed at this time. The day phase is where
-players try to influence each other's world views through communicative
-actions. The voting phase is where players vote for who to lynch according to
-their individual world views. The voting phase can end in a majority vote which
-will result in a lynching of that player, killing them and revealing their role
-publicly, or in a tie, which will result in the phase ending with no lynching.
+players try to influence each other's world views through communicative actions
+\ref{lst:communicativeActions}. The voting phase is where players vote for who
+to lynch according to their individual world views. The voting phase can end in
+a majority vote which will result in a lynching of that player, killing them
+and revealing their role publicly, or in a tie, which will result in the phase
+ending with no lynching.
 
-There are many possible roles for players to be assigned. In typical games, the
-most numerous one would be the villager who has no special powers. However, as
-this paper wishes to illuminate the way in which the mafia can even the odds
-against a town populated by special roles, they will not be used extensively
-here. All roles are explained in appendix \ref{app:A}, but the ones allied to
-the mafia will be gone over here, to explain how they work, in order to give
-the reader an intuition as to which might be the most impactful.
+There are many possible roles for players to be assigned \ref{lst:Roles}. In
+typical games, the most numerous one would be the villager who has no special
+powers. However, as this paper wishes to illuminate the way in which the mafia
+can even the odds against a town populated by special roles, they will not be
+used extensively here. All roles are explained in appendix \ref{app:A}, but the
+ones allied to the mafia will be gone over here, to explain how they work, in
+order to give the reader an intuition as to which might be the most impactful.
 
 \begin{enumerate}
 	\itemsep0px
@@ -41,6 +42,7 @@ the reader an intuition as to which might be the most impactful.
 	\item\textbf{Blackmailer} must choose one player each night to blackmail. A
 	      blackmailed player can only choose the “do not say anything” communicative
 	      action.
+	      \label{lst:Roles}
 \end{enumerate}
 
 Now, to simulate the games as closely as possible to the real world we use a
@@ -64,7 +66,7 @@ this simulation, players can choose between 6 different communicative actions:
 	\item Claim that someone else has a certain role.
 	\item Inquire another player regarding their role.
 	\item Inquire another player regarding their beliefs about other players.
-	\item Do not say anything.
+	\item Do not say anything. \label{lst:communicativeActions}
 \end{enumerate}
 The purpose of these actions are to mimic the in-person game as closely as
 possible. Players will each be able to take a variable amount of communicative actions before the
