@@ -2,10 +2,10 @@
 
 Social deduction scenarios can be expressed or modelled differently depending
 on the methods used to solve them. While other noteworthy fields such as
-machine learning could be used, we see an intriguing similarity
-between epistemology and social deduction, which lies in the nature how these
-games are played. Often it's a game between players (agents), who need to keep
-track of who said what, who knows what, and what these truths entail.
+machine learning could be used, we see an intriguing similarity between
+epistemology and social deduction, which lies in the nature how these games are
+played. Often it's a game between players (agents), who need to keep track of
+who said what, who knows what, and what these truths entail.
 
 \section{Dynamic Inquiry Language}
 The terminology and its notation used throughout this article will closely
@@ -22,8 +22,6 @@ inquiry language by introducing agents and knowledge, finally culminating in
 defining our dynamic inquiry epistemic language with information and model
 updates. An overview of notations is provided in \cref{notationalschema}, for
 easy references to the used notation.
-
-\newpage
 
 \begin{table}[t]
     \caption{Notional Schema \label{notationalschema}}
@@ -102,7 +100,7 @@ Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so
 While \cref{sem:1}, \cref{sem:2} and \cref{sem:3} are trivial, \cref{sem:4} explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer function \cref{sem:5} is likewise only satisfied in a world given a model, when some pair of questions and answer is in set of the agent answering operator.
 
 \subsubsection*{Information Update}
-To extend our static language \staticlang\: to a dynamic language, which we will donate as \dynlang, we introduce three new operators, the \textit{public information update operator}, the \textit{agent question operator} and the \textit{inference operator}: 
+To extend our static language \staticlang\: to a dynamic language, which we will donate as \dynlang, we introduce three new operators, the \textit{public information update operator}, the \textit{agent question operator} and the \textit{inference operator}:
 
 \begin{equation}
     \pubop \sep \agquestop \sep \infop \label{eq:6}
@@ -116,10 +114,10 @@ The information update operator \pubop \: reads as "after public announcement of
 In which $\proposition \in \dynlang$. Note that the expression $M|\varphi$ in \cref{eq:4} refers to a model update. This should be understood as $M'$ is the model in which all worlds where $\varphi$ is false or are not contained, are removed. The members of $M'$ is then given by:
 
 \begin{itemize}
-	\item $W' := \left\{ w' \in W \land M, w' \models \proposition \right\}$ 
-	\item $\sim'_a := \sim_a \cap \:(W' \times W')$, for all $a \in Ag$
-	\item $V' := V | W'$
-	\item $R'_{a\in Ag} := R_{a\in Ag} | W'$ 
+    \item $W' := \left\{ w' \in W \land M, w' \models \proposition \right\}$
+    \item $\sim'_a := \sim_a \cap \:(W' \times W')$, for all $a \in Ag$
+    \item $V' := V | W'$
+    \item $R'_{a\in Ag} := R_{a\in Ag} | W'$
 \end{itemize}
 While all three operators are inherently information updates and follow the above listed transformations, the \textit{agent question operator}, which we will denote as $Q_{A}?$ with $Q_A = (\varphi_1,...,\varphi_n)$ and the \textit{inference operator} denoted by $I$, where $I = \{\psi_1,...,\psi_m \}\hookrightarrow \psi_c$, have additional constraints. An agent should not be able to ask a question without knowledge of it's presupposition and it should be a part of the opposing agent's answer set. This can be described as:
 \begin{itemize}
@@ -148,19 +146,19 @@ The inference operator $I$ as we described earlier, can simply denoted as a mode
 \end{itemize}
 Similar to the definition of the precondition to the \textit{agent operator}, we also require the agent to be knowledgeable about both the premise, and that the conclusion follows from these. We describe this by:
 \begin{gather}
-\nonumber pre_{a,b}(I) := \\ \bigwedge\limits_{i\in1,m}K_a\psi_i \land K_a\Biggl(\Biggl(\:\bigwedge\limits_{i\in 1,m}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
+    \nonumber pre_{a,b}(I) := \\ \bigwedge\limits_{i\in1,m}K_a\psi_i \land K_a\Biggl(\Biggl(\:\bigwedge\limits_{i\in 1,m}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
 \end{gather}
 We now have the prerequisites for defining the semantics of our dynamic language \dynlang. They are based on the previous listed in \crefrange{sem:1}{sem:5} describing the \staticlang, extending it with the newly introduced \textit{information update operator}, \textit{agent question operator} and \textit{inference operator}:
 \begin{equation}
-\begin{gathered}
-    M, w \models [\psi!]\varphi \iff \\ 
-    M, w \models \psi \implies M|\psi, w \models \varphi \\\\
-    M, w \models [Q_A?]_{a,b}\varphi \iff \\ 
-    M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi 
-    \\\\
-    M, w \models [I]_a\varphi \iff \\ 
-    M, w \models pre_a(i) \implies M^a_I(w), w \models \varphi
-\end{gathered}
+    \begin{gathered}
+        M, w \models [\psi!]\varphi \iff \\
+        M, w \models \psi \implies M|\psi, w \models \varphi \\\\
+        M, w \models [Q_A?]_{a,b}\varphi \iff \\
+        M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi
+        \\\\
+        M, w \models [I]_a\varphi \iff \\
+        M, w \models pre_a(i) \implies M^a_I(w), w \models \varphi
+    \end{gathered}
 \end{equation}
 Informally, these simply explain that the semantics for the update of worlds only hold if their preconditions hold, which then in turn implies that the worlds accessible after the model update includes the conclusive proposition. \\
 
