@@ -26,9 +26,12 @@
 \input{sections/discussion.tex}
 \input{sections/conclusion.tex}
 \input{sections/future-works.tex}
-
 \clearpage
 \appendix
+\makeatletter
+\def\@seccntformat#1{\appendixname\ \csname the#1\endcsname: }
+\makeatother
+
 \input{sections/appendixA.tex}
 \input{sections/appendixB.tex}
 
