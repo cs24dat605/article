@@ -15,12 +15,12 @@ count P and one role R1.
 \end{gather}
 For each subsequent role that is added, the formula is expanded with
 \begin{equation}
-\begin{gathered}
-	W(P, R1, R2) := \\
-	\frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot 
-	R2!\cdot(P-R1-R2)}\
-\end{gathered}\footnote{If the number of players equals the 
-number of roles, then the formula collapses into P!.}
+	\begin{gathered}
+		W(P, R1, R2) := \\
+		\frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot
+			R2!\cdot(P-R1-R2)}\
+	\end{gathered}\footnote{If the number of players equals the
+		number of roles, then the formula collapses into P!.}
 \end{equation}
 Each agent excludes possible-worlds that are not in
 accordance with the role that they have been given.\\
@@ -136,8 +136,7 @@ the voting phase. Each player chooses who to vote for, in a very similar manner
 to the choice of target for their communicative action. They chose the world
 with the least marks, i.e. the one they find to be the most likely. If there
 are multiple, then they pick randomly between them. They then select a random
-member of the mafia from that world, and then vote for that
-person.
+member of the mafia from that world, and then vote for that person.
 \subsection{Nightly Actions}\label{NightlyActions}
 Nightly actions are a bit more tailored towards each role. For example: The
 godfather simply tries to kill whomever is the sheriff in their most likely
@@ -153,7 +152,7 @@ meaning that one may slowly infer the roles of players while not knowing their
 actual role. Furthermore, as people die and marks are added or altered based on
 how trustworthy the given victims role were, another kind of weak inference is
 performed, as players do not base their decisions on worlds that are unlikely.
-\subsection{A Round of the Game}\label{ARoundOfTheGame}
+\subsection{Detailed run through}\label{ARoundOfTheGame}
 A round of our modeled game can be expressed in the dynamic inquiry language.
 In a model defined as \cref{eq:3}, we let there be 10 agents \textbf{Ag} = \{a,
 b, c, ..., j\}, where \textit{a} is a sheriff, \textit{b} is a godfather, and
