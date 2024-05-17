@@ -10,17 +10,19 @@ possible-worlds, in which is contained every single combination of players and
 roles. This means, that the more players and roles there are, the longer this
 list becomes. The following equation shows how the list grows given player
 count P and one role R1.
-\begin{gather}
-	W(P,R1) := \frac{P!}{R1!(P-R1)!}\
-\end{gather}
+\begin{equation}
+	W: P,R1 \in  \mathbb{N} \mapsto \frac{P!}{R1!(P-R1)!}\
+\end{equation}
+
 For each subsequent role that is added, the formula is expanded with
 \begin{equation}
-	\begin{gathered}
-		W(P, R1, R2) := \\
-		\frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot
-			R2!\cdot(P-R1-R2)}\
-	\end{gathered}\footnote{If the number of players equals the
-		number of roles, then the formula collapses into P!.}
+\begin{gathered}
+	W: P, R1, R2\in  \mathbb{N} \mapsto \\
+	\frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot
+		R2!\cdot(P-R1-R2)}\
+\footnote{If the number of players equals the
+	number of roles, then the formula collapses into P!.}
+\end{gathered}
 \end{equation}
 Each agent excludes possible-worlds that are not in
 accordance with the role that they have been given.\\
