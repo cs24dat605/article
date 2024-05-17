@@ -151,11 +151,17 @@ Similar to the definition of the precondition to the \textit{agent operator}, we
 \nonumber pre_{a,b}(I) := \\ \bigwedge\limits_{i\in1,m}K_a\psi_i \land K_a\Biggl(\Biggl(\:\bigwedge\limits_{i\in 1,m}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
 \end{gather}
 We now have the prerequisites for defining the semantics of our dynamic language \dynlang. They are based on the previous listed in \crefrange{sem:1}{sem:5} describing the \staticlang, extending it with the newly introduced \textit{information update operator}, \textit{agent question operator} and \textit{inference operator}:
-\begin{gather}
-    M, w \models [\psi!]\varphi \iff M, w \models \psi \implies M|\psi, w \models \varphi \\
-    M, w \models [Q_A?]_{a,b}\varphi \iff M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi \\
-    M, w \models [I]_a\varphi \iff M, w \models pre_a(i) \implies M^a_I(w), w \models \varphi
-\end{gather}
+\begin{equation}
+\begin{gathered}
+    M, w \models [\psi!]\varphi \iff \\ 
+    M, w \models \psi \implies M|\psi, w \models \varphi \\\\
+    M, w \models [Q_A?]_{a,b}\varphi \iff \\ 
+    M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi 
+    \\\\
+    M, w \models [I]_a\varphi \iff \\ 
+    M, w \models pre_a(i) \implies M^a_I(w), w \models \varphi
+\end{gathered}
+\end{equation}
 Informally, these simply explain that the semantics for the update of worlds only hold if their preconditions hold, which then in turn implies that the worlds accessible after the model update includes the conclusive proposition. \\
 
 We have now formally described the definitive language of \dynlang, which lays
