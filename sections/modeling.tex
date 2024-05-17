@@ -1,4 +1,4 @@
-\section{Modeling}
+\section{Modelling}
 As mentioned earlier, we wish to model a framework of games instead of one
 specific one, in order to encapsulate as many parameters as possible. The
 simulation will have two factions, henceforth known as the town and mafia. The
@@ -26,7 +26,7 @@ the mafia will be gone over here, to explain how they work, in order to give
 the reader an intuition as to which might be the most impactful.
 
 \begin{enumerate}
-	\itemsep0px 
+	\itemsep0px
 	\item\textbf{Godfather} must choose one player each night who will die.
 	\item\textbf{Mafioso} performs the killing on the godfathers' behalf.
 	\item\textbf{Consigliere} must choose one player each night and privately
@@ -54,8 +54,8 @@ been made, in order to better suit a multi-round game.
 First, the communicative actions for the game have been altered slightly. In
 this simulation, players can choose between 6 different communicative actions:
 \begin{enumerate}
-	\itemsep0px 
-	\item \label{Com}Claim to have a certain role. 
+	\itemsep0px
+	\item \label{Com}Claim to have a certain role.
 	\item Claim that someone else has a certain role.
 	\item Inquire another player regarding their role.
 	\item Inquire another player regarding their beliefs about other players.
@@ -87,11 +87,11 @@ assume that other players are aware of private information, so these worlds
 must be included when deciding which communicative actions to perform during
 the day phase. An example:
 
-Player 1 is a sheriff\footnote{A role allied to the town, who functions similarly to
-	the consigliere}, and has used their nightly action to look at the faction of
-player 2, which gave them the private information that player 2's faction is of
-the town. Player 1 can now mark all worlds where player 2 is part of the mafia
-as inactive, as they are factually false, but since this is not public
-information player 1 knows that not everyone knows this, and these worlds must
-therefore still be considered when choosing communicative actions, even if just
-for knowing which worlds to avoid promoting.
+Player 1 is a sheriff\footnote{A role allied to the town, who functions
+	similarly to the consigliere}, and has used their nightly action to look at the
+faction of player 2, which gave them the private information that player 2's
+faction is of the town. Player 1 can now mark all worlds where player 2 is part
+of the mafia as inactive, as they are factually false, but since this is not
+public information player 1 knows that not everyone knows this, and these
+worlds must therefore still be considered when choosing communicative actions,
+even if just for knowing which worlds to avoid promoting.
