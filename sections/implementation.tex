@@ -65,8 +65,14 @@ which are more likely to be true than others, since we assume that most people
 tell the truth, due to townspeople having no incentive to lie. This ranking of
 worlds will be useful going forward.\\ Almost all choices in the simulation is
 in some way related to the amount of marks in their active worlds. The
-following pseudo code relates to how an agent chooses what communicative action
-to perform: \\
+following pseudocode relates to how an agent chooses what communicative action
+to perform \ref{fig:GetHighInfoGainP} \ref{fig:GetNonAccused}
+\ref{fig:GetMostContradictory}. The selection of a target for these actions is
+based on maximizing the potential information gain, algorithm
+\ref{fig:GetNonAccused} identifying players who haven't yet been accused.
+Whereas algorithm \ref{fig:GetMostContradictory} discovers players with
+contradicting role claims. This mimics a small part of people's real world,
+decision-making.\\
 \begin{figure}[H]
 	\begin{algorithm}[H]
 		\caption{GetHighInfoGainP(me, tWorlds)}
