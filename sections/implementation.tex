@@ -168,12 +168,9 @@ member of the mafia from that world, and then vote for that person.
 Nightly actions are tailored towards each role. For each role, we define their most likely world, $W$, as the world with the least amount of marks. For example: The
 godfather tries to kill whomever is the sheriff in $W$. The doctor tries to save whomever is the sheriff in $W$. And the sheriff investigates a random mafia member in $W$ that he has not targeted before. 
 \subsection{Weak Inference}\label{WeakInference}
-While our simulation does not include any actual inference rules, it does mimic
-a kind of inference. As facts are revealed, possible-worlds are removed,
-meaning that one may slowly infer the roles of other agents while not knowing their
-actual role. Furthermore, as people die and marks are added or altered based on
-how trustworthy the given victims role were, another kind of weak inference is
-performed, as agents do not base their decisions on worlds that are unlikely.
+As facts are revealed, possible-worlds are removed,
+meaning that one may slowly infer the roles of other agents. Furthermore, as people die and marks are added or altered based on
+how trustworthy the given victims role were. It is important to note, that while the semantics include inference in the for of propositions, and communicative actions can be expressed in the propositional language, this is not included in our implementation. However, since we include marks, and our decisions are based on these, the agents still follow the inference of the communications
 \subsection{Detailed run through}\label{ARoundOfTheGame}
 A round of our modelled game can be expressed in the dynamic inquiry language.
 In a model defined as \cref{eq:3}, we let there be 10 agents \textbf{Ag} = \{a,
