@@ -39,7 +39,8 @@ in a given world. This will be explained further in the following sections.
 \subsection{Updating Knowledge}\label{UpdatingKnowledge}
 When a new fact is revealed, such as when a agent dies and their role is
 revealed, all agents will immediately exclude all possible-worlds in which the
-dead agent is anything other than their revealed role. A agent dying is the
+dead agent is anything other than their revealed role. This is essentially the model update
+defined in \cref{eq:5}. An agent dying is the
 way that most roles learn new facts.\\ Furthermore, depending on the role that
 died, all agents update the marks that the dead agent contributed to. For
 example:\\ A sheriff has a nightly action which allows them to gain more
@@ -57,7 +58,9 @@ possible-world. Let us assume that agent \textit{a} chooses the following
 communicative action: "\textit{\ref{Com}. Claim to have a certain role.}" and
 states, truthfully, "\textit{I am a Sheriff}". This will prompt all other
 agents to add a mark to all possible-worlds in which \textit{a} is not a
-sheriff. The next agent then chooses a communicative action, leading to a
+sheriff. Recall from \cref{sem:5}, the world is only modelled if it is the expected answer in the answering operator, 
+based on the knowledge of the agent, in that given world.
+The next agent then chooses a communicative action, leading to a
 similar course of actions from the other agents. \\ The result of all agents
 communicating will be that agents have added a significant amount of marks to
 their individual worlds. This means that they will each now have some worlds
@@ -188,14 +191,14 @@ our simulation, we generate $W$ by creating all possible worlds, based on the
 aforementioned propositions, by utilizing the pseudocode function
 \lstinline{generateWorlds()} provided in appendix \ref{app:B}. \\ A round then
 starts with communicative actions, where agent \textit{b} says "I am villager",
-represented for agent \textit{a} by $(p \lor \neg p)$, meaning that agent
+represented for agent \textit{a} by $((p \land \neg q) \lor (\neg p \land q))$, meaning that agent
 \textit{a} does not yet know whether agent \textit{b}'s statement is true or
 false. But, by inference he may deduce that if what agent \textit{b} says is
 correct, then it is also true that they are the mentioned role. This is
-represented by $p \rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a
-villager, and oppositely $\neg p \rightarrow \neg \psi_1$ where $\neg \psi_1$
+represented by $(p \land \neg q) \rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a
+villager, and oppositely $(\neg p \land q) \rightarrow \neg \psi_1$ where $\neg \psi_1$
 is agent \textit{b} is not a villager. \\ Agent \textit{c} also says that they
-are a villager, represented by $q$ in a similar manner.
+are a villager, represented by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
 
 \begin{algorithm}
 	\caption{Communication}
@@ -228,7 +231,8 @@ expressed by the following formula:
 		G = K_a(\varphi \land \psi \land\gamma)\land                        \\
 		p \rightarrow \psi_1 \land \neg p \rightarrow \neg \psi_1 \land     \\
 		q \rightarrow \gamma_1 \land \neg q \rightarrow \neg \gamma_1 \land \\
-		(p \lor \neg p) \land (q \lor \neg q)
+		((p \land \neg q) \lor (\neg p \land q)) \land						\\
+		((g \land \neg h) \lor (\neg g \land h))
 		\label{eq:7}
 	\end{split}
 \end{align}

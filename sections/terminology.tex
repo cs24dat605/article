@@ -52,7 +52,7 @@ easy references of the used notation.
     \end{tabularx}
 \end{table}
 Firstly, we will define our \textit{inquiry language}. Recall that in
-\textbf{DEL}s, factual information is represented in the propositional language
+DELs, factual information is represented in the propositional language
 and is therefore also the inquiry language, denoted by \oracle, defined in BNF
 format:
 \begin{align}
@@ -63,7 +63,7 @@ where \textbf{P} is a countable set of atomic propositions, $p \in\mathbf{P}$
 and $\gamma$ reads as a proposition is either a fact, the negation of a
 proposition or the conjunction of propositions. The \textit{inquiry language}
 $\oracle$ is simply the symbol representing factual information based on
-Hintikka \cite{hintikka88}. It should be perceived as being the source of
+Hamami\cite{delimi}. It should be perceived as being the source of
 common knowledge between agents, and therefore also do not have any notion of
 which agents know what, or any distinguish-ability between worlds.
 
@@ -71,7 +71,7 @@ We can now extend the previous definitions to describe the \textit{static IMI
     epistemic language} \staticlang\: as follows:
 \begin{align}
     \begin{split}
-        \varphi ::= p \sep\neg\varphi\sep(\varphi \land \varphi) \sep K_a\varphi \sep R_a((\varphi_1,...,\varphi_n), \varphi_i) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}}, n \in \mathbb{N}, i \in 1..n \label{eq:2}
+        \varphi ::= p \sep\neg\varphi\sep(\varphi \land \varphi) \sep (\varphi \lor \varphi) \sep (\varphi \rightarrow \varphi) \sep \\K_a\varphi \sep R_a((\varphi_1,...,\varphi_n), \varphi_i) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}}, n \in \mathbb{N}, i \in 1..n \label{eq:2}
     \end{split}
 \end{align}
 where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly knows that $\varphi$",  $R_a((\varphi_1,...,\varphi_n,), \varphi_i)$ reads as "$\varphi_i$ is the answer agent \textit{a} will provide to question $\varphi_1,...,\varphi_n$". \\
@@ -93,8 +93,10 @@ Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so
 \begin{gather}
     M, w |= p \iff p \in V(w) \label{sem:1}\\
     M, w |= \neg\varphi \iff M, w \not\models \varphi \label{sem:2}\\
-    M, w |= (\varphi \land \psi) \iff M, w |= \varphi, M, w |= \psi \label{sem:3}\\
-    M, w |= \know \iff \forall u\in W, u \sim_{a} w \implies M, u |= \varphi \label{sem:4}\\
+    M, w |= (\varphi \land \psi) \iff M, w |= \varphi \land M, w |= \psi \label{sem:3}\\
+    M, w |= (\varphi \lor \psi) \iff M, w |= \varphi \lor M, w |= \psi\\
+    M, w |= (\varphi \rightarrow \psi) \iff M, w |= \varphi \implies M, w |= \psi \\
+    M, w |= \know \iff \forall u\in W, u \sim_{a} w \implies M, u |= \varphi \label{sem:4} \\
     M, w |= R_a \iff \aset \in R_a(w) \label{sem:5}
 \end{gather}
 While \cref{sem:1}, \cref{sem:2} and \cref{sem:3} are trivial, \cref{sem:4} explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer function \cref{sem:5} is likewise only satisfied in a world given a model, when some pair of questions and answer is in set of the agent answering operator.
@@ -137,7 +139,7 @@ Such that the updated model satisfy the worlds in which \proposition\: is also s
 The inference operator $I$ as we described earlier, can simply denoted as a model update containing the conclusion based on the premises ${\psi_1,...,\psi_m} \hookrightarrow \psi_c$. We formally describe this as:
 
 \begin{itemize}
-    \item Let $M$ be a $DEL_{IMI}$ model, $\psi_1,...,\psi_m, \psi_c \in \staticlang$,
+    \item Let $M$ be a DEL\textsubscript{IMI} model, $\psi_1,...,\psi_m, \psi_c \in \staticlang$,
           $a\in Ag$, $I=\{\psi_1,...,\psi_m\} \hookrightarrow \psi_c$, then the model
           update is given by:
           \begin{gather}
