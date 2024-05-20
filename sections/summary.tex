@@ -12,6 +12,8 @@ ability to, naively, keep track of truths and lies. \\
 The field of epistemology lays the groundwork of inference in the simulation, 
 as well as providing a formal framework for the description of behavior 
 reliant on logical formulae within the simulation. \\
+The game that we have modelled is phase based. This means that in different phases, the players can make different actions. During the day phase, the players can communicate with each other, and share their believes and knowledge. In the night phase some players may take a nightly action. The players are divided into two factions. The town faction and the mafia. Further each player is assigned a role based on which faction they are. These different roles can be found in the abstract A. Each role has a unique nightly action. As an example, the sheriff, may look at another player, and see what faction they belong to. The sheriff is one of two investigative roles that the town has. The consigliere is the only investigative role, that the mafia has. The consigliere may look at another player and reveal their exact role. In this game, each mafia member knows whom each other are, and because of that, the power of the consigliere is different to the sheriff.
+When a player has to decide whom they are going to use their action on, we utilize the knowlegde and belives they have gathered using our dynamic epistemic inquery language. \\
 The simulation was built with a truth-table approach, resulting in a heavy 
 computational burden, but with the benefit of being easy to understand 
 intuitively. \\
