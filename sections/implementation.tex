@@ -43,13 +43,13 @@ dead agent is anything other than their revealed role. A agent dying is the
 way that most roles learn new facts.\\ Furthermore, depending on the role that
 died, all agents update the marks that the dead agent contributed to. For
 example:\\ A sheriff has a nightly action which allows them to gain more
-information that regular villagers can. Therefore, the marks that a sheriff has
+information than regular villagers. Therefore, the marks that a sheriff has
 contributed to, should be weighed more heavily than those of other roles. To
 emulate this other agents add an additional mark, to any marks that were
 contributed to by the sheriff, to further denote the importance of their
 opinions. \\ Conversely, should the dead agent be revealed to be a member of
 the mafia, all agents will detract a mark from the marks that the dead agent
-contributed to. This is because the mafia member may have tried to deceive the
+contributed to. Due to that the mafia member may have tried to deceive the
 other agents
 \subsection{Communicative Actions}\label{CommunicativeActions}
 Communicative actions are the main way to contribute to marks in a given
@@ -158,29 +158,24 @@ The choice of who to target is based on
 the belief that any proposition regarding that agent will result in the most
 amount of worlds being marked as inactive whenever it is proven or disproven.
 \subsection{Voting}\label{Voting}
-When communication and the addition of marks has finished, the game moves on to
+When communication and the addition of marks to worlds has finished, the game moves on to
 the voting phase. Each agent chooses who to vote for, in a very similar manner
 to the choice of target for their communicative action. They chose the world
 with the least marks, i.e. the one they find to be the most likely. If there
 are multiple, then they pick randomly between them. They then select a random
 member of the mafia from that world, and then vote for that person.
 \subsection{Nightly Actions}\label{NightlyActions}
-Nightly actions are a bit more tailored towards each role. For example: The
-godfather simply tries to kill whomever is the sheriff in their most likely
-world. The doctor tries to save whomever is the sheriff in their most likely
-world, and the sheriff checks the world with the least marks, then looks at who
-he thinks is the mafia in that world and checks one of them. The sheriff keeps
-a list of all agents that he has checked, such that he does not check a agent
-twice.
+Nightly actions are tailored towards each role. For each role, we define their most likely world, $W$, as the world with the least amount of marks. For example: The
+godfather tries to kill whomever is the sheriff in $W$. The doctor tries to save whomever is the sheriff in $W$. And the sheriff investigates a random mafia member in $W$ that he has not targeted before. 
 \subsection{Weak Inference}\label{WeakInference}
 While our simulation does not include any actual inference rules, it does mimic
-a kind of inference. As facts are revealed, possible-worlds, are removed,
-meaning that one may slowly infer the roles of agents while not knowing their
+a kind of inference. As facts are revealed, possible-worlds are removed,
+meaning that one may slowly infer the roles of other agents while not knowing their
 actual role. Furthermore, as people die and marks are added or altered based on
 how trustworthy the given victims role were, another kind of weak inference is
 performed, as agents do not base their decisions on worlds that are unlikely.
 \subsection{Detailed run through}\label{ARoundOfTheGame}
-A round of our modeled game can be expressed in the dynamic inquiry language.
+A round of our modelled game can be expressed in the dynamic inquiry language.
 In a model defined as \cref{eq:3}, we let there be 10 agents \textbf{Ag} = \{a,
 b, c, ..., j\}, where \textit{a} is a sheriff, \textit{b} is a godfather, and
 the rest are villagers. This round is viewed from the sheriffs perspective, so
@@ -248,7 +243,7 @@ Directly proving $\neg p$, since the role of a villager belongs to the town
 faction, not the mafia faction. This action also excludes all active world from
 the sheriff's knowledge, where agent \textit{b} is a member of the town,
 leaving him only with world wherein he is a member of the mafia, which in this
-case mans he must be the godfather. During the same night, agent \textit{b}
+case means he must be the godfather. During the same night, agent \textit{b}
 targets, agent \textit{c}, killing him. The killing is then publicly announced
 during the morning phase, along with the role of the victim. Recall from
 \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that
