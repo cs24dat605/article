@@ -8,8 +8,10 @@ The knowledge and logical propositions of agents has been chosen to be
 represented with a truth-table approach. Every agent has their own list of
 possible-worlds, in which is contained every single combination of agents and
 roles. This means, that the more agents and roles there are, the longer this
-list becomes. The following equation shows the space complexity of the list given agent
-count $P$ and one role $R_1$.
+list becomes. The following equation shows the space complexity of the list
+given agent count $P$ and one role $R_1$. list becomes. The following equation
+shows the space complexity of the list given agent count $P$ and one role
+$R_1$.
 \begin{equation}
 	W: P,R_1 \in  \mathbb{N} \mapsto \frac{P!}{R_1!(P-R_1)!}\
 \end{equation}
@@ -39,8 +41,8 @@ in a given world. This will be explained further in the following sections.
 \subsection{Updating Knowledge}\label{UpdatingKnowledge}
 When a new fact is revealed, such as when a agent dies and their role is
 revealed, all agents will immediately exclude all possible-worlds in which the
-dead agent is anything other than their revealed role. A agent dying is the
-way that most roles learn new facts.\\ Furthermore, depending on the role that
+dead agent is anything other than their revealed role. A agent dying is the way
+that most roles learn new facts.\\ Furthermore, depending on the role that
 died, all agents update the marks that the dead agent contributed to. For
 example:\\ A sheriff has a nightly action which allows them to gain more
 information than regular villagers. Therefore, the marks that a sheriff has
@@ -66,111 +68,123 @@ tell the truth, due to townspeople having no incentive to lie. This ranking of
 worlds will be useful going forward.\\ Almost all choices in the simulation is
 in some way related to the amount of marks in their active worlds. The
 following pseudocode relates to how an agent chooses what communicative action
-to perform, algorithms \ref{fig:GetHighInfoGainP}, \ref{fig:GetNonAccused}, and
-\ref{fig:GetMostContradictory}. The selection of a target for these actions is
-based on maximizing the potential information gain, algorithm
-\ref{fig:GetNonAccused}, identifying agents who haven't yet been accused.
-Whereas algorithm \ref{fig:GetMostContradictory} discovers agents with
-contradicting role claims. This also emulates most of the functionality possible through the formal semantics.\\
-\begin{figure}[H]
-	\begin{algorithm}[H]
-		\caption{GetHighInfoGainP(me, tWorlds)}
-		\begin{algorithmic}
-			\If{nonAccused.Count $>$ 0 OR Game.Round = 0}
-			\State (p, wID) $\gets$ GetNonAccused(me)
-			\If{wID != -1}
-			\State \Return (p, wID)
-			\EndIf
-			\EndIf
+to perform, algorithms \ref{alg:GetHighInfoGainP}, \ref{alg:GetNonAccused}, and
+\ref{alg:GetMostContradictory}.
+\begin{algorithm}[H]
+	\caption{GetHighInfoGainP(me, tWorlds)}
+	\begin{algorithmic}
+		\If{nonAccused.Count $>$ 0 OR Game.Round = 0}
+		\State $(p, wID)$ $\gets$ GetNonAccused(me)
+		\If{wID != -1}
+		\State \Return (p, wID)
+		\EndIf
+		\EndIf
 
-			\State (p, wID) $\gets$ GetMostContradictory(tWorlds, me)
-			\If{wID != -1}
-			\State \Return (p, wID)
-			\EndIf
+		\State (p, wID) $\gets$ GetMostContradictory(tWorlds, me)
+		\If{wID != -1}
+		\State \Return (p, wID)
+		\EndIf
 
-			\State w $\gets$ random world from me.PossWorlds
-			\State p $\gets$ random player from w.PossPlayers
-			\State \Return (p, index of w in me.PossWorlds)
-		\end{algorithmic}
-	\end{algorithm}
-	\caption{Get the highest information gain agent returns a agent based on different factors.
-		At first, it prioritizes non accused agents as shown in figure \ref{fig:GetNonAccused}.
-		Then find the most contradictory information as shown in figure \ref{fig:GetMostContradictory}.
-		Otherwise, choose a random world and a random agent within.
-	}
-	\label{fig:GetHighInfoGainP}
-\end{figure}
-\begin{figure}[H]
-	\begin{algorithm}[H]
-		\caption{GetNonAccused(me)}
-		\begin{algorithmic}
-			\If{nonAccused.Count = 0 AND Game.Round = 0}
-			\State nonAccused $\gets$ all players in me.PossWorlds[0]
-			\EndIf
+		\State w $\gets$ random world from me.PossWorlds
+		\State p $\gets$ random player from w.PossPlayers
+		\State \Return (p, index of w in me.PossWorlds)
+		\label{alg:GetHighInfoGainP}
+	\end{algorithmic}
+\end{algorithm}
+\vspace{-30px}
+\setcounter{algorithmcaption}{0}
+\captionof{algorithmcaption}{Get the highest information gain agent returns an agent based on different factors.
+	At first, it prioritizes non accused agents as shown in figure \ref{alg:GetNonAccused}.
+	Then find the most contradictory information as shown in figure \ref{alg:GetMostContradictory}.
+	Otherwise, choose a random world and a random agent within.}
+The selection of a target for these actions is based on maximizing the
+potential information gain, algorithm \ref{alg:GetNonAccused}, identifying
+agents who haven't yet been accused. Whereas algorithm
+\ref{alg:GetMostContradictory} discovers agents with contradicting role claims.
+This also emulates most of the functionality possible through the formal
+semantics.
+\begin{algorithm}[H]
+	\caption{GetNonAccused(me)}
+	\begin{algorithmic}
+		\If{nonAccused.Count = 0 AND Game.Round = 0}
+		\State nonAccused $\gets$ all players in me.PossWorlds[0]
+		\EndIf
 
-			\ForAll{accusation in me.nonAccu}
-			\State me.nonAccu.Remove(accusation.Acusse)
-			\EndFor
+		\ForAll{accusation in me.nonAccu}
+		\State me.nonAccu.Remove(accusation.Acusse)
+		\EndFor
 
-			\State me.nonAccu.Remove(me)
+		\State me.nonAccu.Remove(me)
 
-			\If{nonAccused.Count != 0}
-			\State \Return nonAccused[randomI]
-			\EndIf
+		\If{nonAccused.Count != 0}
+		\State \Return nonAccused[randomI]
+		\EndIf
 
-			\State \Return (null, -1)
-		\end{algorithmic}
-	\end{algorithm}
-	\caption{First round we append all agents to the non accused list and remove the agent itself from the list
-		Then returning a random agent if the list is non-empty}
-	\label{fig:GetNonAccused}
-\end{figure}
-\begin{figure}[H]
-	\begin{algorithm}[H]
-		\caption{GetMostContradictory(tWorlds, me)}
-		\begin{algorithmic}
-			\State roleCounts $\gets$ getRoleCounts(tWorlds)
+		\State \Return (null, -1)
+		\label{alg:GetNonAccused}
+	\end{algorithmic}
+\end{algorithm}
+\vspace{-30px}
+\setcounter{algorithmcaption}{1}
+\captionof{algorithmcaption}{First round we append all agents to the non accused list and remove the agent itself from the list
+	Then returning a random agent if the list is non-empty}
 
-			\ForAll{w in tWorlds}
-			\ForAll{p in w.PossPlayers where p != me AND p is alive}
-			\State highest $\gets$ roleCounts[p].Max()
-			\State secHighest $\gets$ roleCounts[p].SecondMax()
+\begin{algorithm}[H]
+	\caption{GetMostContradictory(tWorlds, me)}
+	\begin{algorithmic}
+		\State roleCounts $\gets$ getRoleCounts(tWorlds)
 
-			\State contraScore $\gets$ secHighest / highest
-			\If{contraScore $>$ maxScore}
-			\State mostContradictory $\gets$ p
-			\State maxScore $\gets$ contraScore
-			\State wID $\gets$ index of w
-			\EndIf
-			\EndFor
-			\EndFor
-			\State \Return (mostContradictory, wID)
-		\end{algorithmic}
-	\end{algorithm}
-	\caption{Starting by storing a list of role counts for agents in the top 1\% of worlds.
-		Iterating over the top 1\% of worlds and for each possible agent find their highest and second-highest role counts.
-		Calculating a contradction score based on the 2 top role counts and checking if it's the highest contradiction score found.
-		Returning the maxScore once all possible agents have been checked.
-	}
-	\label{fig:GetMostContradictory}
-\end{figure}
-The choice of who to target is based on
-the belief that any proposition regarding that agent will result in the most
-amount of worlds being marked as inactive whenever it is proven or disproven.
+		\ForAll{w in tWorlds}
+		\ForAll{p in w.PossPlayers where p != me AND p is alive}
+		\State highest $\gets$ roleCounts[p].Max()
+		\State secHighest $\gets$ roleCounts[p].SecondMax()
+
+		\State contraScore $\gets$ secHighest / highest
+		\If{contraScore $>$ maxScore}
+		\State mostContradictory $\gets$ p
+		\State maxScore $\gets$ contraScore
+		\State wID $\gets$ index of w
+		\EndIf
+		\EndFor
+		\EndFor
+		\State \Return (mostContradictory, wID)
+		\label{alg:GetMostContradictory}
+	\end{algorithmic}
+\end{algorithm}
+\vspace{-5px}
+\setcounter{algorithmcaption}{2}
+\captionof{algorithmcaption}{Starting by storing a list of role counts for agents in the top 1\% of worlds.
+	Iterating over the top 1\% of worlds and for each possible agent find their highest and second-highest role counts.
+	Calculating a contradction score based on the 2 top role counts and checking if it's the highest contradiction score found.
+	Returning the maxScore once all possible agents have been checked.
+}
+
+The choice of who to target is based on the belief that any proposition
+regarding that agent will result in the most amount of worlds being marked as
+inactive whenever it is proven or disproven.
 \subsection{Voting}\label{Voting}
-When communication and the addition of marks to worlds has finished, the game moves on to
-the voting phase. Each agent chooses who to vote for, in a very similar manner
-to the choice of target for their communicative action. They chose the world
-with the least marks, i.e. the one they find to be the most likely. If there
-are multiple, then they pick randomly between them. They then select a random
-member of the mafia from that world, and then vote for that person.
+When communication and the addition of marks to worlds has finished, the game
+moves on to the voting phase. Each agent chooses who to vote for, in a very
+similar manner to the choice of target for their communicative action. They
+chose the world with the least marks, i.e. the one they find to be the most
+likely. If there are multiple, then they pick randomly between them. They then
+select a random member of the mafia from that world, and then vote for that
+person.
 \subsection{Nightly Actions}\label{NightlyActions}
-Nightly actions are tailored towards each role. For each role, we define their most likely world, $W$, as the world with the least amount of marks. For example: The
-godfather tries to kill whomever is the sheriff in $W$. The doctor tries to save whomever is the sheriff in $W$. And the sheriff investigates a random mafia member in $W$ that he has not targeted before. 
+Nightly actions are tailored towards each role. For each role, we define their
+most likely world, $W$, as the world with the least amount of marks. For
+example: The godfather tries to kill whomever is the sheriff in $W$. The doctor
+tries to save whomever is the sheriff in $W$. And the sheriff investigates a
+random mafia member in $W$ that he has not targeted before.
 \subsection{Weak Inference}\label{WeakInference}
-As facts are revealed, possible-worlds are removed,
-meaning that one may slowly infer the roles of other agents. Furthermore, as people die, marks are added or altered based on
-how trustworthy the given victim's role was. \\It is important to note, that while the semantics include inference in the form of propositions, and communicative actions can be expressed in the propositional language, this is not included in our implementation. However, since we include marks, and our decisions are based on these, we denote this as weak inference of the communicative actions.
+As facts are revealed, possible-worlds are removed, meaning that one may slowly
+infer the roles of other agents. Furthermore, as people die, marks are added or
+altered based on how trustworthy the given victim's role was. \\It is important
+to note, that while the semantics include inference in the form of
+propositions, and communicative actions can be expressed in the propositional
+language, this is not included in our implementation. However, since we include
+marks, and our decisions are based on these, we denote this as weak inference
+of the communicative actions.
 \subsection{Detailed run through}\label{ARoundOfTheGame}
 A round of our modelled game can be expressed in the dynamic inquiry language.
 In a model defined as \cref{eq:3}, we let there be 10 agents \textbf{Ag} = \{a,
