@@ -9,13 +9,31 @@ simulation that emulates physical games of this type. The foundation of the
 game is based on similar approaches within the same field, combining previous works based on dynamic epistemology with inquiry epistemology,
 which we hypothesize to more realistically reflect the actual game. It allows agents to also model the anticipated answer to any question, and then build goal-oriented
 paths of questions to other agents, from which they can deduce and infer facts or reveal lies. Additionally, agents are able to update their modelled view of worlds, based on newly acquired facts. \\
-This combination of fields in epistemology lays the groundwork of inference in the simulation, 
-as well as providing a formal framework for the description of behavior 
+This combination of fields in epistemology lays the groundwork of inference in the simulation,
+as well as providing a formal framework for the description of behavior
 reliant on logical formulae within the simulation. \\
+The game that we have modelled is phase based. This means that in different phases, the players can make different actions. During the day phase, the players can communicate with each other, and share their believes and knowledge. In the night phase some players may take a nightly action. The players are divided into two factions. The town faction and the mafia. Further each player is assigned a role based on which faction they are. These different roles can be found in the abstract A. Each role has a unique nightly action. As an example, the sheriff, may look at another player, and see what faction they belong to. The sheriff is one of two investigative roles that the town has. The consigliere is the only investigative role, that the mafia has. The consigliere may look at another player and reveal their exact role. In this game, each mafia member knows whom each other are, and because of that, the power of the consigliere is different to the sheriff.
+When a player has to decide whom they are going to use their action on, we utilize the knowlegde and belives they have gathered using our dynamic epistemic inquery language. \\
 The simulation was built with a truth-table approach, resulting in a heavy
 computational burden, but with the benefit of being easy to understand
 intuitively. \\
 The simulation was run with a multitude of different team compositions, which
 resulted in the revelation that the most important factor to consider when
-aiming for the creation of balanced social deduction games is that killing-heavy mafia teams perform better than any other compositions. Secondly, the ratio of mafia members to town members, is very impactful, but killing-heavy compositions may equalize this imbalance somewhat. Lastly, excluding killing-heavy teams showed that teams with the ability to acquire new information quickly performed better than those who could stop the town from performing their nightly actions. 
+aiming for the creation of balanced social deduction games is that killing-heavy mafia teams perform better than any other compositions. Secondly, the ratio of mafia members to town members, is very impactful, but killing-heavy compositions may equalize this imbalance somewhat. Lastly, excluding killing-heavy teams showed that teams with the ability to acquire new information quickly performed better than those who could stop the town from performing their nightly actions.
+The implementation is built upon .dotnet which include object orientated code
+structure which were highly useful for this project. The code is built upon
+different parts connected together to form a fully working werewolf simulation.
+Such as communication being separately called each round where each the player
+evaluates its communicative options a chooses the best deemed actions to take.
+This is built upon the players own view of the game created using possible
+worlds. Each player has a list of all possible combinations of the game going
+through these throughout the game adding and removing marks. These marks are
+created from claims made by other players and explicit knowledge about giving
+through the game. Claims being either defend, inquire or accuse communication.
+Defends being the player sees the best fit to defend themselves as they might
+be in the spotlight to be mafia, inquire simply inquire information from other
+players. Accuse being more directly accusing a specific player of being a
+specific role. Optimization being a large part of the implementation as a lot
+of information is stored for each player leading to issue if not managed
+correctly
 \twocolumn
