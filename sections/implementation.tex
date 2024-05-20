@@ -2,25 +2,25 @@
 With the theory explained, we can now explore our implementation, which aims to
 be as true to reality as possible, while being equivalent to the theory. At the
 end of this section, we will go through an example round of our implementation,
-but before doing that, we will need to build the foundation of it.
+but first, we will need to construct the foundation of it.
 \subsection{The Knowledge of Agents}\label{TheKnowledgeOfAgents}
 The knowledge and logical propositions of agents has been chosen to be
 represented with a truth-table approach. Every agent has their own list of
-possible-worlds, in which is contained every single combination of players and
-roles. This means, that the more players and roles there are, the longer this
-list becomes. The following equation shows how the list grows given player
-count P and one role R1.
+possible-worlds, in which is contained every single combination of agents and
+roles. This means, that the more agents and roles there are, the longer this
+list becomes. The following equation shows the space complexity of the list given agent
+count $P$ and one role $R_1$.
 \begin{equation}
-	W: P,R1 \in  \mathbb{N} \mapsto \frac{P!}{R1!(P-R1)!}\
+	W: P,R_1 \in  \mathbb{N} \mapsto \frac{P!}{R_1!(P-R_1)!}\
 \end{equation}
 
-For each subsequent role that is added, the formula is expanded with
+For each subsequent role that is added, the complexity expands with:
 \begin{equation}
 	\begin{gathered}
-		W: P, R1, R2\in  \mathbb{N} \mapsto \\
-		\frac{P!\cdot(P-R1)!}{R1!\cdot(P-R1)!\cdot
-			R2!\cdot(P-R1-R2)}\
-		\footnote{If the number of players equals the
+		W: P, R_1, R_2\in  \mathbb{N} \mapsto \\
+		\frac{P!\cdot(P-R_1)!}{R_1!\cdot(P-R_1)!\cdot
+			R_2!\cdot(P-R_1-R_2)}\
+		\footnote{If the number of agents equals the
 			number of roles, then the formula collapses into P!.}
 	\end{gathered}
 \end{equation}
@@ -29,37 +29,37 @@ accordance with the role that they have been given.\\
 For example: agent, \textit{a}, if given the role of sheriff, will exclude all
 possible-worlds where their role is not sheriff, while another agent \textit{b} may
 keep some of those possible-worlds, since they do not know the role of \textit{a}.\\
-Furthermore, each column also contains data on who have made what claims, and
+Furthermore, each possible-world also contains data on who have made what claims, and
 whether that claim is true or false in this given possible-world. This is represented
-by an array for each possible-world, which keeps track of the lies of players.Going forward, these lies will be known as
-\textit{marks}, and what is important to know is that, if a world has many
-marks, then it means that many players have lied if this world is true. It is
+by an array for each possible-world, which keeps track of the lies of agents. Going forward, these lies will be known as
+\textit{marks}. If a world has many
+marks, it implies that many agents have lied if this is the true world. It is
 also important to remember, that we keep track of who contributed to each mark
 in a given world. This will be explained further in the following sections.
 \subsection{Updating Knowledge}\label{UpdatingKnowledge}
-When a new fact is revealed, such as when a player dies and their role is
-revealed, all players will immediately exclude all possible-worlds in which the
-dead player is anything other than their revealed role. A player dying is the
+When a new fact is revealed, such as when a agent dies and their role is
+revealed, all agents will immediately exclude all possible-worlds in which the
+dead agent is anything other than their revealed role. A agent dying is the
 way that most roles learn new facts.\\ Furthermore, depending on the role that
-died, all players update the marks that the dead player contributed to.\\ For
-example: A sheriff has a nightly action which allows them to gain more
+died, all agents update the marks that the dead agent contributed to. For
+example:\\ A sheriff has a nightly action which allows them to gain more
 information that regular villagers can. Therefore, the marks that a sheriff has
 contributed to, should be weighed more heavily than those of other roles. To
-emulate this other players add an additional mark, to any marks that were
+emulate this other agents add an additional mark, to any marks that were
 contributed to by the sheriff, to further denote the importance of their
-opinions. \\ Conversely, should the dead player be revealed to be a member of
-the mafia, all players will detract a mark from the marks that the dead player
+opinions. \\ Conversely, should the dead agent be revealed to be a member of
+the mafia, all agents will detract a mark from the marks that the dead agent
 contributed to. This is because the mafia member may have tried to deceive the
-other players
+other agents
 \subsection{Communicative Actions}\label{CommunicativeActions}
 Communicative actions are the main way to contribute to marks in a given
 possible-world. Let us assume that agent \textit{a} chooses the following
 communicative action: "\textit{\ref{Com}. Claim to have a certain role.}" and
 states, truthfully, "\textit{I am a Sheriff}". This will prompt all other
-players to add a mark to all possible-worlds in which \textit{a} is not a
-sheriff. The next player then chooses a communicative action, leading to a
-similar course of actions from the other players. \\ The result of all players
-communicating will be that players have added a significant amount of marks to
+agents to add a mark to all possible-worlds in which \textit{a} is not a
+sheriff. The next agent then chooses a communicative action, leading to a
+similar course of actions from the other agents. \\ The result of all agents
+communicating will be that agents have added a significant amount of marks to
 their individual worlds. This means that they will each now have some worlds
 which are more likely to be true than others, since we assume that most people
 tell the truth, due to townspeople having no incentive to lie. This ranking of
@@ -69,8 +69,8 @@ following pseudocode relates to how an agent chooses what communicative action
 to perform, algorithms \ref{fig:GetHighInfoGainP}, \ref{fig:GetNonAccused}, and
 \ref{fig:GetMostContradictory}. The selection of a target for these actions is
 based on maximizing the potential information gain, algorithm
-\ref{fig:GetNonAccused}, identifying players who haven't yet been accused.
-Whereas algorithm \ref{fig:GetMostContradictory} discovers players with
+\ref{fig:GetNonAccused}, identifying agents who haven't yet been accused.
+Whereas algorithm \ref{fig:GetMostContradictory} discovers agents with
 contradicting role claims. This also emulates most of the functionality possible through the formal semantics.\\
 \begin{figure}[H]
 	\begin{algorithm}[H]
@@ -93,10 +93,10 @@ contradicting role claims. This also emulates most of the functionality possible
 			\State \Return (p, index of w in me.PossWorlds)
 		\end{algorithmic}
 	\end{algorithm}
-	\caption{Get the highest information gain player returns a player based on different factors.
-		At first, it prioritizes non accused players as shown in figure \ref{fig:GetNonAccused}.
+	\caption{Get the highest information gain agent returns a agent based on different factors.
+		At first, it prioritizes non accused agents as shown in figure \ref{fig:GetNonAccused}.
 		Then find the most contradictory information as shown in figure \ref{fig:GetMostContradictory}.
-		Otherwise, choose a random world and a random player within.
+		Otherwise, choose a random world and a random agent within.
 	}
 	\label{fig:GetHighInfoGainP}
 \end{figure}
@@ -121,8 +121,8 @@ contradicting role claims. This also emulates most of the functionality possible
 			\State \Return (null, -1)
 		\end{algorithmic}
 	\end{algorithm}
-	\caption{First round we append all players to the non accused list and remove the player itself from the list
-		Then returning a random player if the list is non-empty}
+	\caption{First round we append all agents to the non accused list and remove the agent itself from the list
+		Then returning a random agent if the list is non-empty}
 	\label{fig:GetNonAccused}
 \end{figure}
 \begin{figure}[H]
@@ -147,19 +147,19 @@ contradicting role claims. This also emulates most of the functionality possible
 			\State \Return (mostContradictory, wID)
 		\end{algorithmic}
 	\end{algorithm}
-	\caption{Starting by storing a list of role counts for players in the top 1\% of worlds.
-		Iterating over the top 1\% of worlds and for each possible player find their highest and second-highest role counts.
+	\caption{Starting by storing a list of role counts for agents in the top 1\% of worlds.
+		Iterating over the top 1\% of worlds and for each possible agent find their highest and second-highest role counts.
 		Calculating a contradction score based on the 2 top role counts and checking if it's the highest contradiction score found.
-		Returning the maxScore once all possible players have been checked.
+		Returning the maxScore once all possible agents have been checked.
 	}
 	\label{fig:GetMostContradictory}
 \end{figure}
 The choice of who to target is based on
-the belief that any proposition regarding that player will result in the most
+the belief that any proposition regarding that agent will result in the most
 amount of worlds being marked as inactive whenever it is proven or disproven.
 \subsection{Voting}\label{Voting}
 When communication and the addition of marks has finished, the game moves on to
-the voting phase. Each player chooses who to vote for, in a very similar manner
+the voting phase. Each agent chooses who to vote for, in a very similar manner
 to the choice of target for their communicative action. They chose the world
 with the least marks, i.e. the one they find to be the most likely. If there
 are multiple, then they pick randomly between them. They then select a random
@@ -170,28 +170,28 @@ godfather simply tries to kill whomever is the sheriff in their most likely
 world. The doctor tries to save whomever is the sheriff in their most likely
 world, and the sheriff checks the world with the least marks, then looks at who
 he thinks is the mafia in that world and checks one of them. The sheriff keeps
-a list of all players that he has checked, such that he does not check a player
+a list of all agents that he has checked, such that he does not check a agent
 twice.
 \subsection{Weak Inference}\label{WeakInference}
 While our simulation does not include any actual inference rules, it does mimic
 a kind of inference. As facts are revealed, possible-worlds, are removed,
-meaning that one may slowly infer the roles of players while not knowing their
+meaning that one may slowly infer the roles of agents while not knowing their
 actual role. Furthermore, as people die and marks are added or altered based on
 how trustworthy the given victims role were, another kind of weak inference is
-performed, as players do not base their decisions on worlds that are unlikely.
+performed, as agents do not base their decisions on worlds that are unlikely.
 \subsection{Detailed run through}\label{ARoundOfTheGame}
 A round of our modeled game can be expressed in the dynamic inquiry language.
 In a model defined as \cref{eq:3}, we let there be 10 agents \textbf{Ag} = \{a,
 b, c, ..., j\}, where \textit{a} is a sheriff, \textit{b} is a godfather, and
 the rest are villagers. This round is viewed from the sheriffs perspective, so
-he does not know the roles of the other players, only the amount of each role
+he does not know the roles of the other agents, only the amount of each role
 that is in the game, i.e. 1 sheriff, 1 godfather, and 8 villagers. He then has
 a set of propositions \{$\varphi$, $\psi$\, $\gamma$, ...\} where $\varphi$ =
 "agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor .. \lor
 	\psi_{n-1})$ = "agent \textit{b} is a villager or godfather or ..." for all
 \textit{10} roles, except sheriff, which agent \textit{a} knows he himself is.
 $\gamma$ = $(\gamma_1 \lor \gamma_2 \lor .. \lor \gamma_{n-1}) $ = "agent
-\textit{c} is a villager or godfather or...", and so on for each player. \\ In
+\textit{c} is a villager or godfather or...", and so on for each agent. \\ In
 our simulation, we generate $W$ by creating all possible worlds, based on the
 aforementioned propositions, by utilizing the pseudocode function
 \lstinline{generateWorlds()} provided in appendix \ref{app:B}. \\ A round then
@@ -270,7 +270,7 @@ applicable. In our simulation, this is done by calling
 	\end{algorithmic}
 \end{algorithm}\label{lst:updateWorld}
 
-Which simply iterates over all players and all their respective worlds, and
+Which simply iterates over all agents and all their respective worlds, and
 updates the information. Now recall back to \cref{eq:7}, after the newly
 acquired information of both $\neg \psi_1$, the knowledge that agent \textit{b}
 is not a villager, and $\gamma_2$, the role of agent \textit{c} we can now
