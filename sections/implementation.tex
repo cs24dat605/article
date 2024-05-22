@@ -62,16 +62,17 @@ agents to add a mark to all possible-worlds in which \textit{a} is not a
 sheriff. Recall from \cref{sem:5}, the world is only modelled if it is the
 expected answer in the answering operator, based on the knowledge of the agent,
 in that given world. The next agent then chooses a communicative action,
-leading to a similar course of actions from the other agents. \\ The result of
-all agents communicating will be that agents have added a significant amount of
-marks to their individual worlds. This means that they will each now have some
-worlds which are more likely to be true than others, since we assume that most
-people tell the truth, due to townspeople having no incentive to lie. This
-ranking of worlds will be useful going forward.\\ Almost all choices in the
-simulation is in some way related to the amount of marks in their active
-worlds. The following pseudocode relates to how an agent chooses what
-communicative action to perform, algorithms \ref{alg:GetHighInfoGainP},
-\ref{alg:GetNonAccused}, and \ref{alg:GetMostContradictory}.
+leading to a similar course of actions from the other agents. \todo{Fix this
+	sentence} \\ The result of all agents communicating will be that agents have
+added a significant amount of marks to their individual worlds. This means that
+they will each now have some worlds which are more likely to be true than
+others, since we assume that most people tell the truth, due to townspeople
+having no incentive to lie. This ranking of worlds will be useful going
+forward.\\ Almost all choices in the simulation is in some way related to the
+amount of marks in their active worlds. The following pseudocode relates to how
+an agent chooses what communicative action to perform, algorithms
+\ref{alg:GetHighInfoGainP}, \ref{alg:GetNonAccused}, and
+\ref{alg:GetMostContradictory}. \todo{Fix ref}
 \begin{algorithm}[H]
 	\caption{GetHighInfoGainP(me, tWorlds)}
 	\begin{algorithmic}
@@ -195,24 +196,24 @@ the rest are villagers. This round is viewed from the sheriffs perspective, so
 he does not know the roles of the other agents, only the amount of each role
 that is in the game, i.e. 1 sheriff, 1 godfather, and 8 villagers. He then has
 a set of propositions \{$\varphi$, $\psi$\, $\gamma$, ...\} where $\varphi$ =
-"agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor .. \lor
-	\psi_{n-1})$ = "agent \textit{b} is a villager or godfather or ..." for all
-\textit{3} roles, except sheriff, which agent \textit{a} knows he himself is.
-$\gamma$ = $(\gamma_1 \lor \gamma_2 \lor .. \lor \gamma_{n-1}) $ = "agent
-\textit{c} is a villager or godfather or...", and so on for each agent. \\ In
-our simulation, we generate $W$ by creating all possible worlds, based on the
-aforementioned propositions, by utilizing the pseudocode function
+"agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2)$ = "agent
+\textit{b} is a villager or godfather or ..." for all \textit{3} roles, except
+sheriff, which agent \textit{a} knows he himself is. $\gamma$ = $(\gamma_1 \lor
+	\gamma_2 \lor .. \lor \gamma_{n-1}) $ = "agent \textit{c} is a villager or
+godfather or...", and so on for each agent. \\ In our simulation, we generate
+$W$ by creating all possible worlds, based on the aforementioned propositions,
+by utilizing the pseudocode function
 \lstinline{generateWorlds()} provided in appendix \ref{app:B}. \\ A round then
 starts with communicative actions, where agent \textit{b} says "I am villager",
 represented for agent \textit{a} by $((p \land \neg q) \lor (\neg p \land q))$,
-meaning that agent \textit{a} does not yet know whether agent \textit{b}'s
-statement is true or false. But, by inference he may deduce that if what agent
-\textit{b} says is correct, then it is also true that they are the mentioned
-role. This is represented by $(p \land \neg q) \rightarrow \psi_1$ where
-$\psi_1$ is agent \textit{b} is a villager, and oppositely $(\neg p \land q)
-	\rightarrow \neg \psi_1$ where $\neg \psi_1$ is agent \textit{b} is not a
-villager. \\ Agent \textit{c} also says that they are a villager, represented
-by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
+\todo{Expalin p and q} meaning that agent \textit{a} does not yet know whether
+agent \textit{b}'s statement is true or false. But, by inference he may deduce
+that if what agent \textit{b} says is correct, then it is also true that they
+are the mentioned role. This is represented by $(p \land \neg q) \rightarrow
+	\psi_1$ where $\psi_1$ is agent \textit{b} is a villager, and oppositely $(\neg
+	p \land q) \rightarrow \neg \psi_1$ where $\neg \psi_1$ is agent \textit{b} is
+not a villager. \\ Agent \textit{c} also says that they are a villager,
+represented by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
 
 \begin{algorithm}
 	\caption{Communication}
