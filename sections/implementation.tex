@@ -69,10 +69,10 @@ they will each now have some worlds which are more likely to be true than
 others, since we assume that most people tell the truth, due to townspeople
 having no incentive to lie. This ranking of worlds will be useful going
 forward.\\ Almost all choices in the simulation is in some way related to the
-amount of marks in their active worlds. The following pseudocode relates to how
-an agent chooses what communicative action to perform, algorithms
-\ref{alg:GetHighInfoGainP}, \ref{alg:GetNonAccused}, and
-\ref{alg:GetMostContradictory}. \todo{Fix ref}
+amount of marks in their active worlds. The following pseudocode in 
+\cref{alg:GetHighInfoGainP,alg:GetNonAccused,alg:GetMostContradictory} relates to how
+an agent chooses what communicative action to perform.
+.
 \begin{algorithm}[H]
 	\caption{GetHighInfoGainP(me, tWorlds)}
 	\begin{algorithmic}
@@ -97,13 +97,13 @@ an agent chooses what communicative action to perform, algorithms
 \vspace{-30px}
 \setcounter{algorithmcaption}{0}
 \captionof{algorithmcaption}{Get the highest information gain agent returns an agent based on different factors.
-	At first, it prioritizes non accused agents as shown in figure \ref{alg:GetNonAccused}.
-	Then find the most contradictory information as shown in figure \ref{alg:GetMostContradictory}.
+	At first, it prioritizes non accused agents as shown in \cref{alg:GetNonAccused}.
+	Then find the most contradictory information as shown in \cref{alg:GetMostContradictory}.
 	Otherwise, choose a random world and a random agent within.}
 The selection of a target for these actions is based on maximizing the
-potential information gain, algorithm \ref{alg:GetNonAccused}, identifying
-agents who haven't yet been accused. Whereas algorithm
-\ref{alg:GetMostContradictory} discovers agents with contradicting role claims.
+potential information gain, \cref{alg:GetNonAccused}, identifying
+agents who haven't yet been accused. Whereas
+\cref{alg:GetMostContradictory} discovers agents with contradicting role claims.
 This also emulates most of the functionality possible through the formal
 semantics.
 \begin{algorithm}[H]
@@ -266,10 +266,10 @@ during the morning phase, along with the role of the victim. Recall from
 everything before the public announcement, and the announcement itself, is now
 applicable. In our simulation, this is done by calling
 \lstinline[]{updatePossibleWorlds(information)}, displayed in
-\ref{lst:updateWorld}
+\cref{lst:updateWorld}
 
 \begin{algorithm}[h]
-	\caption{Snippet from appendix C}
+	\caption{Snippet from appendix C \label{lst:updateWorld}}
 	\begin{algorithmic}[1]
 		\Function{updatePossWorlds}{information}
 		\ForAll{p $in$ game.Ps}
@@ -279,7 +279,7 @@ applicable. In our simulation, this is done by calling
 		\EndFor
 		\EndFunction
 	\end{algorithmic}
-\end{algorithm}\label{lst:updateWorld}
+\end{algorithm}
 
 Which simply iterates over all agents and all their respective worlds, and
 updates the information. Now recall back to \cref{eq:7}, after the newly
