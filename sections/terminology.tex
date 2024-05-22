@@ -1,12 +1,3 @@
-\\\\
-
-Social deduction scenarios can be expressed or modelled differently depending
-on the methods used to solve them. While other noteworthy fields such as
-machine learning could be used, we see an intriguing similarity between
-epistemology and social deduction, which lies in the nature how these games are
-played. Often it's a game between players henceforth called agents, who need to keep track of
-who said what, who knows what, and what these truths entail.
-
 \section{Dynamic Inquiry Language}
 The terminology and its notation used throughout this article will closely
 align with Yacien Hamami \cite{delimi}, although not all aspects will be
@@ -38,10 +29,11 @@ easy references of the used notation.
         \oracle                                     & Inquiry language                                         \\
         \staticlang                                 & Static epistemic language                                \\
         \dynlang                                    & Dynamic epistemic language                               \\
-
-        \multicolumn{2}{l}{{\underline{Operators:}}}                                                           \\
         $\gamma$                                    & Proposition in the inquiry language                      \\
         $\varphi$ alt. $\psi$                       & Proposition in the static inquiry language               \\
+
+        \multicolumn{2}{l}{{\underline{Operators:}}}                                                           \\
+        $\land$ , $\lor$ , $\rightarrow$, $\neg$    & Boolean connectives                                      \\
         $K_a\varphi$                                & Knowledge operator                                       \\
         $R_a((\varphi_1,...,\varphi_n), \varphi_i)$ & Agent answer operator                                    \\
         \pubop                                      & Public announcement operator                             \\
@@ -63,9 +55,9 @@ where \textbf{P} is a countable set of atomic propositions, $p \in\mathbf{P}$
 and $\gamma$ reads as a proposition is either a fact, the negation of a
 proposition or the conjunction of propositions. The \textit{inquiry language}
 $\oracle$ is simply the symbol representing factual information based on
-Hamami\cite{delimi}. It should be perceived as being the source of
-common knowledge between agents, and therefore also do not have any notion of
-which agents know what, or any distinguish-ability between worlds.
+Hamami\cite{delimi}. It should be perceived as being the source of common
+knowledge between agents, and therefore also do not have any notion of which
+agents know what, or any distinguish-ability between worlds.
 
 We can now extend the previous definitions to describe the \textit{static IMI
     epistemic language} \staticlang\: as follows:
@@ -74,7 +66,7 @@ We can now extend the previous definitions to describe the \textit{static IMI
         \varphi ::= p \sep\neg\varphi\sep(\varphi \land \varphi) \sep (\varphi \lor \varphi) \sep (\varphi \rightarrow \varphi) \sep \\K_a\varphi \sep R_a((\varphi_1,...,\varphi_n), \varphi_i) \\ \text{where p} \in \text{\textbf{P}}\text{, a} \in \text{\textbf{Ag}}, n \in \mathbb{N}, i \in 1..n \label{eq:2}
     \end{split}
 \end{align}
-where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly knows that $\varphi$",  $R_a((\varphi_1,...,\varphi_n,), \varphi_i)$ reads as "$\varphi_i$ is the answer agent \textit{a} will provide to question $\varphi_1,...,\varphi_n$". \\
+where \textbf{Ag} is a set of agents, the \textbf{knowledge operator} $K_a\varphi$ reads "agent \textit{a} implicitly\todo{Words on why use this words} knows that $\varphi$",  $R_a((\varphi_1,...,\varphi_n,), \varphi_i)$ reads as "$\varphi_i$ is the answer agent \textit{a} will provide to question $\varphi_1,...,\varphi_n$". \\
 
 We can now define the \textit{IMI epistemic model}, a tuple:
 \begin{align}
@@ -120,15 +112,16 @@ In which $\proposition \in \dynlang$. Note that the expression $M|\varphi$ in \c
     \item $\sim'_a := \sim_a \cap \:(W' \times W')$, for all $a \in Ag$
     \item $V' := V | W'$
     \item $R'_{a\in Ag} := R_{a\in Ag} | W'$
-\end{itemize}
+\end{itemize} \todo{No semantics on inactive worlds}
 While all three operators are inherently information updates and follow the above listed transformations, the \textit{agent question operator}, which we will denote as $Q_{A}?$ with $Q_A = (\varphi_1,...,\varphi_n)$ and the \textit{inference operator} denoted by $I$, where $I = \{\psi_1,...,\psi_m \}\hookrightarrow \psi_c$, have additional constraints. An agent should not be able to ask a question without knowledge of it's presupposition and it should be a part of the opposing agent's answer set. This can be described as:
 \begin{itemize}
     \item When $Q_A = (\varphi_1,...,\varphi_n) \in \powset(\staticlang)$, then if there
           exists $\varphi \in Q_A$ such that $M, w \models K_b\varphi$ and $(Q_A,
-              \varphi_i) \in R_b (w)$, with $a, b \in Ag$ and then:
+              \varphi_i) \in R_b (w)$, with $a, b \in Ag$ and, then:
           \begin{align}
               M^{a,b}_{Q_A}?(w) := M |\varphi_i
           \end{align}
+          \todo{Explain more about why i after phi}
     \item Otherwise, $M^{a,b}_{Q_{A}}?(w) := M$
 \end{itemize}
 Such that the updated model satisfy the worlds in which \proposition\: is also satisfied. Informally this can described as the updated model $M|\varphi_i$ contains the worlds in which the answer to $Q_A$ is also the expected answer, based on the answering rule \cref{sem:5}. Additionally we constrain the operator, such that agent $a$ asking question $Q_A$ should have knowledge about at least one of the propositions. Since questions are regarded as potentially a series of questions, and during an interrogation an agent can infer from intermediate answers, this is necessary. We formally describe the precondition to $Q_A?$ in \dynlang, where $Q_A = (\varphi_1,...,\varphi_n)$:
@@ -139,9 +132,9 @@ Such that the updated model satisfy the worlds in which \proposition\: is also s
 The inference operator $I$ as we described earlier, can simply denoted as a model update containing the conclusion based on the premises ${\psi_1,...,\psi_m} \hookrightarrow \psi_c$. We formally describe this as:
 
 \begin{itemize}
-    \item Let $M$ be a DEL\textsubscript{IMI} model, $\psi_1,...,\psi_m, \psi_c \in \staticlang$,
-          $a\in Ag$, $I=\{\psi_1,...,\psi_m\} \hookrightarrow \psi_c$, then the model
-          update is given by:
+    \item Let $M$ be a DEL\textsubscript{IMI} model, $\psi_1,...,\psi_m, \psi_c \in
+              \staticlang$, $a\in Ag$, $I=\{\psi_1,...,\psi_m\} \hookrightarrow \psi_c$, then
+          the model update is given by:
           \begin{gather}
               M^a_I(w) := M|\psi_c
           \end{gather}
@@ -159,7 +152,7 @@ We now have the prerequisites for defining the semantics of our dynamic language
         M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi
         \\\\
         M, w \models [I]_a\varphi \iff \\
-        M, w \models pre_a(i) \implies M^a_I(w), w \models \varphi
+        M, w \models pre_a(I) \implies M^a_I(w), w \models \varphi
     \end{gathered}
 \end{equation}
 Informally, these simply explain that the semantics for the update of worlds only hold if their preconditions hold, which then in turn implies that the worlds accessible after the model update includes the conclusive proposition. \\

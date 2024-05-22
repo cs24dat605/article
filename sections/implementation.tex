@@ -6,12 +6,12 @@ but first, we will need to construct the foundation of it.
 \subsection{The Knowledge of Agents}\label{TheKnowledgeOfAgents}
 The knowledge and logical propositions of agents has been chosen to be
 represented with a truth-table approach. Every agent has their own list of
-possible-worlds, in which is contained every single combination of agents and
-roles. This means, that the more agents and roles there are, the longer this
-list becomes. The following equation shows the space complexity of the list
-given agent count $P$ and one role $R_1$. list becomes. The following equation
-shows the space complexity of the list given agent count $P$ and one role
-$R_1$.
+possible-worlds, in which every single combination of agents and roles. This
+means, that the more agents and roles there are, the longer this list becomes.
+The following equation shows the space complexity of the list given agent count
+$P$ and one role $R_1$. list becomes. The following equation shows the space
+complexity of the list given agent count $P$ and one role $R_1$. \todo{R1 and
+	r2 introduced out of the blue}
 \begin{equation}
 	W: P,R_1 \in  \mathbb{N} \mapsto \frac{P!}{R_1!(P-R_1)!}\
 \end{equation}
@@ -41,38 +41,37 @@ in a given world. This will be explained further in the following sections.
 \subsection{Updating Knowledge}\label{UpdatingKnowledge}
 When a new fact is revealed, such as when a agent dies and their role is
 revealed, all agents will immediately exclude all possible-worlds in which the
-dead agent is anything other than their revealed role. This is essentially the model update
-defined in \cref{eq:5}. An agent dying is the
-way that most roles learn new facts.\\ Furthermore, depending on the role that
-died, all agents update the marks that the dead agent contributed to. For
-example:\\ A sheriff has a nightly action which allows them to gain more
-information than regular villagers. Therefore, the marks that a sheriff has
-contributed to, should be weighed more heavily than those of other roles. To
-emulate this other agents add an additional mark, to any marks that were
-contributed to by the sheriff, to further denote the importance of their
-opinions. \\ Conversely, should the dead agent be revealed to be a member of
-the mafia, all agents will detract a mark from the marks that the dead agent
-contributed to. Due to that the mafia member may have tried to deceive the
-other agents
+dead agent is anything other than their revealed role. This is essentially the
+model update defined in \cref{eq:5}. An agent dying is the way that most roles
+learn new facts.\\ Furthermore, depending on the role that died, all agents
+update the marks that the dead agent contributed to. For example:\\ A sheriff
+has a nightly action which allows them to gain more information than regular
+villagers. Therefore, the marks that a sheriff has contributed to, should be
+weighed more heavily than those of other roles. To emulate this other agents
+add an additional mark, to any marks that were contributed to by the sheriff,
+to further denote the importance of their opinions. \\ Conversely, should the
+dead agent be revealed to be a member of the mafia, all agents will detract a
+mark from the marks that the dead agent contributed to. Due to that the mafia
+member may have tried to deceive the other agents
 \subsection{Communicative Actions}\label{CommunicativeActions}
 Communicative actions are the main way to contribute to marks in a given
 possible-world. Let us assume that agent \textit{a} chooses the following
 communicative action: "\textit{\ref{Com}. Claim to have a certain role.}" and
 states, truthfully, "\textit{I am a Sheriff}". This will prompt all other
 agents to add a mark to all possible-worlds in which \textit{a} is not a
-sheriff. Recall from \cref{sem:5}, the world is only modelled if it is the expected answer in the answering operator, 
-based on the knowledge of the agent, in that given world.
-The next agent then chooses a communicative action, leading to a
-similar course of actions from the other agents. \\ The result of all agents
-communicating will be that agents have added a significant amount of marks to
-their individual worlds. This means that they will each now have some worlds
-which are more likely to be true than others, since we assume that most people
-tell the truth, due to townspeople having no incentive to lie. This ranking of
-worlds will be useful going forward.\\ Almost all choices in the simulation is
-in some way related to the amount of marks in their active worlds. The
-following pseudocode relates to how an agent chooses what communicative action
-to perform, algorithms \ref{alg:GetHighInfoGainP}, \ref{alg:GetNonAccused}, and
-\ref{alg:GetMostContradictory}.
+sheriff. Recall from \cref{sem:5}, the world is only modelled if it is the
+expected answer in the answering operator, based on the knowledge of the agent,
+in that given world. The next agent then chooses a communicative action,
+leading to a similar course of actions from the other agents. \\ The result of
+all agents communicating will be that agents have added a significant amount of
+marks to their individual worlds. This means that they will each now have some
+worlds which are more likely to be true than others, since we assume that most
+people tell the truth, due to townspeople having no incentive to lie. This
+ranking of worlds will be useful going forward.\\ Almost all choices in the
+simulation is in some way related to the amount of marks in their active
+worlds. The following pseudocode relates to how an agent chooses what
+communicative action to perform, algorithms \ref{alg:GetHighInfoGainP},
+\ref{alg:GetNonAccused}, and \ref{alg:GetMostContradictory}.
 \begin{algorithm}[H]
 	\caption{GetHighInfoGainP(me, tWorlds)}
 	\begin{algorithmic}
@@ -205,14 +204,15 @@ our simulation, we generate $W$ by creating all possible worlds, based on the
 aforementioned propositions, by utilizing the pseudocode function
 \lstinline{generateWorlds()} provided in appendix \ref{app:B}. \\ A round then
 starts with communicative actions, where agent \textit{b} says "I am villager",
-represented for agent \textit{a} by $((p \land \neg q) \lor (\neg p \land q))$, meaning that agent
-\textit{a} does not yet know whether agent \textit{b}'s statement is true or
-false. But, by inference he may deduce that if what agent \textit{b} says is
-correct, then it is also true that they are the mentioned role. This is
-represented by $(p \land \neg q) \rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a
-villager, and oppositely $(\neg p \land q) \rightarrow \neg \psi_1$ where $\neg \psi_1$
-is agent \textit{b} is not a villager. \\ Agent \textit{c} also says that they
-are a villager, represented by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
+represented for agent \textit{a} by $((p \land \neg q) \lor (\neg p \land q))$,
+meaning that agent \textit{a} does not yet know whether agent \textit{b}'s
+statement is true or false. But, by inference he may deduce that if what agent
+\textit{b} says is correct, then it is also true that they are the mentioned
+role. This is represented by $(p \land \neg q) \rightarrow \psi_1$ where
+$\psi_1$ is agent \textit{b} is a villager, and oppositely $(\neg p \land q)
+	\rightarrow \neg \psi_1$ where $\neg \psi_1$ is agent \textit{b} is not a
+villager. \\ Agent \textit{c} also says that they are a villager, represented
+by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
 
 \begin{algorithm}
 	\caption{Communication}
@@ -245,7 +245,7 @@ expressed by the following formula:
 		G = K_a(\varphi \land \psi \land\gamma)\land                        \\
 		p \rightarrow \psi_1 \land \neg p \rightarrow \neg \psi_1 \land     \\
 		q \rightarrow \gamma_1 \land \neg q \rightarrow \neg \gamma_1 \land \\
-		((p \land \neg q) \lor (\neg p \land q)) \land						\\
+		((p \land \neg q) \lor (\neg p \land q)) \land                      \\
 		((g \land \neg h) \lor (\neg g \land h))
 		\label{eq:7}
 	\end{split}
