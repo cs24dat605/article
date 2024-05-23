@@ -214,24 +214,24 @@ not a villager. \\ Agent \textit{c} also says that they are a villager,
 represented by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
 
 \begin{algorithm}
-\caption{Communication}
-\begin{algorithmic}[1]
-	\Function{communicate}{}
-	\State world $\gets$ getMostPlausibleWorld()
-	\State action $\gets$ self.getAction(world)
+	\caption{Communication}
+	\begin{algorithmic}[1]
+		\Function{communicate}{}
+		\State world $\gets$ getMostPlausibleWorld()
+		\State action $\gets$ self.getAction(world)
 
-	\If{action is inquire or accuse}
-	\State p $\gets$ getHighestInfoGainP()
-	\State question $\gets$ getHighestInfoQuestion(p)
-	\State commAction $\gets$ self.ask(p, question)
-	\ElsIf{action is defend}
-	\State commAction $\gets$ self.claimRole()
-	\EndIf
+		\If{action is inquire or accuse}
+		\State p $\gets$ getHighestInfoGainP()
+		\State question $\gets$ getHighestInfoQuestion(p)
+		\State commAction $\gets$ self.ask(p, question)
+		\ElsIf{action is defend}
+		\State commAction $\gets$ self.claimRole()
+		\EndIf
 
-	\State updatePossibleWorlds(commAction)
-	\EndFunction
-	\end{algorithm}
-\end{algorithmic}\label{alg:communicate}
+		\State updatePossibleWorlds(commAction)
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}\label{alg:communicate}
 
 When the agents communicate this, they choose which action to take, based on
 what communicative action will result in the most amount of worlds being marked
