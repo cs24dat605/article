@@ -9,14 +9,12 @@ represented with a truth-table approach. Every agent has their own list of
 possible-worlds, in which every single combination of agents and roles. This
 means, that the more agents and roles there are, the longer this list becomes.
 The following equation shows the space complexity of the list given agent count
-$P$ and one role $R_1$. list becomes. The following equation shows the space
-complexity of the list given agent count $P$ and one role $R_1$. \todo{R1 and
-	r2 introduced out of the blue}
+$P$ and the number of agents with role $R$.
 \begin{equation}
-	W: P,R_1 \in  \mathbb{N} \mapsto \frac{P!}{R_1!(P-R_1)!}\
+	W: P,R \in  \mathbb{N} \mapsto \frac{P!}{R!(P-R)!}\
 \end{equation}
 
-For each subsequent role that is added, the complexity expands with:
+For each subsequent role that is added to the game, the space complexity expands with:
 \begin{equation}
 	\begin{gathered}
 		W: P, R_1, R_2\in  \mathbb{N} \mapsto \\
