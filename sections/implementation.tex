@@ -1,33 +1,37 @@
 \section{Implementation}\label{sec:implementation}
 With the theory explained, we can now explore our implementation, which aims to
-be as true to reality as possible. We will start by laying the foundation of 
-the most pivotal data structures, followed by a walk-through of the 
-implementation of each phase of the game. 
+be as true to reality as possible. We will start by laying the foundation of
+the most pivotal data structures, followed by a walk-through of the
+implementation of each phase of the game.
 
 \subsection{Foundational Data Structures}\label{sec:foundationalDataStructures}
-This section should contain an explanation of the following: 
-\begin{enumerate}
-	\item The world object. (and what is tworlds?)
-	\item The player object. 
-	\item How the player object relates to me.functions and self.functions.
-	\item The game object. 
-\end{enumerate} 
-\textit{For now, i have copied the contents of knowledge of agents and updating 
-of knowledge into this section. Remove and change as needed. Remove 
-subsubsections though.}
+To provide some context for the upcoming sections this part will describe the
+foundational data structure that they are based upon. \\ \\ A world often
+referred to as a possible world describes a possible set of information in a
+given environment. Most information is unknown to an agent in its environment,
+therefore if a role of another agent is unknown they could be all roles. So for
+each agent they store their own list of all possible worlds, with every single
+combination of agents of roles. The world object itself stores this, is active
+and marks. Marks and is active\footnote{Is active refers to active and inactive
+	worlds} both being previously described in section \ref{sec:Modelling}.\\ The
+player object stores information about the agent, such as name, role, and alive
+status. Besides storing information it acts as a gateway to functions that
+include the agent. Such as communication instead of calling a function and
+including the agent, the communication is triggered directly from the agent. \\
+The overall data structure is the game object, that encapsulates all
+information and objects into a single object.
 
 \subsubsection{The Knowledge of Agents}\label{sec:TheKnowledgeOfAgents}
 The knowledge and logical propositions of agents has been chosen to be
-represented with a truth-table approach. Every agent has their own list of
-possible-worlds, in which every single combination of agents and roles. This
-means, that the more agents and roles there are, the longer this list becomes.
-The following equation shows the space complexity of the list given agent count
-$P$ and the number of agents with role $R$.
+represented with a truth-table approach. Which refers to the possible worlds
+which store every single combination of agents and roles. The following
+equation shows the space complexity of the list given agent count $P$ and the
+number of agents with role $R$.
 \begin{equation}
 	W: P,R \in  \mathbb{N} \mapsto \frac{P!}{R!(P-R)!}\
 \end{equation}
 
-For each subsequent role, $R_1, R_2...$ that is added, the complexity expands 
+For each subsequent role, $R_1, R_2...$ that is added, the complexity expands
 with:
 \begin{equation}
 	\begin{gathered}
@@ -41,15 +45,15 @@ with:
 Each agent excludes possible-worlds that are not in
 accordance with the role that they have been given.\\
 For example: agent, \textit{a}, if given the role of sheriff, will exclude all
-possible-worlds where their role is not sheriff, while another agent \textit{b} 
+possible-worlds where their role is not sheriff, while another agent \textit{b}
 may
-keep some of those possible-worlds, since they do not know the role of 
+keep some of those possible-worlds, since they do not know the role of
 \textit{a}.\\
-Furthermore, each possible-world also contains data on who have made what 
+Furthermore, each possible-world also contains data on who have made what
 claims, and
-whether that claim is true or false in this given possible-world. This is 
+whether that claim is true or false in this given possible-world. This is
 represented
-by an array for each possible-world, which keeps track of the lies of agents. 
+by an array for each possible-world, which keeps track of the lies of agents.
 Going forward, these lies will be known as
 \textit{marks}. If a world has many
 marks, it implies that many agents have lied if this is the true world. It is
@@ -73,7 +77,7 @@ mark from the marks that the dead agent contributed to. Due to that the mafia
 member may have tried to deceive the other agents
 
 \subsection{Beginning of the Game}\label{sec:beginningOfTheGame}
-With the foundational data structures explained, we can begin the game, which 
+With the foundational data structures explained, we can begin the game, which
 is done in accordance with the pseudocode in algorithm \ref{alg:StartGame}.
 \begin{algorithm}[H]
 	\caption{StartGame}
@@ -81,7 +85,7 @@ is done in accordance with the pseudocode in algorithm \ref{alg:StartGame}.
 		\Function{StartGame}{}
 		\State loadGameConfiguration()
 		\State generateWorlds()
-		
+
 		\While{!gameFinished}
 		\State dayPhase()
 		\State nightPhase()
@@ -89,17 +93,17 @@ is done in accordance with the pseudocode in algorithm \ref{alg:StartGame}.
 		\EndWhile
 		\EndFunction
 	\end{algorithmic}\label{alg:StartGame}
-\end{algorithm} 
+\end{algorithm}
 \setcounter{algorithmcaption}{0}
-\captionof{algorithmcaption}{Pseudocode for starting and running the 
-game.}
-The game begins by loading the role-configuration for that specific game, and 
-then generating the worlds for all players. It then goes through the day- and 
-night phases, followed by checking if either team has won. It does this in a 
-loop until either team has won. 
+\captionof{algorithmcaption}{Pseudocode for starting and running the
+	game.}
+The game begins by loading the role-configuration for that specific game, and
+then generating the worlds for all players. It then goes through the day- and
+night phases, followed by checking if either team has won. It does this in a
+loop until either team has won.
 
 \subsection{Day Phase}\label{sec:dayPhase}
-The day phase is split into two sub-phases: communication and voting. These 
+The day phase is split into two sub-phases: communication and voting. These
 phases are performed in order, and controlled by algorithm \ref{alg:dayPhase}.
 \begin{algorithm}[H]
 	\caption{Day phase}
@@ -111,7 +115,7 @@ phases are performed in order, and controlled by algorithm \ref{alg:dayPhase}.
 		\ForAll{p $in$ game.Ps}
 		\State votes $\gets$ votes + voting()
 		\EndFor
-		
+
 		\State killMostVoted(votes)
 		\EndFunction
 	\end{algorithmic}\label{alg:dayPhase}
@@ -121,11 +125,11 @@ phases are performed in order, and controlled by algorithm \ref{alg:dayPhase}.
 First all players communicate, then they all vote.
 
 \subsubsection{Communication}\label{sec:communication}
-The communication sub-phase is where agents share information with each other 
-based on the marks in their individual world-views. Communicative actions are 
-the main way to contribute to marks in a given possible-world. The way that a 
-given agent chooses who to target with their communicative action is chosen in 
-accordance with algorithm \ref{alg:GetHighInfoGainP}. 
+The communication sub-phase is where agents share information with each other
+based on the marks in their individual world-views. Communicative actions are
+the main way to contribute to marks in a given possible-world. The way that a
+given agent chooses who to target with their communicative action is chosen in
+accordance with algorithm \ref{alg:GetHighInfoGainP}.
 \begin{algorithm}[H]
 	\caption{GetHighInfoGainP(me, tWorlds)}
 	\begin{algorithmic}
@@ -135,70 +139,65 @@ accordance with algorithm \ref{alg:GetHighInfoGainP}.
 		\State \Return (p, wID)
 		\EndIf
 		\EndIf
-		
+
 		\State (p, wID) $\gets$ GetMostContradictory(tWorlds, me)
 		\If{wID != -1}
-		\State \Return (p, wID)
+		The Knowledge of Agents		\State \Return (p, wID)
 		\EndIf
-		
-		\State w $\gets$ random world from me.PossWorlds
-		\State p $\gets$ random player from w.PossPlayers
-		\State \Return (p, index of w in me.PossWorlds)
+
+		The Knowledge of Agents \State w $\gets$ random world from me.PossWorlds \State
+		p $\gets$ random player from w.PossPlayers \State \Return (p, index of w in
+		me.PossWorlds)
 	\end{algorithmic}\label{alg:GetHighInfoGainP}
 \end{algorithm}
 \setcounter{algorithmcaption}{2}
-\captionof{algorithmcaption}{Get the highest information gain agent returns an 
-agent based on different factors.
-	At first, it prioritizes non accused agents as shown in 
-	\cref{alg:GetNonAccused}.
-	Then find the most contradictory information as shown in 
-	\cref{alg:GetMostContradictory}.
-	Otherwise, choose a random world and a random agent within.}
-The output of this algorithm is the target that the calling agent knows the 
-least about, meaning they have the most to gain when choosing that target. The 
-initial check within the algorithm relates to algorithm \ref{alg:GetNonAccused}.
+\captionof{algorithmcaption}{The base algorithms that handels the logic}
+Get the highest information gain agent algorithm returns an
+agent based on different factors \ref*{alg:GetHighInfoGainP}.
+At first, it prioritizes non accused agents as shown in
+\cref{alg:GetNonAccused}.
+Then finds the most contradictory information as shown in
+\cref{alg:GetMostContradictory}. \\
 \begin{algorithm}[H]
 	\caption{GetNonAccused(me)}
 	\begin{algorithmic}
 		\If{nonAccused.Count = 0 AND Game.Round = 0}
 		\State nonAccused $\gets$ all players in me.PossWorlds[0]
 		\EndIf
-		
+
 		\ForAll{accusation in me.nonAccu}
 		\State me.nonAccu.Remove(accusation.Acusse)
 		\EndFor
-		
+
 		\State me.nonAccu.Remove(me)
-		
+
 		\If{nonAccused.Count != 0}
 		\State \Return nonAccused[randomI]
 		\EndIf
-		
+
 		\State \Return (null, -1)
 	\end{algorithmic}\label{alg:GetNonAccused}
 \end{algorithm}
 \setcounter{algorithmcaption}{3}
-\captionof{algorithmcaption}{First round we append all agents to the non 
-accused list and remove the agent itself from the list
-	Then returning a random agent if the list is non-empty.}
-This algorithm initialises a list of all other agents for each agent at the 
-start of the first communication phase. Whenever an agent targets another agent 
-with a communicative action they remove the target agent from their individual 
-list. When an agent has targeted all other agents with one communicative action 
-they will have gained some knowledge of all agent, meaning they now have some 
-data that they may use to determine the new best target for their communicative 
-actions. This is done in the next step of algorithm \ref{alg:GetHighInfoGainP}, 
-by invoking algorithm \ref{alg:GetMostContradictory}.  
+\captionof{algorithmcaption}{Returns an agent that haven't been accused yet}
+Algorithm \ref{alg:GetNonAccused} initializes a list of all other agents for each agent at the
+start of the first communication phase. Whenever, an agent targets another agent
+with a communicative action they remove the target agent from their individual
+list. When an agent has targeted all other agents with one communicative action
+they will have gained some knowledge of all agent, meaning they now have some
+data that they may use to determine the new best target for their communicative
+actions. This is done in the next step of algorithm \ref{alg:GetHighInfoGainP},
+by invoking algorithm \ref{alg:GetMostContradictory}.
 \begin{algorithm}[H]
 	\caption{GetMostContradictory(tWorlds, me)}
 	\begin{algorithmic}
 		\State roleCounts $\gets$ getRoleCounts(tWorlds)
-		
+
 		\ForAll{w in tWorlds}
 		\ForAll{p in w.PossPlayers where p != me AND p is alive}
 		\State highest $\gets$ roleCounts[p].Max()
 		\State secHighest $\gets$ roleCounts[p].SecondMax()
-		
+
 		\State contraScore $\gets$ secHighest / highest
 		\If{contraScore $>$ maxScore}
 		\State mostContradictory $\gets$ p
@@ -211,26 +210,19 @@ by invoking algorithm \ref{alg:GetMostContradictory}.
 	\end{algorithmic}\label{alg:GetMostContradictory}
 \end{algorithm}
 \setcounter{algorithmcaption}{4}
-\captionof{algorithmcaption}{Starting by storing a list of role counts for 
-agents in the top 1\% of worlds.
-	Iterating over the top 1\% of worlds and for each possible agent find their 
-	highest and second-highest role counts.
-	Calculating a contradction score based on the 2 top role counts and 
-	checking if it's the highest contradiction score found.
-	Returning the maxScore once all possible agents have been checked.
-}
-This algorithm outputs the agent which is the most suspicious due to being 
-suspected of being the most different roles in the top 1\% of possible-worlds.\\
-This whole process is simply described in the following high-level algorithm 
-\ref{alg:communicate} for how one agent handles their turn in the communication 
-sub-phase. 
+\captionof{algorithmcaption}{Returns an agent with the most conflicting role claims}
+This algorithm outputs the agent which is the most suspicious due to being
+suspected of being the highest difference of roles in the top 1\% of possible-worlds.\\
+This whole process is simply described in the following high-level algorithm
+\ref{alg:communicate} for how one agent handles their turn in the communication
+sub-phase.
 \begin{algorithm}[H]
 	\caption{Communication}
 	\begin{algorithmic}[1]
 		\Function{communicate}{}
 		\State world $\gets$ getMostPlausibleWorld()
 		\State action $\gets$ self.getAction(world)
-		
+
 		\If{action is inquire or accuse}
 		\State p $\gets$ getHighestInfoGainP()
 		\State question $\gets$ getHighestInfoQuestion(p)
@@ -238,19 +230,19 @@ sub-phase.
 		\ElsIf{action is defend}
 		\State commAction $\gets$ self.claimRole()
 		\EndIf
-		
+
 		\State updatePossibleWorlds(commAction)
 		\EndFunction
 	\end{algorithmic}\label{alg:communicate}
 \end{algorithm}
 \setcounter{algorithmcaption}{5}
-\captionof{algorithmcaption}{High-level pseudocode of an agents turn during the 
-communication sub-phase.}
-It describes how an agents turn consists of finding their most plausible world, 
-deciding what actions to take, choosing their target, as described above, and 
+\captionof{algorithmcaption}{High-level pseudocode of an agents turn during the
+	communication sub-phase.}
+It describes how an agents turn consists of finding their most plausible world,
+deciding what actions to take, choosing their target, as described above, and
 then updating their worlds' marks according to the outcome of the action.
-The updating of their worlds is performed in accordance with algorithm 
-\ref{alg:updatePossibleWorlds}, seen below. 
+The updating of their worlds is performed in accordance with algorithm
+\ref{alg:updatePossibleWorlds}, seen below.
 \begin{algorithm}[H]
 	\caption{Update possible worlds}
 	\begin{algorithmic}[1]
@@ -265,74 +257,70 @@ The updating of their worlds is performed in accordance with algorithm
 \end{algorithm}
 \setcounter{algorithmcaption}{6}
 \captionof{algorithmcaption}{The updating of possible worlds.}
-Whenever an agent gets an answer for their communicative action, all agents add 
+Whenever an agent gets an answer for their communicative action, all agents add
 the answer to their world-views by updating their marks.\\
 
-The phase ends when a variable amount of communicative actions have been 
-performed by each agent, which, in this implementation has been arbitrarily set 
-to 3. 
+The phase ends when a variable amount of communicative actions have been
+performed by each agent, which, in this implementation has been arbitrarily set
+to 3.
 
 \subsubsection{Voting}\label{sec:voting}
 When communication and the updating of possible-worlds has finished, the game
 moves on to the voting phase. Each agent chooses who to vote for, in a very
-similar manner to the choice of target for their communicative action 
-previously shown in algorithm \ref{alg:GetHighInfoGainP}. They
-chose the world with the least marks, i.e. the one they find to be the most
-likely. If there are multiple, then they pick randomly between them. They then
-select a random member of the mafia from that world, and then vote for that
-agent.
- 
-\subsection{Night Phase}\label{sec:nightPhase}
-The night phase is also broken down into two sub-phases: the night phase and 
-the morning phase. 
+similar manner to the choice of target for their communicative action
+previously shown in algorithm \ref{alg:GetHighInfoGainP}. They chose the world
+with the least marks, i.e. the one they find to be the most likely. If there
+are multiple, then they pick randomly between them. They then select a random
+member of the mafia from that world, and then vote for that agent.
 
-\subsubsection{Night Phase - Nightly 
-Actions}\label{sec:nightPhaseNightlyActions}
-Nightly actions are performed during the actual night phase, and are tailored 
-towards each role. For each role, we define their 
-individual most likely world, $W$, as the world with the least amount of marks 
-for them. \\
-An example of how a nightly action is performed can be seen in algorithm 
-\ref{alg:nightPhase}.
+\subsection{Night Phase}\label{sec:nightPhase}
+The night phase is also broken down into two sub-phases: the night phase and
+the morning phase.
+
+\subsubsection{Night Phase - Nightly
+	Actions}\label{sec:nightPhaseNightlyActions}
+Nightly actions are performed during the actual night phase, and are tailored
+towards each role. For each role, we define their individual most likely world,
+$W$, as the world with the least amount of marks for them. \\ An example of how
+a nightly action is performed can be seen in algorithm \ref{alg:nightPhase}.
 \begin{algorithm}[H]
 	\caption{Night action}
 	\begin{algorithmic}[1]
 		\Function{performNightAction}{}
 		\If{self.role == Sheriff}
 		\State world $\gets$ getMostPlausibleWorld()
-		
+
 		\State susPs $\gets$ getSortedPossMafPs(world)
 		\State susPs.remove(self.previousTargets)
-		
+
 		\State self.actResult $\gets$ interrogate(susPs[0])
 		\EndIf
 		\EndFunction
-		
+
 		\Statex
 	\end{algorithmic}\label{alg:nightPhase}
 \end{algorithm}
 \setcounter{algorithmcaption}{7}
-\captionof{algorithmcaption}{An example of a nightly action performed by the 
-sheriff.}
-The sheriff finds who the mafia members are in $W$, and then targets one of 
-them, which he has not targeted before. Other players perform their actions 
-similarly, such as the godfather trying to kill whomever is the sheriff in $W$. 
+\captionof{algorithmcaption}{An example of a nightly action performed by the
+	sheriff.}
+The sheriff finds who the mafia members are in $W$, and then targets one of
+them, which he has not targeted before. Other players perform their actions
+similarly, such as the godfather trying to kill whomever is the sheriff in $W$.
 The doctor tries to save whomever is the sheriff in $W$, etc.
- 
-\subsubsection{Morning Phase}\label{sec:morningPhase}
-Following the completing of all of the nightly actions, the morning phase 
-begins. Its only purpose is to publicly announce the public effects of the 
-nightly actions, and then make all agent update their world-views, by using the 
-previously discussed algorithm \ref{alg:updatePossibleWorlds}.
-As facts are revealed, possible-worlds are removed, meaning that one may slowly
-infer the roles of other agents. Furthermore, as people die, marks are added or
-altered based on how trustworthy the given victim's role was. \\
-It is important to note, that while the semantics include inference in the form 
-of propositions, and communicative actions can be expressed in the propositional
-language, this is not included in our implementation. However, since we include
-marks, and our decisions are based on these, we denote this as weak inference
-of the communicative actions.
 
+\subsubsection{Morning Phase}\label{sec:morningPhase}
+Following the completing of all of the nightly actions, the morning phase
+begins. Its only purpose is to publicly announce the public effects of the
+nightly actions, and then make all agent update their world-views, by using the
+previously discussed algorithm \ref{alg:updatePossibleWorlds}. As facts are
+revealed, possible-worlds are removed, meaning that one may slowly infer the
+roles of other agents. Furthermore, as people die, marks are added or altered
+based on how trustworthy the given victim's role was. \\ It is important to
+note, that while the semantics include inference in the form of propositions,
+and communicative actions can be expressed in the propositional language, this
+is not included in our implementation. However, since we include marks, and our
+decisions are based on these, we denote this as weak inference of the
+communicative actions.
 
 \subsection{Detailed run through}\label{sec:ARoundOfTheGame}
 A round of our modelled game can be expressed in the dynamic inquiry language.
@@ -390,13 +378,12 @@ targets, agent \textit{c}, killing him. The killing is then publicly announced
 during the morning phase, along with the role of the victim. Recall from
 \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that
 everything before the public announcement, and the announcement itself, is now
-applicable. As previously mentioned, this is performed by using algorithm 
-\ref{alg:updatePossibleWorlds}, which simply iterates over all agents and all 
-their respective worlds, and updates the information. Now recall back to 
-\cref{eq:7}, after the newly
-acquired information of both $\neg \psi_1$, the knowledge that agent \textit{b}
-is not a villager, and $\gamma_2$, the role of agent \textit{c} we can now
-simplify the previous expression, which results in:
+applicable. As previously mentioned, this is performed by using algorithm
+\ref{alg:updatePossibleWorlds}, which simply iterates over all agents and all
+their respective worlds, and updates the information. Now recall back to
+\cref{eq:7}, after the newly acquired information of both $\neg \psi_1$, the
+knowledge that agent \textit{b} is not a villager, and $\gamma_2$, the role of
+agent \textit{c} we can now simplify the previous expression, which results in:
 \begin{align}
 	G' = K_a(\varphi \land \neg \psi_1 \land \gamma_1) \land \neg p \land q
 \end{align}
