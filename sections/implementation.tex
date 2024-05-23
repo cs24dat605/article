@@ -21,8 +21,8 @@ The knowledge and logical propositions of agents has been chosen to be
 represented with a truth-table approach. Every agent has their own list of
 possible-worlds, in which every single combination of agents and roles. This
 means, that the more agents and roles there are, the longer this list becomes.
-The following equation shows the space complexity of the list given agent count 
-$P$ and one role $R$. 
+The following equation shows the space complexity of the list given agent count
+$P$ and the number of agents with role $R$.
 \begin{equation}
 	W: P,R \in  \mathbb{N} \mapsto \frac{P!}{R!(P-R)!}\
 \end{equation}
@@ -56,8 +56,8 @@ marks, it implies that many agents have lied if this is the true world. It is
 also important to remember, that we keep track of who contributed to each mark
 in a given world. This will be explained further in the following sections.
 
-\subsubsection{Updating Knowledge}\label{sec:UpdatingKnowledge}
-When a new fact is revealed, such as when a agent dies and their role is
+\subsection{Updating Knowledge}\label{sec:UpdatingKnowledge}
+When a new fact is revealed, such as when an agent dies and their role is
 revealed, all agents will immediately exclude all possible-worlds in which the
 dead agent is anything other than their revealed role. This is essentially the
 model update defined in \cref{eq:5}. An agent dying is the way that most roles
@@ -361,13 +361,11 @@ are the mentioned role. This is represented by $(p \land \neg q) \rightarrow
 not a villager. \\ Agent \textit{c} also says that they are a villager,
 represented by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
 
-
-
 When the agents communicate this, they choose which action to take, based on
 what communicative action will result in the most amount of worlds being marked
 as inactive, whenever the proposition provided by the communicative action is
-proven or disproven\todo{Lav reference til alg 4}. This whole sequence can be
-expressed by the following formula:
+proven or disproven \ref{alg:communicate}. This whole sequence can be expressed
+by the following formula:
 
 \begin{align}
 	\begin{split}

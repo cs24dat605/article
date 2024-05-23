@@ -1,4 +1,4 @@
-\section{Modelling}
+\section{Modelling} \label{sec:Modelling}
 As mentioned earlier, we wish to model a framework of games instead of one
 specific one, in order to encapsulate as many parameters as possible. The
 simulation will have two factions, henceforth known as the town and the mafia.
@@ -7,8 +7,8 @@ their factions have the non-strict numerical majority of players. The game is
 played out in rounds consisting of four phases, which happen in order, until
 either win-condition is met, as shown on figure \ref{fig:GameOverview}.
 \begin{figure}[H]
-	\includegraphics[width=1\linewidth]{figures/Game_overview2}
-	\caption{Depicting the general flow of social deduction games.}
+	\includegraphics[width=1\linewidth]{figures/Game_overview3}
+	\caption{Depicting the general flow of social deduction games. The blue arrows relate to the outcome of the voting phase. The red arrows relate to the outcome of the nightly actions}
 	\label{fig:GameOverview}
 \end{figure}
 
@@ -32,7 +32,7 @@ ones allied to the mafia, are covered below:
 \begin{enumerate}
 	\itemsep0px
 	\item\textbf{Godfather} must choose one player each night to be eliminated.
-	\item\textbf{Mafioso} performs the elimination on the godfathers' behalf. \todo{Context to elimination}
+	\item\textbf{Mafioso} performs the elimination on the godfathers' behalf. \footnote{At night the Godfather chooses who the Mafioso should kill at the end of the night phase}
 	\item\textbf{Consigliere} must choose one player each night and privately
 	      gain information regarding their role.
 	\item\textbf{Consort} must choose one player each night and prevent them
