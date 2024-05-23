@@ -52,8 +52,8 @@ the public knowledge available to them. They keep track of beliefs and lies by
 should always be more players belonging to the town than the mafia, and that
 the players of the town have no reason to lie, it is presumed that the world
 with fewest 'marks' must be the true world. This is what the players will base
-their decisions on. A few modifications to their\cite{commitment} \todo{Fix
-	this} methodology have been made, in order to better suit a multi-round game.
+their decisions on. A few modifications to their methodology have been made, in
+order to better suit a multi-round game \cite{commitment}.
 
 First, the communicative actions for the game have been altered slightly. In
 this simulation, players can choose between 5 different communicative actions:
@@ -66,7 +66,7 @@ this simulation, players can choose between 5 different communicative actions:
 	\item Do not say anything. \label{lst:communicativeActions}
 \end{enumerate}
 The purpose of these actions are to mimic the in-person game as closely as
-possible. Players will each be able to take a variable amount \todo{Which varies how and depend on what} of communicative actions before the
+possible. Players will each be able to take up to 3 communicative actions\footnote{The player can communicate 3 times but can choose not to communicate with the "Do not say anything" action\ref{lst:communicativeActions}} before the
 phase concludes. Players choose which communicative actions to take, based on which communicative action
 will provide the most information regarding their believed most likely world.
 
@@ -89,7 +89,7 @@ information available, but false based on the private information available.
 The need for inactive worlds, is that a player cannot assume that other players
 are aware of private information, so these worlds must be included when
 deciding which communicative actions to perform during the day phase.An
-example: \todo{Move to next paragraph}
+example:
 
 Player 1 is a sheriff\footnote{A role allied to the town, who functions
 	similarly to the consigliere}, and has used their nightly action to look at the
@@ -104,7 +104,7 @@ used to solve them. While other noteworthy fields such as machine learning
 could be used, we see an intriguing similarity between epistemology and social
 deduction, which lies in the nature how these games are played. Often it's a
 game between players henceforth called agents, who need to keep track of who
-said what, who knows what, and what these truths entail. In the next section, 
-we will formalize such a model, based on dynamic epistemology and interrogative 
-inquiry, allowing agents to model their world view based on both facts and 
+said what, who knows what, and what these truths entail. In the next section,
+we will formalize such a model, based on dynamic epistemology and interrogative
+inquiry, allowing agents to model their world view based on both facts and
 communicative actions.
