@@ -1,26 +1,66 @@
 \section{Implementation}\label{sec:implementation}
 With the theory explained, we can now explore our implementation, which aims to
-be as true to reality as possible. We will start by laying the foundation of
+be as true to our formal description as possible. We will start by laying the foundation of
 the most pivotal data structures, followed by a walk-through of the
 implementation of each phase of the game.
 
 \subsection{Foundational Data Structures}\label{sec:foundationalDataStructures}
-To provide some context for the upcoming sections this part will describe the
-foundational data structure that they are based upon. \\ \\ A world often
-referred to as a possible world describes a possible set of information in a
-given environment. Most information is unknown to an agent in its environment,
-therefore if a role of another agent is unknown they could be all roles. So for
-each agent they store their own list of all possible worlds, with every single
-combination of agents of roles. The world object itself stores this, is active
-and marks. Marks and is active\footnote{Is active refers to active and inactive
-	worlds} both being previously described in section \ref{sec:Modelling}.\\ The
-player object stores information about the agent, such as name, role, and alive
-status. Besides storing information it acts as a gateway to functions that
-include the agent. Such as communication instead of calling a function and
-including the agent, the communication is triggered directly from the agent. \\
-The overall data structure is the game object, that encapsulates all
-information and objects into a single object.
+To provide some context for the upcoming sections, we will first describe the
+data structures they are based upon. 
 
+A game consists of some $n$ number of agents, wherein each agent has $m$ amount of worlds, where $m$ is the result of \cref{eq:numofworlds}.
+A world, often referred to as a possible world, describes a possible combination of roles/agents. 
+Each world has a list of roles, which represents that specific world's combination. This relation is 
+depicted in \cref{fig:DataStructuresUML}.
+\begin{comment}
+	To provide some context for the upcoming sections, this part will describe the
+	data structures they are based upon. \\ \\ A world, often
+	referred to as a possible world, describes a possible combination of roles/agents. 
+	Most information is unknown to an agent in its environment,
+	therefore if a role of another agent is unknown they could be all roles. So for
+	each agent, they store their own list of all possible worlds, with every single
+	combination of agents and roles. Each world object itself stores whether it is active,
+	and number of marks. Marks and is active\footnote{Is active refers to active and inactive
+		worlds} both being previously described in \cref{sec:Modelling}.\\ The
+	player object stores information about the agent, such as name, role, and alive
+	status. Besides storing information it acts as a gateway to functions that
+	include the agent. Such as communication, instead of calling a function and
+	including the agent, the communication is called directly from the agent object. \\
+	The overall data structure is the game object, that encapsulates all
+	information and objects into a single object.
+\end{comment}
+\renewcommand{\umlfillcolor}{white}
+\renewcommand{\umldrawcolor}{blue}
+\begin{figure}[H]
+	\centering
+	\scalebox{0.8}{
+		\begin{tikzpicture}
+			\begin{class}[text width= 2.5cm]{Game}{0,0}
+				\attribute{agents : List}
+				\operation{runDayPhase()}
+				\operation{runNightPhase()}
+				\operation{checkFinished()}
+			\end{class}
+			\begin{class}[text width=4.5cm]{Agent}{5,-0.2}
+				\attribute{worlds : list}
+				\operation{updateWorlds(information)}
+				\operation{nightAction()}
+			\end{class}
+			\begin{class}[text width=4cm]{World}{3,-3}
+				\attribute{possibleAgents: list}
+				\attribute{marks : integer}
+				\attribute{isActive : boolean}
+				\attribute{isPrivateActive : boolean}
+			\end{class}
+			\unidirectionalAssociation{Game}{1..*}{}{Agent}{}{}
+			\unidirectionalAssociation{Agent}{1..*}{}{World}{}{}
+		\end{tikzpicture}}
+	\vspace*{3mm}
+	\caption{Simplified UML diagram of data structures}
+	\label{fig:DataStructuresUML}
+\end{figure}
+We argue this encapsulates the model both described in \cref{sec:Modelling}, and the formalisation in
+\cref{sec:DynamicInquiryLanguage}, \cref{eq:3}, most noteworthy the relation between $W$ and \textbf{Ag}.
 \subsubsection{The Knowledge of Agents}\label{sec:TheKnowledgeOfAgents}
 The knowledge and logical propositions of agents has been chosen to be
 represented with a truth-table approach. Which refers to the possible worlds
@@ -40,6 +80,7 @@ with:
 			R_2!\cdot(P-R_1-R_2)}\
 		\footnote{If the number of agents equals the
 			number of roles, then the formula collapses into P!.}
+	\label{eq:numofworlds}
 	\end{gathered}
 \end{equation}
 Each agent excludes possible-worlds that are not in
@@ -78,7 +119,7 @@ member may have tried to deceive the other agents
 
 \subsection{Beginning of the Game}\label{sec:beginningOfTheGame}
 With the foundational data structures explained, we can begin the game, which
-is done in accordance with the pseudocode in algorithm \ref{alg:StartGame}.
+is done in accordance with the pseudocode in \cref{alg:StartGame}.
 \begin{algorithm}[H]
 	\caption{StartGame}
 	\begin{algorithmic}[1]
@@ -104,7 +145,7 @@ loop until either team has won.
 
 \subsection{Day Phase}\label{sec:dayPhase}
 The day phase is split into two sub-phases: communication and voting. These
-phases are performed in order, and controlled by algorithm \ref{alg:dayPhase}.
+phases are performed in order, and controlled by \cref{alg:dayPhase}.
 \begin{algorithm}[H]
 	\caption{Day phase}
 	\begin{algorithmic}[1]
@@ -129,7 +170,7 @@ The communication sub-phase is where agents share information with each other
 based on the marks in their individual world-views. Communicative actions are
 the main way to contribute to marks in a given possible-world. The way that a
 given agent chooses who to target with their communicative action is chosen in
-accordance with algorithm \ref{alg:GetHighInfoGainP}.
+accordance with \cref{alg:GetHighInfoGainP}.
 \begin{algorithm}[H]
 	\caption{GetHighInfoGainP(me, tWorlds)}
 	\begin{algorithmic}
@@ -151,10 +192,10 @@ accordance with algorithm \ref{alg:GetHighInfoGainP}.
 	\end{algorithmic}\label{alg:GetHighInfoGainP}
 \end{algorithm}
 \setcounter{algorithmcaption}{2}
-\captionof{algorithmcaption}{The base algorithms that handels the logic}
-Get the highest information gain agent algorithm returns an
-agent based on different factors \ref*{alg:GetHighInfoGainP}.
-At first, it prioritizes non accused agents as shown in
+\captionof{algorithmcaption}{The base algorithms that handles the communicative logic}
+To get the highest information gain, \cref{alg:GetHighInfoGainP} returns an
+agent based on different factors.
+First it prioritizes non accused agents as shown in
 \cref{alg:GetNonAccused}.
 Then finds the most contradictory information as shown in
 \cref{alg:GetMostContradictory}. \\
@@ -180,14 +221,14 @@ Then finds the most contradictory information as shown in
 \end{algorithm}
 \setcounter{algorithmcaption}{3}
 \captionof{algorithmcaption}{Returns an agent that haven't been accused yet}
-Algorithm \ref{alg:GetNonAccused} initializes a list of all other agents for each agent at the
-start of the first communication phase. Whenever, an agent targets another agent
-with a communicative action they remove the target agent from their individual
+Each agent initialises a list of all other agents at the
+start of the first communication phase. Whenever an agent targets another agent
+with a communicative action, they remove the target agent from their individual
 list. When an agent has targeted all other agents with one communicative action
-they will have gained some knowledge of all agent, meaning they now have some
-data that they may use to determine the new best target for their communicative
-actions. This is done in the next step of algorithm \ref{alg:GetHighInfoGainP},
-by invoking algorithm \ref{alg:GetMostContradictory}.
+they will have gained some knowledge of all agents, which they may use to determine 
+the new best target for their communicative
+actions. This is done in the next step of \cref{alg:GetHighInfoGainP},
+by invoking \cref{alg:GetMostContradictory}.
 \begin{algorithm}[H]
 	\caption{GetMostContradictory(tWorlds, me)}
 	\begin{algorithmic}
@@ -241,8 +282,8 @@ sub-phase.
 It describes how an agents turn consists of finding their most plausible world,
 deciding what actions to take, choosing their target, as described above, and
 then updating their worlds' marks according to the outcome of the action.
-The updating of their worlds is performed in accordance with algorithm
-\ref{alg:updatePossibleWorlds}, seen below.
+The updating of their worlds is performed in accordance with
+\cref{alg:updatePossibleWorlds}, seen below.
 \begin{algorithm}[H]
 	\caption{Update possible worlds}
 	\begin{algorithmic}[1]
@@ -257,8 +298,8 @@ The updating of their worlds is performed in accordance with algorithm
 \end{algorithm}
 \setcounter{algorithmcaption}{6}
 \captionof{algorithmcaption}{The updating of possible worlds.}
-Whenever an agent gets an answer for their communicative action, all agents add
-the answer to their world-views by updating their marks.\\
+Whenever an agent gets an answer for their communicative action, all agents update their 
+world view by invoking \cref{alg:updatePossibleWorlds}.\\
 
 The phase ends when a variable amount of communicative actions have been
 performed by each agent, which, in this implementation has been arbitrarily set
@@ -268,7 +309,7 @@ to 3.
 When communication and the updating of possible-worlds has finished, the game
 moves on to the voting phase. Each agent chooses who to vote for, in a very
 similar manner to the choice of target for their communicative action
-previously shown in algorithm \ref{alg:GetHighInfoGainP}. They chose the world
+previously shown in \cref{alg:GetHighInfoGainP}. They chose the world
 with the least marks, i.e. the one they find to be the most likely. If there
 are multiple, then they pick randomly between them. They then select a random
 member of the mafia from that world, and then vote for that agent.
@@ -282,7 +323,7 @@ the morning phase.
 Nightly actions are performed during the actual night phase, and are tailored
 towards each role. For each role, we define their individual most likely world,
 $W$, as the world with the least amount of marks for them. \\ An example of how
-a nightly action is performed can be seen in algorithm \ref{alg:nightPhase}.
+a nightly action is performed can be seen in \cref{alg:nightPhase}.
 \begin{algorithm}[H]
 	\caption{Night action}
 	\begin{algorithmic}[1]
@@ -312,7 +353,7 @@ The doctor tries to save whomever is the sheriff in $W$, etc.
 Following the completing of all of the nightly actions, the morning phase
 begins. Its only purpose is to publicly announce the public effects of the
 nightly actions, and then make all agent update their world-views, by using the
-previously discussed algorithm \ref{alg:updatePossibleWorlds}. As facts are
+previously discussed \cref{alg:updatePossibleWorlds}. As facts are
 revealed, possible-worlds are removed, meaning that one may slowly infer the
 roles of other agents. Furthermore, as people die, marks are added or altered
 based on how trustworthy the given victim's role was. \\ It is important to
