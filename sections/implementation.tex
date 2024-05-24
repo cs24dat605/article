@@ -184,10 +184,10 @@ accordance with \cref{alg:GetHighInfoGainP}.
 
 		\State (p, wID) $\gets$ GetMostContradictory(tWorlds, me)
 		\If{wID != -1}
-		The Knowledge of Agents		\State \Return (p, wID)
+		\State \Return (p, wID)
 		\EndIf
 
-		The Knowledge of Agents \State w $\gets$ random world from me.PossWorlds \State
+		\State w $\gets$ random world from me.PossWorlds \State
 		p $\gets$ random player from w.PossPlayers \State \Return (p, index of w in
 		me.PossWorlds)
 	\end{algorithmic}\label{alg:GetHighInfoGainP}
