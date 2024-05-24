@@ -61,7 +61,7 @@ information and objects into a single object.
 	\label{fig:DataStructuresUML}
 \end{figure}
 We argue this encapsulates the model both described in \cref{sec:Modelling}, and the formalisation in
-\cref{sec:DynamicInquiryLanguage}, \cref{eq:3}, most noteworthy the relation between $W$ and \textbf{Ag}.
+\cref{sec:DynamicInquiryLanguage}, \cref{eq:3}, most noteworthy is the relation between $W$ and \textbf{Ag}.
 \subsubsection{The Knowledge of Agents}\label{sec:TheKnowledgeOfAgents}
 The knowledge and logical propositions of agents has been chosen to be
 represented with a truth-table approach. Which refers to the possible worlds
@@ -103,7 +103,7 @@ also important to remember, that we keep track of who contributed to each mark
 in a given world. This will be explained further in the following sections.
 
 \subsection{Updating Knowledge}\label{sec:UpdatingKnowledge}
-When a new fact is revealed, such as when an agent dies and their role is
+When a new fact is revealed, such as when an agent dies, their role is
 revealed, all agents will immediately exclude all possible-worlds in which the
 dead agent is anything other than their revealed role. This is essentially the
 model update defined in \cref{eq:5}. An agent dying is the way that most roles
@@ -321,7 +321,7 @@ the morning phase.
 
 \subsubsection{Night Phase - Nightly
 	Actions}\label{sec:nightPhaseNightlyActions}
-Nightly actions are performed during the actual night phase, and are tailored
+Nightly actions are performed during the night phase, and are tailored
 towards each role. For each role, we define their individual most likely world,
 $W$, as the world with the least amount of marks for them. \\ An example of how
 a nightly action is performed can be seen in \cref{alg:nightPhase}.
@@ -351,11 +351,13 @@ similarly, such as the godfather trying to kill whomever is the sheriff in $W$.
 The doctor tries to save whomever is the sheriff in $W$, etc.
 
 \subsubsection{Morning Phase}\label{sec:morningPhase}
-Following the completing of all of the nightly actions, the morning phase
-begins. Its only purpose is to publicly announce the public effects of the
+In the real life version of the game, the morning phase begins after the night phase. 
+Its only purpose is to publicly announce the public effects of the
 nightly actions, and then make all agent update their world-views, by using the
-previously discussed \cref{alg:updatePossibleWorlds}. As facts are revealed,
-possible-worlds are removed, meaning that one may slowly infer the roles of
+previously discussed \cref{alg:updatePossibleWorlds}. However in the implementation
+facts are is aquired as soon as an action has occured. This change does not affect the game, 
+as all agents already have declared which night action they want to take.
+As facts are revealed, possible-worlds are removed, meaning that one may slowly infer the roles of
 other agents. Furthermore, as people die, marks are added or altered based on
 how trustworthy the given victim's role was. \\ It is important to note, that
 while the semantics include inference in the form of propositions, and
@@ -421,7 +423,7 @@ during the morning phase, along with the role of the victim. Recall from
 \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that
 everything before the public announcement, and the announcement itself, is now
 applicable. As previously mentioned, this is performed by using algorithm
-\ref{alg:updatePossibleWorlds}, which simply iterates over all agents and all
+\ref{alg:updatePossibleWorlds}, which iterates over all agents and all
 their respective worlds, and updates the information. Now recall back to
 \cref{eq:7}, after the newly acquired information of both $\neg \psi_1$, the
 knowledge that agent \textit{b} is not a villager, and $\gamma_2$, the role of

@@ -58,7 +58,7 @@ and $\gamma$ reads as a proposition is either a fact, the negation of a
 proposition or the conjunction of propositions. The \textit{inquiry language}
 $\oracle$ is simply the symbol representing factual information based on
 Hamami\cite{delimi}. It should be perceived as being the source of common
-knowledge between agents, and therefore also do not have any notion of which
+knowledge between agents, and therefore also does not have any notion of which
 agents know what, or any distinguish-ability between worlds.
 
 We can now extend the previous definitions to describe the \textit{static IMI
@@ -130,7 +130,7 @@ Such that the updated model satisfy the worlds in which \proposition\: is also s
 \begin{gather}
     pre_{a,b}(Q_A) := K_a\Biggl(\bigvee\limits_{i\in 1,n}\varphi_i\Biggr)
 \end{gather}
-The inference operator $I$ as we described earlier, can simply denoted as a model update containing the conclusion based on the premises ${\psi_1,...,\psi_m} \hookrightarrow \psi_c$. We formally describe this as:
+The inference operator $I$ as we described earlier, can simply be denoted as a model update containing the conclusion based on the premises ${\psi_1,...,\psi_m} \hookrightarrow \psi_c$. We formally describe this as:
 
 \begin{itemize}
     \item Let $M$ be a DEL\textsubscript{IMI} model, $\psi_1,...,\psi_m, \psi_c \in
@@ -145,17 +145,14 @@ Similar to the definition of the precondition to the \textit{agent operator}, we
     \nonumber pre_{a}(I) := \\ \bigwedge\limits_{i\in1,m}K_a\psi_i \land K_a\Biggl(\Biggl(\:\bigwedge\limits_{i\in 1,m}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
 \end{gather}
 We now have the prerequisites for defining the semantics of our dynamic language \dynlang. They are based on the previous listed in \crefrange{sem:1}{sem:5} describing the \staticlang, extending it with the newly introduced \textit{information update operator}, \textit{agent question operator} and \textit{inference operator}:
-\begin{equation}
-    \begin{gathered}
-        M, w \models [\psi!]\varphi \iff \\
-        M, w \models \psi \implies M|\psi, w \models \varphi \\\\
-        M, w \models [Q_A?]_{a,b}\varphi \iff \\
-        M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi
-        \\\\
-        M, w \models [I]_a\varphi \iff \\
-        M, w \models pre_a(I) \implies M^a_I(w), w \models \varphi
-    \end{gathered}
-\end{equation}
+\begin{gather}
+	M, w \models [\psi!]\varphi \iff \\
+	\nonumber M, w \models \psi \implies M|\psi, w \models \varphi \\\nonumber \\
+	M, w \models [Q_A?]_{a,b}\varphi \iff \\
+	\nonumber M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi\\\nonumber\\
+	M, w \models [I]_a\varphi \iff \\
+	\nonumber M, w \models pre_a(I) \implies M^a_I(w), w \models \varphi
+\end{gather}
 Informally, these simply explain that the semantics for the update of worlds only hold if their preconditions hold, which then in turn implies that the worlds accessible after the model update includes the conclusive proposition. \\
 
 We have now formally described the definitive language of \dynlang, which lays
