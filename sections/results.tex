@@ -1,5 +1,20 @@
 \section{Results}\label{sec:results}
-The original rules for the mafia game excluded roles altogether, instead
+The simulations were run with various 
+role-compositions. The specific compositions 
+can be decoded by using the label for each 
+column and referring to the abbreviations for 
+roles in appendix \ref{app:A}. The first five 
+columns in figure 
+\ref{fig:VariousSimulations} depicts runs 
+where all undefined roles are defined to be 
+villagers. In the following columns, after 
+the label "Powerful Town", the undefined 
+roles are determined to be one of each town 
+role from appendix \ref{app:A}. There were 10 
+agents in each simulation, and each 
+simulation was run 100 times.\\\\
+The original rules for the mafia game 
+excluded roles altogether, instead
 preferring the simplest version of the game consisting of two teams, the mafia
 and the town. Using these rules\cite{MafiaRules}, it was recommended to have 1
 mafia member per. 3 players, leading to a game setup of 3 mafia members and 7
@@ -26,39 +41,33 @@ compositions is the consigliere, as such compositions (CgCtG \& CgBG) fare
 comparably to ones including a mafioso. \\ 
 \begin{figure}[H]
     \includegraphics[width=1\linewidth]{figures/Winrates}
-    \caption{\\Graph of the win-rate of various simulated game compositions.\\
-        There were 10 players in each simulation.\\
-        Each simulation was 100 games.
-        Simulation names are related to team composition, based on role
-        abbreviations in appendix \ref{app:A}.\\
-        The first 4 runs labelled \textit{Villagers} means that all roles not
-        mentioned in the abbreviation are replaced with villagers.\\
-        The next runs labelled \textit{Powerful Town} means that all roles not
-        mentioned in the abbreviation are replaced with	one of each town role.}
+    \caption{Graph of the win-rate of various 
+    simulated game compositions.}
     \label{fig:VariousSimulations}
 \end{figure}
-\todo{Too much text in the caption}
 \vspace{-5px}Based on this graph we can deduce that mafiosi and
 consiglieri are more
 impactful for the mafia than both consorts and blackmailers. But it also seems
 that the varied team consisting of one mafioso, consigliere, and godfather,
 performs marginally better than other mixed configurations. \\
-The results indicate \todo{Refer to where this indicates this} that when playing against a powerful town, it is more
-important for the mafia to be able to continually eliminate town members, and to be
-able to quickly find the most powerful roles of the town, in order to eliminate
-them, than it is to deny the towns actions and communication. \\
+The results indicate that when playing 
+against a powerful town, it is most
+important for the mafia to be able to 
+continually eliminate town members. This can 
+be seen in column MMG on figure 
+\ref{fig:VariousSimulations}, as this 
+role-composition is the most successful for 
+the mafia, and the one able to continue 
+eliminating town-members for the longest.\\
 It would be interesting to see which of the non-eliminating mafia roles perform
 best when they are on their own, and which composition of them performs best.
 This type of game removes the mafias ability to eliminate town memebers during the night. 
 Figure \ref{fig:VariousSimulationsNonKilling} shows the results of such games:
 \begin{figure}[H]
     \includegraphics[width=1\linewidth]{figures/Winrates_NonKilling}
-    \caption{\\Graph of the win-rate of various simulated game compositions
-        with only non-eliminating mafia roles.\\
-        There were 10 players in each simulation.\\
-        Each simulation was 100 games.
-        Simulation names are related to team composition, based on role
-        abbreviations in appendix \ref{app:A}.\\
+    \caption{Graph of the win-rate of various 
+    simulated game compositions with only 
+    non-eliminating mafia roles.\\
         All of the runs were against the previously explained powerful town.}
     \label{fig:VariousSimulationsNonKilling}
 \end{figure}
