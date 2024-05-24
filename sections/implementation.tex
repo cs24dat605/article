@@ -1,33 +1,34 @@
 \section{Implementation}\label{sec:implementation}
 With the theory explained, we can now explore our implementation, which aims to
-be as true to our formal description as possible. We will start by laying the foundation of
-the most pivotal data structures, followed by a walk-through of the
-implementation of each phase of the game.
+be as true to our formal description as possible. We will start by laying the
+foundation of the most pivotal data structures, followed by a walk-through of
+the implementation of each phase of the game.
 
 \subsection{Foundational Data Structures}\label{sec:foundationalDataStructures}
 To provide some context for the upcoming sections, we will first describe the
-data structures they are based upon. 
+data structures they are based upon.
 
-A game consists of some $n$ number of agents, wherein each agent has $m$ amount of worlds, where $m$ is the result of \cref{eq:numofworlds}.
-A world, often referred to as a possible world, describes a possible combination of roles/agents. 
-Each world has a list of roles, which represents that specific world's combination. This relation is 
-depicted in \cref{fig:DataStructuresUML}.
+A game consists of some $n$ number of agents, wherein each agent has $m$ amount
+of worlds, where $m$ is the result of \cref{eq:numofworlds}. A world, often
+referred to as a possible world, describes a possible combination of
+roles/agents. Each world has a list of roles, which represents that specific
+world's combination. This relation is depicted in \cref{fig:DataStructuresUML}.
 \begin{comment}
-	To provide some context for the upcoming sections, this part will describe the
-	data structures they are based upon. \\ \\ A world, often
-	referred to as a possible world, describes a possible combination of roles/agents. 
-	Most information is unknown to an agent in its environment,
-	therefore if a role of another agent is unknown they could be all roles. So for
-	each agent, they store their own list of all possible worlds, with every single
-	combination of agents and roles. Each world object itself stores whether it is active,
-	and number of marks. Marks and is active\footnote{Is active refers to active and inactive
-		worlds} both being previously described in \cref{sec:Modelling}.\\ The
-	player object stores information about the agent, such as name, role, and alive
-	status. Besides storing information it acts as a gateway to functions that
-	include the agent. Such as communication, instead of calling a function and
-	including the agent, the communication is called directly from the agent object. \\
-	The overall data structure is the game object, that encapsulates all
-	information and objects into a single object.
+To provide some context for the upcoming sections, this part will describe the
+data structures they are based upon. \\ \\ A world, often
+referred to as a possible world, describes a possible combination of roles/agents.
+Most information is unknown to an agent in its environment,
+therefore if a role of another agent is unknown they could be all roles. So for
+each agent, they store their own list of all possible worlds, with every single
+combination of agents and roles. Each world object itself stores whether it is active,
+and number of marks. Marks and is active\footnote{Is active refers to active and inactive
+	worlds} both being previously described in \cref{sec:Modelling}.\\ The
+player object stores information about the agent, such as name, role, and alive
+status. Besides storing information it acts as a gateway to functions that
+include the agent. Such as communication, instead of calling a function and
+including the agent, the communication is called directly from the agent object. \\
+The overall data structure is the game object, that encapsulates all
+information and objects into a single object.
 \end{comment}
 \renewcommand{\umlfillcolor}{white}
 \renewcommand{\umldrawcolor}{blue}
@@ -80,7 +81,7 @@ with:
 			R_2!\cdot(P-R_1-R_2)}\
 		\footnote{If the number of agents equals the
 			number of roles, then the formula collapses into P!.}
-	\label{eq:numofworlds}
+		\label{eq:numofworlds}
 	\end{gathered}
 \end{equation}
 Each agent excludes possible-worlds that are not in
@@ -206,11 +207,11 @@ Then finds the most contradictory information as shown in
 		\State nonAccused $\gets$ all players in me.PossWorlds[0]
 		\EndIf
 
-		\ForAll{accusation in me.nonAccu}
-		\State me.nonAccu.Remove(accusation.Acusse)
+		\ForAll{accusation in me.accusations}
+		\State nonAccu.Remove(accusation.Acusse)
 		\EndFor
 
-		\State me.nonAccu.Remove(me)
+		\State nonAccu.Remove(me)
 
 		\If{nonAccused.Count != 0}
 		\State \Return nonAccused[randomI]
@@ -225,7 +226,7 @@ Each agent initialises a list of all other agents at the
 start of the first communication phase. Whenever an agent targets another agent
 with a communicative action, they remove the target agent from their individual
 list. When an agent has targeted all other agents with one communicative action
-they will have gained some knowledge of all agents, which they may use to determine 
+they will have gained some knowledge of all agents, which they may use to determine
 the new best target for their communicative
 actions. This is done in the next step of \cref{alg:GetHighInfoGainP},
 by invoking \cref{alg:GetMostContradictory}.
@@ -298,7 +299,7 @@ The updating of their worlds is performed in accordance with
 \end{algorithm}
 \setcounter{algorithmcaption}{6}
 \captionof{algorithmcaption}{The updating of possible worlds.}
-Whenever an agent gets an answer for their communicative action, all agents update their 
+Whenever an agent gets an answer for their communicative action, all agents update their
 world view by invoking \cref{alg:updatePossibleWorlds}.\\
 
 The phase ends when a variable amount of communicative actions have been
@@ -309,9 +310,9 @@ to 3.
 When communication and the updating of possible-worlds has finished, the game
 moves on to the voting phase. Each agent chooses who to vote for, in a very
 similar manner to the choice of target for their communicative action
-previously shown in \cref{alg:GetHighInfoGainP}. They chose the world
-with the least marks, i.e. the one they find to be the most likely. If there
-are multiple, then they pick randomly between them. They then select a random
+previously shown in \cref{alg:GetHighInfoGainP}. They chose the world with the
+least marks, i.e. the one they find to be the most likely. If there are
+multiple, then they pick randomly between them. They then select a random
 member of the mafia from that world, and then vote for that agent.
 
 \subsection{Night Phase}\label{sec:nightPhase}
@@ -353,13 +354,13 @@ The doctor tries to save whomever is the sheriff in $W$, etc.
 Following the completing of all of the nightly actions, the morning phase
 begins. Its only purpose is to publicly announce the public effects of the
 nightly actions, and then make all agent update their world-views, by using the
-previously discussed \cref{alg:updatePossibleWorlds}. As facts are
-revealed, possible-worlds are removed, meaning that one may slowly infer the
-roles of other agents. Furthermore, as people die, marks are added or altered
-based on how trustworthy the given victim's role was. \\ It is important to
-note, that while the semantics include inference in the form of propositions,
-and communicative actions can be expressed in the propositional language, this
-is not included in our implementation. However, since we include marks, and our
+previously discussed \cref{alg:updatePossibleWorlds}. As facts are revealed,
+possible-worlds are removed, meaning that one may slowly infer the roles of
+other agents. Furthermore, as people die, marks are added or altered based on
+how trustworthy the given victim's role was. \\ It is important to note, that
+while the semantics include inference in the form of propositions, and
+communicative actions can be expressed in the propositional language, this is
+not included in our implementation. However, since we include marks, and our
 decisions are based on these, we denote this as weak inference of the
 communicative actions.
 
