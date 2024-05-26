@@ -42,10 +42,11 @@ information and objects into a single object.
 				\operation{runNightPhase()}
 				\operation{checkFinished()}
 			\end{class}
-			\begin{class}[text width=4.5cm]{Agent}{5,-0.2}
+			\begin{class}[text width=4.5cm]{Agent    Me    Self}{5,1.2}
 				\attribute{worlds : list}
 				\operation{updateWorlds(information)}
 				\operation{nightAction()}
+				\operation{communication()}
 			\end{class}
 			\begin{class}[text width=4cm]{World}{3,-3}
 				\attribute{possibleAgents: list}
@@ -53,8 +54,8 @@ information and objects into a single object.
 				\attribute{isActive : boolean}
 				\attribute{isPrivateActive : boolean}
 			\end{class}
-			\unidirectionalAssociation{Game}{1..*}{}{Agent}{}{}
-			\unidirectionalAssociation{Agent}{1..*}{}{World}{}{}
+			\unidirectionalAssociation{Game}{1..*}{}{Agent    Me    Self}{}{}
+			\unidirectionalAssociation{Agent    Me    Self}{1..*}{}{World}{}{}
 		\end{tikzpicture}}
 	\vspace*{3mm}
 	\caption{Simplified UML diagram of data structures}
@@ -321,10 +322,10 @@ the morning phase.
 
 \subsubsection{Night Phase - Nightly
 	Actions}\label{sec:nightPhaseNightlyActions}
-Nightly actions are performed during the night phase, and are tailored
-towards each role. For each role, we define their individual most likely world,
-$W$, as the world with the least amount of marks for them. \\ An example of how
-a nightly action is performed can be seen in \cref{alg:nightPhase}.
+Nightly actions are performed during the night phase, and are tailored towards
+each role. For each role, we define their individual most likely world, $W$, as
+the world with the least amount of marks for them. \\ An example of how a
+nightly action is performed can be seen in \cref{alg:nightPhase}.
 \begin{algorithm}[H]
 	\caption{Night action}
 	\begin{algorithmic}[1]
@@ -351,20 +352,20 @@ similarly, such as the godfather trying to kill whomever is the sheriff in $W$.
 The doctor tries to save whomever is the sheriff in $W$, etc.
 
 \subsubsection{Morning Phase}\label{sec:morningPhase}
-In the real life version of the game, the morning phase begins after the night phase. 
-Its only purpose is to publicly announce the public effects of the
+In the real life version of the game, the morning phase begins after the night
+phase. Its only purpose is to publicly announce the public effects of the
 nightly actions, and then make all agent update their world-views, by using the
-previously discussed \cref{alg:updatePossibleWorlds}. However in the implementation
-facts are is aquired as soon as an action has occured. This change does not affect the game, 
-as all agents already have declared which night action they want to take.
-As facts are revealed, possible-worlds are removed, meaning that one may slowly infer the roles of
-other agents. Furthermore, as people die, marks are added or altered based on
-how trustworthy the given victim's role was. \\ It is important to note, that
-while the semantics include inference in the form of propositions, and
-communicative actions can be expressed in the propositional language, this is
-not included in our implementation. However, since we include marks, and our
-decisions are based on these, we denote this as weak inference of the
-communicative actions.
+previously discussed \cref{alg:updatePossibleWorlds}. However in the
+implementation facts are is aquired as soon as an action has occured. This
+change does not affect the game, as all agents already have declared which
+night action they want to take. As facts are revealed, possible-worlds are
+removed, meaning that one may slowly infer the roles of other agents.
+Furthermore, as people die, marks are added or altered based on how trustworthy
+the given victim's role was. \\ It is important to note, that while the
+semantics include inference in the form of propositions, and communicative
+actions can be expressed in the propositional language, this is not included in
+our implementation. However, since we include marks, and our decisions are
+based on these, we denote this as weak inference of the communicative actions.
 
 \subsection{Detailed run through}\label{sec:ARoundOfTheGame}
 A round of our modelled game can be expressed in the dynamic inquiry language.
@@ -423,11 +424,11 @@ during the morning phase, along with the role of the victim. Recall from
 \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that
 everything before the public announcement, and the announcement itself, is now
 applicable. As previously mentioned, this is performed by using algorithm
-\ref{alg:updatePossibleWorlds}, which iterates over all agents and all
-their respective worlds, and updates the information. Now recall back to
-\cref{eq:7}, after the newly acquired information of both $\neg \psi_1$, the
-knowledge that agent \textit{b} is not a villager, and $\gamma_2$, the role of
-agent \textit{c} we can now simplify the previous expression, which results in:
+\ref{alg:updatePossibleWorlds}, which iterates over all agents and all their
+respective worlds, and updates the information. Now recall back to \cref{eq:7},
+after the newly acquired information of both $\neg \psi_1$, the knowledge that
+agent \textit{b} is not a villager, and $\gamma_2$, the role of agent
+\textit{c} we can now simplify the previous expression, which results in:
 \begin{align}
 	G' = K_a(\varphi \land \neg \psi_1 \land \gamma_1) \land \neg p \land q
 \end{align}
