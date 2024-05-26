@@ -91,7 +91,8 @@ For example: agent, \textit{a}, if given the role of sheriff, will exclude all
 possible-worlds where their role is not sheriff, while another agent \textit{b}
 may
 keep some of those possible-worlds, since they do not know the role of
-\textit{a}.\\
+\textit{a}.\\ In our implementation, this means that for agent \textit{a} the worlds, 
+where they are not a sheriff are privately inactive.
 Furthermore, each possible-world also contains data on who have made what
 claims, and
 whether that claim is true or false in this given possible-world. This is
@@ -106,8 +107,9 @@ in a given world. This will be explained further in the following sections.
 \subsection{Updating Knowledge}\label{sec:UpdatingKnowledge}
 When a new fact is revealed, such as when an agent dies and their role is
 revealed, all agents will immediately exclude all possible-worlds in which the
-dead agent is anything other than their revealed role. This is essentially the
-model update defined in \cref{eq:5}. An agent dying is the way that most roles
+dead agent is anything other than their revealed role. Implementation wise, this means
+that the worlds that are not in accordance with the new information are inactive. 
+This is corresponds to the model update defined in \cref{eq:5}. An agent dying is the way that most roles
 learn new facts.\\ Furthermore, depending on the role that died, all agents
 update the marks that the dead agent contributed to. For example:\\ A sheriff
 has a nightly action which allows them to gain more information than regular
@@ -169,7 +171,7 @@ First all players communicate, then they all vote.
 
 \subsubsection{Communication}\label{sec:communication}
 The communication sub-phase is where agents share information with each other
-based on the marks in their individual world-views. Communicative actions are
+based on the marks in their active worlds. Communicative actions are
 the main way to contribute to marks in a given possible-world. The way that a
 given agent chooses who to target with their communicative action is chosen in
 accordance with \cref{alg:GetHighInfoGainP}.
@@ -255,7 +257,7 @@ by invoking \cref{alg:GetMostContradictory}.
 \setcounter{algorithmcaption}{4}
 \captionof{algorithmcaption}{Returns an agent with the most conflicting role claims}
 This algorithm outputs the agent which is the most suspicious due to being
-suspected of being the highest difference of roles in the top 1\% of possible-worlds.\\
+suspected of being the highest difference of roles in the top 1\% of active possible-worlds.\\
 This whole process is simply described in the following high-level algorithm
 \ref{alg:communicate} for how one agent handles their turn in the communication
 sub-phase.
@@ -311,7 +313,7 @@ to 3.
 When communication and the updating of possible-worlds has finished, the game
 moves on to the voting phase. Each agent chooses who to vote for, in a very
 similar manner to the choice of target for their communicative action
-previously shown in \cref{alg:GetHighInfoGainP}. They chose the world with the
+previously shown in \cref{alg:GetHighInfoGainP}. They chose the active world with the
 least marks, i.e. the one they find to be the most likely. If there are
 multiple, then they pick randomly between them. They then select a random
 member of the mafia from that world, and then vote for that agent.
@@ -356,10 +358,11 @@ In the real life version of the game, the morning phase begins after the night
 phase. Its only purpose is to publicly announce the public effects of the
 nightly actions, and then make all agent update their world-views, by using the
 previously discussed \cref{alg:updatePossibleWorlds}. However in the
-implementation facts are is aquired as soon as an action has occured. This
+implementation facts are aquired as soon as an action has occured. This
 change does not affect the game, as all agents already have declared which
-night action they want to take. As facts are revealed, possible-worlds are
-removed, meaning that one may slowly infer the roles of other agents.
+night action they want to take.\\ 
+As facts are revealed, possible-worlds are
+de-activated, meaning that one may slowly infer the roles of other agents.
 Furthermore, as people die, marks are added or altered based on how trustworthy
 the given victim's role was. \\ It is important to note, that while the
 semantics include inference in the form of propositions, and communicative
