@@ -75,16 +75,15 @@ number of agents with role $R$.
 
 For each subsequent role, $R_1, R_2, .., R_n$ that is added, the complexity expands
 with:
-\todo{why only -R1 in numerator?}
 \begin{equation}
 	\begin{gathered}
-		W: P, R_1, R_2, n\in  \mathbb{N} \mapsto \\
-		\frac{P!(P-R_1)}{\prod\limits_{i=1}^{n}R_i-1(P+\sum\limits_{j=1}^{i})}
-		\footnote{If the number of agents equals the
-			number of roles, then the formula collapses into P!.}
+		W: P, R_0 = 0, R_1, ..., R_n, n\in  \mathbb{N} \mapsto \\
+		\frac{\prod\limits_{i=0}^{n}(P-\sum\limits_{j=0}^{i}R_i)!}{\prod\limits_{i=1}^{n}R_i!*(P-\sum\limits_{j=1}^{i})!}
 		\label{eq:numofworlds}
 	\end{gathered}
 \end{equation}
+\footnote{If the number of agents equals the
+	number of roles, then the formula collapses into P!.}
 Each agent excludes possible-worlds that are not in
 accordance with the role that they have been given.\\
 For example: agent, \textit{a}, if given the role of sheriff, will exclude all
