@@ -9,96 +9,87 @@ To provide some context for the upcoming sections, we will first describe the
 data structures they are based upon.
 
 A game consists of some $n$ number of agents, wherein each agent has $m$ amount
-of worlds, where $m$ is the result of \cref{eq:numofworlds}. A world, often
+of worlds, how $m$ is defined is described in \cref{sec:TheKnowledgeOfAgents}. A world, often
 referred to as a possible world, describes a possible combination of
 roles/agents. Each world has a list of roles, which represents that specific
-world's combination. This relation is depicted in \cref{fig:DataStructuresUML}.
-\begin{comment}
-To provide some context for the upcoming sections, this part will describe the
-data structures they are based upon. \\ \\ A world, often
-referred to as a possible world, describes a possible combination of roles/agents.
-Most information is unknown to an agent in its environment,
-therefore if a role of another agent is unknown they could be all roles. So for
-each agent, they store their own list of all possible worlds, with every single
-combination of agents and roles. Each world object itself stores whether it is active,
-and number of marks. Marks and is active\footnote{Is active refers to active and inactive
-	worlds} both being previously described in \cref{sec:Modelling}.\\ The
-player object stores information about the agent, such as name, role, and alive
-status. Besides storing information it acts as a gateway to functions that
-include the agent. Such as communication, instead of calling a function and
-including the agent, the communication is called directly from the agent object. \\
-The overall data structure is the game object, that encapsulates all
-information and objects into a single object.
-\end{comment}
+world's role composition. This relation is depicted in \cref{fig:DataStructuresUML}.
 \renewcommand{\umlfillcolor}{white}
 \renewcommand{\umldrawcolor}{blue}
 \begin{figure}[H]
 	\centering
 	\scalebox{0.8}{
 		\begin{tikzpicture}
-			\begin{class}[text width= 2.5cm]{Game}{0,0}
-				\attribute{agents : List}
+			\begin{class}[text width= 3cm]{Game}{-1,0}
+				\attribute{agents : list}
 				\operation{runDayPhase()}
 				\operation{runNightPhase()}
 				\operation{checkFinished()}
 			\end{class}
-			\begin{class}[text width=4.5cm]{Agent}{5,1.2}
+			\begin{class}[text width=4.5cm]{Agent}{5,0}
 				\attribute{worlds : list}
+				\attribute{communicationLog : list}
+				\attribute{role : string}
+				\attribute{isAlive : bool}
 				\operation{updateWorlds(information)}
 				\operation{nightAction()}
 				\operation{communication()}
 			\end{class}
-			\begin{class}[text width=4cm]{World}{3,-3}
+			\begin{class}[text width=4cm]{World}{-0.5,-5}
 				\attribute{possibleAgents: list}
 				\attribute{marks : integer}
 				\attribute{isActive : boolean}
 				\attribute{isPrivateActive : boolean}
 			\end{class}
-			\unidirectionalAssociation{Game}{1..*}{}{Agent}{}{}
-			\unidirectionalAssociation{Agent}{1..*}{}{World}{}{}
+			\begin{class}[text width=3.5cm]{PossibleAgent}{5.5,-5}
+				\attribute{actualAgent: agnet}
+				\attribute{isActive : boolean}
+				\attribute{possibleRole : string}
+			\end{class}
+			\unidirectionalAssociation{Game}{}{1..n}{Agent}{}{}
+			\unidirectionalAssociation{Agent}{}{1..m}{World}{}{}
+			\unidirectionalAssociation{World}{1..n}{}{PossibleAgent}{}{}
+			\unidirectionalAssociation{PossibleAgent}{*..1}{}{Agent}{}{}
 		\end{tikzpicture}}
 	\vspace*{3mm}
-	\caption{Simplified UML diagram of data structures}
+	\caption{Simplified UML diagram of data structures, where n is the amount of agents and m is the amount of worlds for each agent}
 	\label{fig:DataStructuresUML}
 \end{figure}
 We argue this encapsulates the model both described in \cref{sec:Modelling}, and the formalisation in
-\cref{sec:DynamicInquiryLanguage}, \cref{eq:3}, most noteworthy is the relation between $W$ and \textbf{Ag}.
+\cref{sec:DynamicInquiryLanguage}, \cref{eq:3}, most noteworthy is the relation between $W$ and \textbf{Ag}. The individual elements of \cref{fig:DataStructuresUML} will be explained further in the following sections.
 \subsubsection{The Knowledge of Agents}\label{sec:TheKnowledgeOfAgents}
 The knowledge and logical propositions of agents has been chosen to be
-represented with a truth-table approach. Which refers to the possible worlds
-which store every single combination of agents and roles. The following
-equation shows the space complexity of the list given agent count $P$ and the
-number of agents with role $R$.
+represented with a truth-table approach, which refers to the possible worlds
+which store all possible pairings of agents and roles. The following
+equation shows the space complexity of the list given agent count $A$ and the
+number of agents with role $R$, this expression also assumes that agents that are not assigned a role, will become villagers.
 \begin{equation}
-	W: P,R \in  \mathbb{N} \mapsto \frac{P!}{R!(P-R)!}\
+	W: A,R \in  \mathbb{N} \mapsto \frac{A!}{R!(A-R)!}\
 \end{equation}
 
 For each subsequent role, $R_1, R_2, .., R_n$ that is added, the complexity expands
 with:
 \begin{equation}
 	\begin{gathered}
-		W: P, R_0 = 0, R_1, ..., R_n, n\in  \mathbb{N} \mapsto \\
-		\frac{\prod\limits_{i=0}^{n}(P-\sum\limits_{j=0}^{i}R_i)!}{\prod\limits_{i=1}^{n}R_i!*(P-\sum\limits_{j=1}^{i})!}
+		W: A, R_0 = 0, R_1, ..., R_n, n\in  \mathbb{N} \mapsto \\
+		\frac{\prod\limits_{i=0}^{n}(A-\sum\limits_{j=0}^{i}R_i)!}{\prod\limits_{i=1}^{n}R_i!*(A-\sum\limits_{j=1}^{i})!}
 		\label{eq:numofworlds}
-	\end{gathered}
+	\end{gathered}\footnote{If the number of agents equals the
+	number of roles, then the formula collapses into A!.}
 \end{equation}
-\footnote{If the number of agents equals the
-	number of roles, then the formula collapses into P!.}
+
 Each agent excludes possible-worlds that are not in
 accordance with the role that they have been given.\\
-For example: agent, \textit{a}, if given the role of sheriff, will exclude all
+\textit{For example}: Agent, \textit{a}, if given the role of sheriff, will exclude all
 possible-worlds where their role is not sheriff, while another agent \textit{b}
 may
 keep some of those possible-worlds, since they do not know the role of
 \textit{a}.\\ In our implementation, this means that for agent \textit{a} the worlds, 
 where they are not a sheriff are privately inactive.
-Furthermore, each possible-world also contains data on who have made what
-claims, and
-whether that claim is true or false in this given possible-world. This is
+Furthermore, each agent also contains a list of who have made what
+claims, and with this, they can extrapolate
+whether that claim is true or false in a given possible-world. This is
 represented
-by an array for each possible-world, which keeps track of the lies of agents.
-Going forward, these lies will be known as
-\textit{marks}. If a world has many
+by a list of communicative actions, and the amount of lies of agents, is stored on the possible worlds as \textit{marks}. If a world has many
 marks, it implies that many agents have lied if this is the true world. It is
 also important to remember, that we keep track of who contributed to each mark
 in a given world. This will be explained further in the following sections.
@@ -107,9 +98,9 @@ in a given world. This will be explained further in the following sections.
 When a new fact is revealed, such as when an agent dies and their role is
 revealed, all agents will immediately exclude all possible-worlds in which the
 dead agent is anything other than their revealed role. Implementation wise, this means
-that the worlds which are not in accordance with the new information are set as inactive. We will henceforth refer to these as active or inactive worlds. 
-This is corresponds to the model update defined in \cref{eq:5}. An agent dying is the way that most roles learn new facts. \\ Furthermore, depending on the role that died, all agents
-update the marks that the dead agent contributed to. For example:\\ A sheriff
+that the worlds which are not in accordance with the new information are set as inactive\footnote{Practically this is equivalent to them being deleted}. We will henceforth refer to these as active or inactive worlds. 
+This corresponds to the model update defined in \cref{eq:5}. An agent dying is the way that most roles learn new facts. \\ Furthermore, depending on the role that died, all agents
+update the marks that the dead agent contributed to.\\ \textit{For example}: A sheriff
 has a nightly action which allows them to gain more information than regular
 villagers. Therefore, the marks that a sheriff has contributed to, should be
 weighed more heavily than those of other roles. To emulate this other agents
@@ -141,7 +132,7 @@ is done in accordance with the pseudocode in \cref{alg:StartGame}.
 \captionof{algorithmcaption}{Pseudocode for starting and running the
 	game.}
 The game begins by loading the role-configuration for that specific game, and
-then generating the worlds for all players. It then goes through the day- and
+then generating the worlds for all agents. It then goes through the day- and
 night phases, followed by checking if either team has won. It does this in a
 loop until either team has won.
 
@@ -152,10 +143,10 @@ phases are performed in order, and controlled by \cref{alg:dayPhase}.
 	\caption{Day phase}
 	\begin{algorithmic}[1]
 		\Function{dayPhase}{}
-		\ForAll{p $in$ game.Ps}
-		\State p.communicate()
+		\ForAll{a $in$ game.Agents}
+		\State a.communicate()
 		\EndFor
-		\ForAll{p $in$ game.Ps}
+		\ForAll{a $in$ game.Agents}
 		\State votes $\gets$ votes + voting()
 		\EndFor
 
@@ -165,7 +156,7 @@ phases are performed in order, and controlled by \cref{alg:dayPhase}.
 \end{algorithm}
 \setcounter{algorithmcaption}{1}
 \captionof{algorithmcaption}{The order of sub-phases within the day phase.}
-First all players communicate, then they all vote.
+First all agents communicate, then they all vote.
 
 \subsubsection{Communication}\label{sec:communication}
 The communication sub-phase is where agents share information with each other
@@ -174,22 +165,22 @@ the main way to contribute to marks in a given possible-world. The way that a
 given agent chooses who to target with their communicative action is chosen in
 accordance with \cref{alg:GetHighInfoGainP}.
 \begin{algorithm}[H]
-	\caption{GetHighInfoGainP(me, tWorlds)}
+	\caption{GetHighInfoGainA(me, tWorlds)}
 	\begin{algorithmic}
 		\If{nonAccused.Count $>$ 0 OR Game.Round = 0}
-		\State $(p, wID)$ $\gets$ GetNonAccused(me)
+		\State $(a, wID)$ $\gets$ GetNonAccused(me)
 		\If{wID != -1}
-		\State \Return (p, wID)
+		\State \Return (a, wID)
 		\EndIf
 		\EndIf
 
-		\State (p, wID) $\gets$ GetMostContradictory(tWorlds, me)
+		\State (a, wID) $\gets$ GetMostContradictory(tWorlds, me)
 		\If{wID != -1}
-		\State \Return (p, wID)
+		\State \Return (a, wID)
 		\EndIf
 
 		\State w $\gets$ random world from me.PossWorlds \State
-		p $\gets$ random player from w.PossPlayers \State \Return (p, index of w in
+		a $\gets$ random agent from w.PossAgents \State \Return (a, index of w in
 		me.PossWorlds)
 	\end{algorithmic}\label{alg:GetHighInfoGainP}
 \end{algorithm}
@@ -205,7 +196,7 @@ Then finds the most contradictory information as shown in
 	\caption{GetNonAccused(me)}
 	\begin{algorithmic}
 		\If{nonAccused.Count = 0 AND Game.Round = 0}
-		\State nonAccused $\gets$ all players in me.PossWorlds[0]
+		\State nonAccused $\gets$ all agents in me.PossWorlds[0]
 		\EndIf
 
 		\ForAll{accusation in me.accusations}
@@ -237,13 +228,13 @@ by invoking \cref{alg:GetMostContradictory}.
 		\State roleCounts $\gets$ getRoleCounts(tWorlds)
 
 		\ForAll{w in tWorlds}
-		\ForAll{p in w.PossPlayers where p != me AND p is alive}
-		\State highest $\gets$ roleCounts[p].Max()
-		\State secHighest $\gets$ roleCounts[p].SecondMax()
+		\ForAll{a in w.PossAgents where a != me AND a is alive}
+		\State highest $\gets$ roleCounts[a].Max()
+		\State secHighest $\gets$ roleCounts[a].SecondMax()
 
 		\State contraScore $\gets$ secHighest / highest
 		\If{contraScore $>$ maxScore}
-		\State mostContradictory $\gets$ p
+		\State mostContradictory $\gets$ a
 		\State maxScore $\gets$ contraScore
 		\State wID $\gets$ index of w
 		\EndIf
@@ -267,9 +258,9 @@ sub-phase.
 		\State action $\gets$ self.getAction(world)
 
 		\If{action is inquire or accuse}
-		\State p $\gets$ getHighestInfoGainP()
-		\State question $\gets$ getHighestInfoQuestion(p)
-		\State commAction $\gets$ self.ask(p, question)
+		\State a $\gets$ getHighestInfoGainA()
+		\State question $\gets$ getHighestInfoQuestion(a)
+		\State commAction $\gets$ self.ask(a, question)
 		\ElsIf{action is defend}
 		\State commAction $\gets$ self.claimRole()
 		\EndIf
@@ -290,8 +281,8 @@ The updating of their worlds is performed in accordance with
 	\caption{Update possible worlds}
 	\begin{algorithmic}[1]
 		\Function{updatePossWorlds}{information}
-		\ForAll{p $in$ game.Ps}
-		\ForAll{possWorld $in$ p.possWorlds}
+		\ForAll{a $in$ game.Agents}
+		\ForAll{possWorld $in$ a.possWorlds}
 		\State possWorld.UpdateMarks(information)
 		\EndFor
 		\EndFor
@@ -333,10 +324,10 @@ nightly action is performed can be seen in \cref{alg:nightPhase}.
 		\If{self.role == Sheriff}
 		\State world $\gets$ getMostPlausibleWorld()
 
-		\State susPs $\gets$ getSortedPossMafPs(world)
-		\State susPs.remove(self.previousTargets)
+		\State susAgents $\gets$ getSortedPossMafAgents(world)
+		\State susAgents.remove(self.previousTargets)
 
-		\State self.actResult $\gets$ interrogate(susPs[0])
+		\State self.actResult $\gets$ interrogate(susAgents[0])
 		\EndIf
 		\EndFunction
 
@@ -347,7 +338,7 @@ nightly action is performed can be seen in \cref{alg:nightPhase}.
 \captionof{algorithmcaption}{An example of a nightly action performed by the
 	sheriff. Self refers to an instance of an Agent.}
 The sheriff finds who the mafia members are in $W$, and then targets one of
-them, which he has not targeted before. Other players perform their actions
+them, which he has not targeted before. Other agents perform their actions
 similarly, such as the godfather trying to kill whomever is the sheriff in $W$.
 The doctor tries to save whomever is the sheriff in $W$, etc.
 
