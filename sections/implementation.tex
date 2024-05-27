@@ -156,7 +156,7 @@ phases are performed in order, and controlled by \cref{alg:dayPhase}.
 \end{algorithm}
 \setcounter{algorithmcaption}{1}
 \captionof{algorithmcaption}{The order of sub-phases within the day phase.}
-First all agents communicate, then they all vote.
+First all agents communicate, then they all vote. The voting function, returns, the target agent, which the calling agent, believes is the most suspicious and adds it to the \textit{votes} list.
 
 \subsubsection{Communication}\label{sec:communication}
 The communication sub-phase is where agents share information with each other
@@ -174,56 +174,55 @@ accordance with \cref{alg:GetHighInfoGainP}.
 		\EndIf
 		\EndIf
 
-		\State (a, wID) $\gets$ GetMostContradictory(tWorlds, me)
+		\State (a, wID) $\gets$ GetMostContradictory(me, tWorlds)
 		\If{wID != -1}
 		\State \Return (a, wID)
 		\EndIf
 
-		\State w $\gets$ random world from me.PossWorlds \State
+		\State w $\gets$ random world from me.Worlds \State
 		a $\gets$ random agent from w.PossAgents \State \Return (a, index of w in
-		me.PossWorlds)
+		me.Worlds)
 	\end{algorithmic}\label{alg:GetHighInfoGainP}
 \end{algorithm}
 \setcounter{algorithmcaption}{2}
 \captionof{algorithmcaption}{The base algorithms that handles the communicative logic.}
-Where the parameter "me" refers to the agent deciding an action. To get the highest information gain, \cref{alg:GetHighInfoGainP} returns an
+Where the parameter \textit{me} refers to the agent deciding an action, and \textit{tWorlds} is the top 1\% least marked worlds for \textit{me}. To get the highest information gain, \cref{alg:GetHighInfoGainP} returns an
 agent based on different factors.
-First it prioritizes non accused agents as shown in
+First, it prioritizes non-accused agents as shown in
 \cref{alg:GetNonAccused}.
 Then finds the most contradictory information as shown in
-\cref{alg:GetMostContradictory}. \\
+\cref{alg:GetMostContradictory}. We do this, to first gain some information on every player, and then target the one with most contradictions. \\
 \begin{algorithm}[H]
 	\caption{GetNonAccused(me)}
 	\begin{algorithmic}
 		\If{nonAccused.Count = 0 AND Game.Round = 0}
-		\State nonAccused $\gets$ all agents in me.PossWorlds[0]
+		\State nonAccused $\gets$ all agents in me.Worlds[0]
 		\EndIf
 
-		\ForAll{accusation in me.accusations}
-		\State nonAccu.Remove(accusation.Acusse)
+		\ForAll{communication in me.CommunicationLog}
+		\State nonAccused.Remove(communication.target)
 		\EndFor
 
-		\State nonAccu.Remove(me)
+		\State nonAccused.Remove(me)
 
 		\If{nonAccused.Count != 0}
-		\State \Return nonAccused[randomI]
+		\State \Return nonAccused[random]
 		\EndIf
 
 		\State \Return (null, -1)
 	\end{algorithmic}\label{alg:GetNonAccused}
 \end{algorithm}
 \setcounter{algorithmcaption}{3}
-\captionof{algorithmcaption}{Returns an agent that haven't been accused yet}
+\captionof{algorithmcaption}{Returns an agent that haven't been accused yet. nonAccused is a local list of agents which have not yet been targeted.}
 Each agent initialises a list of all other agents at the
 start of the first communication phase. Whenever an agent targets another agent
 with a communicative action, they remove the target agent from their individual
-list. When an agent has targeted all other agents with one communicative action
-they will have gained some knowledge of all agents, which they may use to determine
+list. The target will also be removed from the other agents lists, before the target for their communicative action is decided. When all agents have been targeted with one communicative action, some knowledge on all agents is available, which they will use to determine
 the new best target for their communicative
 actions. This is done in the next step of \cref{alg:GetHighInfoGainP},
 by invoking \cref{alg:GetMostContradictory}.
 \begin{algorithm}[H]
-	\caption{GetMostContradictory(tWorlds, me)}
+	\caption{GetMostContradictory(me, tWorlds)}
 	\begin{algorithmic}
 		\State roleCounts $\gets$ getRoleCounts(tWorlds)
 
@@ -244,7 +243,7 @@ by invoking \cref{alg:GetMostContradictory}.
 	\end{algorithmic}\label{alg:GetMostContradictory}
 \end{algorithm}
 \setcounter{algorithmcaption}{4}
-\captionof{algorithmcaption}{Returns an agent with the most conflicting role claims. Self refers to an instance of an Agent.}
+\captionof{algorithmcaption}{Returns an agent with the most conflicting role claims. \textit{roleCounts} is the amount of different roles, an agent is in tWorlds}
 This algorithm outputs the agent which is the most suspicious due to being
 suspected of being the highest difference of roles in the top 1\% of active possible-worlds.\\
 This whole process is simply described in the following high-level algorithm
@@ -258,11 +257,11 @@ sub-phase.
 		\State action $\gets$ self.getAction(world)
 
 		\If{action is inquire or accuse}
-		\State a $\gets$ getHighestInfoGainA()
+		\State a $\gets$ getHighestInfoGainA(me, tWorlds)
 		\State question $\gets$ getHighestInfoQuestion(a)
-		\State commAction $\gets$ self.ask(a, question)
+		\State commAction $\gets$ me.ask(a, question)
 		\ElsIf{action is defend}
-		\State commAction $\gets$ self.claimRole()
+		\State commAction $\gets$ me.claimRole()
 		\EndIf
 
 		\State updatePossibleWorlds(commAction)
@@ -271,7 +270,7 @@ sub-phase.
 \end{algorithm}
 \setcounter{algorithmcaption}{5}
 \captionof{algorithmcaption}{High-level pseudocode of an agents turn during the
-	communication sub-phase. Self refers to an instance of an Agent class.}
+	communication sub-phase.}
 It describes how an agents turn consists of finding their most plausible world,
 deciding what actions to take, choosing their target, as described above, and
 then updating their worlds' marks according to the outcome of the action.
@@ -282,17 +281,17 @@ The updating of their worlds is performed in accordance with
 	\begin{algorithmic}[1]
 		\Function{updatePossWorlds}{information}
 		\ForAll{a $in$ game.Agents}
-		\ForAll{possWorld $in$ a.possWorlds}
-		\State possWorld.UpdateMarks(information)
+		\ForAll{world $in$ a.Worlds}
+		\State world.UpdateMarks(information)
 		\EndFor
 		\EndFor
 		\EndFunction
 	\end{algorithmic}\label{alg:updatePossibleWorlds}
 \end{algorithm}
 \setcounter{algorithmcaption}{6}
-\captionof{algorithmcaption}{The updating of possible worlds.}
-Whenever an agent gets an answer for their communicative action, all agents update their
-world view by invoking \cref{alg:updatePossibleWorlds}.\\
+\captionof{algorithmcaption}{The updating of possible worlds. \textit{information} refers to either a communicative action or when a player dies.}
+Whenever an agent gets an answer for their communicative action, or when other information is gained, all agents update their
+world view by invoking \cref{alg:updatePossibleWorlds}. The \textit{UpdateMarks} function works, by reviewing the new information, and checking if the information is true or false in that world. If the information is false then a mark is added, else nothing happens.\\
 
 The phase ends when a variable amount of communicative actions have been
 performed by each agent, which, in this implementation has been arbitrarily set
@@ -321,13 +320,13 @@ nightly action is performed can be seen in \cref{alg:nightPhase}.
 	\caption{Night action}
 	\begin{algorithmic}[1]
 		\Function{performNightAction}{}
-		\If{self.role == Sheriff}
+		\If{me.role == Sheriff}
 		\State world $\gets$ getMostPlausibleWorld()
 
 		\State susAgents $\gets$ getSortedPossMafAgents(world)
-		\State susAgents.remove(self.previousTargets)
+		\State susAgents.remove(me.previousTargets)
 
-		\State self.actResult $\gets$ interrogate(susAgents[0])
+		\State me.actResult $\gets$ interrogate(susAgents[0])
 		\EndIf
 		\EndFunction
 
@@ -336,7 +335,7 @@ nightly action is performed can be seen in \cref{alg:nightPhase}.
 \end{algorithm}
 \setcounter{algorithmcaption}{7}
 \captionof{algorithmcaption}{An example of a nightly action performed by the
-	sheriff. Self refers to an instance of an Agent.}
+	sheriff. \textit{interrogate} sets all worlds that are not in accordance with the new information to privately-inactive}
 The sheriff finds who the mafia members are in $W$, and then targets one of
 them, which he has not targeted before. Other agents perform their actions
 similarly, such as the godfather trying to kill whomever is the sheriff in $W$.
@@ -371,13 +370,11 @@ a set of propositions \{$\varphi$, $\psi$\, $\gamma$, ...\} where $\varphi$ =
 \textit{b} is a villager or godfather or ..." for all \textit{3} roles, except
 sheriff, which agent \textit{a} knows he himself is. $\gamma$ = $(\gamma_1 \lor
 	\gamma_2 \lor .. \lor \gamma_{n-1}) $ = "agent \textit{c} is a villager or
-godfather or...", and so on for each agent. \\ In our simulation, we generate
-$W$ by creating all possible worlds, based on the aforementioned propositions,
-by utilizing the pseudocode function
-\lstinline{generateWorlds()} provided in appendix \ref{app:B}. \\ A round then
-starts with communicative actions, where agent \textit{b} says "I am villager",
+godfather or...", and so on for each agent. \\ In our simulation, we begin the game, by loading the game-configuration and generate the worlds
+$W$ by creating all possible worlds, in accordance with \cref{alg:StartGame}. A round then
+starts as described by \cref{alg:dayPhase} with communicative actions, where agent \textit{b} says "I am villager",
 represented for agent \textit{a} by $((p \land \neg q) \lor (\neg p \land q))$, where p is "agent \textit{b} is a villager and is telling the truth",
-and q is "agent b is not a villager and is lying". The expression essentielly represents that agent \textit{a} does not yet know whether
+and q is "agent b is not a villager and is lying". The expression essentially represents that agent \textit{a} does not yet know whether
 agent \textit{b}'s statement is true or false. But, by inference he may deduce
 that if what agent \textit{b} says is correct, then it is also true that they
 are the mentioned role. This is represented by $(p \land \neg q) \rightarrow
@@ -386,11 +383,8 @@ are the mentioned role. This is represented by $(p \land \neg q) \rightarrow
 not a villager. \\ Agent \textit{c} also says that they are a villager,
 represented by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
 
-When the agents communicate this, they choose which action to take, based on
-what communicative action will result in the most amount of worlds being marked
-as inactive, whenever the proposition provided by the communicative action is
-proven or disproven \ref{alg:communicate}. This whole sequence can be expressed
-by the following formula:
+When the agents communicate this, they choose which action to take, based on \cref{alg:communicate}, which itself invokes \cref{alg:GetHighInfoGainP},  \cref{alg:GetNonAccused}, and \cref{alg:GetMostContradictory}.
+This whole sequence of communications can be expressed by the following formula:
 
 \begin{align}
 	\begin{split}
@@ -402,9 +396,8 @@ by the following formula:
 		\label{eq:7}
 	\end{split}
 \end{align}
-
-When the night phase comes, agent \textit{a} will interrogate agent \textit{b},
-resulting in agent \textit{a} knowing the faction of agent \textit{b}. Agent
+These proporsitions are informally represented by the marks added by \cref{alg:updatePossibleWorlds}.\\
+When the night phase comes, agent \textit{a}, who is the sheriff, will use \cref{alg:nightPhase} with agent \textit{b} as the target. This results in agent \textit{a} knowing the faction of agent \textit{b}. Agent
 \textit{a} will come to know that agent \textit{b} is a member of the mafia.
 Directly proving $\neg p$, since the role of a villager belongs to the town
 faction, not the mafia faction. This action also excludes all active world from
