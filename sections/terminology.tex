@@ -1,58 +1,55 @@
 \section{Dynamic Inquiry Language} \label{sec:DynamicInquiryLanguage}
-Based on the previous sections, we will now formalise a language, which
-purpose is to model the agent's worlds. This includes communicating, inferring
-and updating their view based on newly acquired information. 
+Based on the previous sections, we will now formalise a language, which purpose
+is to model the agent's worlds. This includes communicating, inferring, and
+updating their views based on newly acquired information.
 
 The terminology and its notation used throughout this article will closely
 align with Yacien Hamami \cite{delimi}, although not all aspects will be
 presented here. Hamami uses an awareness operator to distinguish between
-explicit/implicit knowledge and an oracle to avoid logical omniscience, we
+explicit and implicit knowledge and an oracle to avoid logical omniscience, we
 however disregard this, as it is not within the scope of this article.
+\begin{table}[t]
+    \caption{Notional Schema \label{notationalschema}}
+    \begin{tabularx}{\linewidth}{p{0.40\linewidth}X}
+        \toprule
 
+        \multicolumn{2}{l}{{\underline{Symbols:}}}                                                             \\
+        \textbf{P}                                  & A countable set of atomic propositions                   \\
+        \textbf{Ag}                                 & A countable set of agents                                \\
+        \textit{M}                                  & An IMI epistemic model                                   \\
+        \textit{V}                                  & Atomic valuation function                                \\
+        $\sim_a$                                    & Binary equivalence relation for a given agent \textit{a} \\
+        \textbf{\powset}                            & The power set                                            \\
+        \oracle                                     & Inquiry language                                         \\
+        \staticlang                                 & Static epistemic language                                \\
+        \dynlang                                    & Dynamic epistemic language                               \\
+        $\gamma$                                    & Proposition in the inquiry language                      \\
+        $\varphi$ alt. $\psi$                       & Proposition in the static inquiry language               \\
+
+        \multicolumn{2}{l}{{\underline{Operators:}}}                                                           \\
+        $\land$, $\lor$, $\rightarrow$, $\neg$      & Boolean connectives                                      \\
+        $K_a\varphi$                                & Knowledge operator                                       \\
+        $R_a((\varphi_1,...,\varphi_n), \varphi_i)$ & Agent answer operator                                    \\
+        \pubop                                      & Public announcement operator                             \\
+        \agquestop                                  & Agent question operator                                  \\
+        \infop                                      & Inference operator                                       \\
+
+        \bottomrule
+    \end{tabularx}
+\end{table}
 The motivation for this section is to formally define our modelling
-prerequisites, and to argue for the correctness of these. First we define a 
-simple inquiry language, then extend this to our static
-inquiry language by introducing agents and knowledge, finally culminating in
-defining our dynamic inquiry epistemic language with information and model
-updates. An overview of notations is provided in \cref{notationalschema}, for
-easy references of the used notation. \\
+prerequisites, and to argue for the correctness of these. First we define a
+simple inquiry language, then extend this to our static inquiry language by
+introducing agents and knowledge, finally culminating in defining our dynamic
+inquiry epistemic language with information and model updates. An overview of
+notations is provided in \cref{notationalschema}, for easy references. \\
 
-Firstly, we will define our \textit{inquiry language}. Recall that in
-DELs, factual information is represented in the propositional language
-and is therefore also the inquiry language, denoted by \oracle, defined in BNF
-format:
+Firstly, we will define our \textit{inquiry language}. Recall that in DELs,
+factual information is represented in the propositional language and is
+therefore also the inquiry language, denoted by \oracle, defined in BNF format:
 \begin{align}
     \gamma::= p \sep\:\neg\gamma\sep(\gamma\land\gamma) \label{eq:1}
 \end{align}
-\begin{table}[t]
-	\caption{Notional Schema \label{notationalschema}}
-	\begin{tabularx}{\linewidth}{p{0.40\linewidth}X}
-		\toprule
-		
-		\multicolumn{2}{l}{{\underline{Symbols:}}}                                                             \\
-		\textbf{P}                                  & A countable set of atomic propositions                   \\
-		\textbf{Ag}                                 & A countable set of agents                                \\
-		\textit{M}                                  & An IMI epistemic model                                   \\
-		\textit{V}                                  & Atomic valuation function                                \\
-		$\sim_a$                                    & Binary equivalence function for a given agent \textit{a} \\
-		\textbf{\powset}                            & The power set                                            \\
-		\oracle                                     & Inquiry language                                         \\
-		\staticlang                                 & Static epistemic language                                \\
-		\dynlang                                    & Dynamic epistemic language                               \\
-		$\gamma$                                    & Proposition in the inquiry language                      \\
-		$\varphi$ alt. $\psi$                       & Proposition in the static inquiry language               \\
-		
-		\multicolumn{2}{l}{{\underline{Operators:}}}                                                           \\
-		$\land$, $\lor$, $\rightarrow$, $\neg$    & Boolean connectives                                      \\
-		$K_a\varphi$                                & Knowledge operator                                       \\
-		$R_a((\varphi_1,...,\varphi_n), \varphi_i)$ & Agent answer operator                                    \\
-		\pubop                                      & Public announcement operator                             \\
-		\agquestop                                  & Agent question operator                                  \\
-		\infop                                      & Inference operator                                       \\
-		
-		\bottomrule
-	\end{tabularx}
-\end{table}
 where \textbf{P} is a countable set of atomic propositions, $p \in\mathbf{P}$
 and $\gamma$ reads as a proposition is either a fact, the negation of a
 proposition or the conjunction of propositions. The \textit{inquiry language}
@@ -82,18 +79,19 @@ where:
     \item $V : W \rightarrow \mathscr{P}(\mathbf{P})$ is the atomic valuation function, which yields the propositions which are true in each world.
     \item $R_a : W \rightarrow \powset(\staticlang) \times \staticlang$ is the answering \newline rule of agent \textit{a} associating each world $w \in W$ with a pair of the form \aset $\:$ where $(\varphi_1,...,\varphi_n) \subseteq \staticlang$ and $\varphi_i \in \staticlang$.
 \end{itemize}
-Where $\mathscr{P}$ denotes the power-set. We introduce the answer functions, so agents are able to model or predict in possible worlds, based on what they know, what another agent will answer. They are modelled as pairs of a series of questions to one answer, because the provided answer to a series of questions can be a conjunction of propositions. We hypothesize that answering correct accordingly to a world, should imply some sense of truthfulness to this world. By our static epistemic language \staticlang\: and model $M$, we can define the following semantics:
+Where $\mathscr{P}$ denotes the power-set. We introduce the answer operator, so agents are able to model or predict in possible worlds, based on what they know, what another agent will answer. They are modelled as pairs of a series of questions to one answer, because the provided answer to a series of questions can be a conjunction of propositions. We hypothesize that answering correctly according to a world, should imply some sense of truthfulness to this world. By our static epistemic language \staticlang\: and model $M$, we can define the following semantics:
 
 \begin{gather}
     M, w |= p \iff p \in V(w) \label{sem:1}\\
     M, w |= \neg\varphi \iff M, w \not\models \varphi \label{sem:2}\\
     M, w |= (\varphi \land \psi) \iff M, w |= \varphi \land M, w |= \psi \label{sem:3}\\
-    M, w |= (\varphi \lor \psi) \iff M, w |= \varphi \lor M, w |= \psi\\
-    M, w |= \nonumber (\varphi \rightarrow \psi) \iff \\ M, w |= \varphi \implies M, w |= \psi \: or \: M, w \not\models \varphi \land M, w \not\models \psi\\
+    M, w |= (\varphi \lor \psi) \iff M, w |= \varphi \lor M, w |= \psi\label{sem:or}
+    \\
+    M, w |= \nonumber (\varphi \rightarrow \psi) \iff\\ M, w |= \varphi \implies M, w |= \psi \: or \: M, w \not\models \varphi \land M, w \not\models \psi\label{sem:implies}\\
     M, w |= \know \iff \forall u\in W, u \sim_{a} w \implies M, u |= \varphi \label{sem:4} \\
     M, w |= R_a \iff \aset \in R_a(w) \label{sem:5}
 \end{gather}
-While \cref{sem:1}, \cref{sem:2} and \cref{sem:3} are trivial, \cref{sem:4} explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in these do not have conflicting propositions. The answer function \cref{sem:5} is likewise only satisfied in a world given a model, when some pair of questions and answer is in set of the agent answering operator.
+While \cref{sem:1,sem:2,sem:3,sem:or,sem:implies} are trivial, \cref{sem:4} explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in this does not have conflicting propositions. The answer function \cref{sem:5} is likewise only satisfied in a world given a model, when some pair of questions and answer is in the set of the agent answering operator.
 
 \subsubsection*{Information Update}
 To extend our static language \staticlang\: to a dynamic language, which we will donate as \dynlang, we introduce three new operators, the \textit{public information update operator}, the \textit{agent question operator} and the \textit{inference operator}:
@@ -101,7 +99,7 @@ To extend our static language \staticlang\: to a dynamic language, which we will
 \begin{equation}
     \pubop \sep \agquestop \sep \infop \label{eq:6}
 \end{equation}
-The information update operator \pubop \: reads as "after public announcement of $\psi$, then \proposition is the case", with $\varphi, \psi \in \staticlang$. Formulas of the form \agquestop\: are read as "\proposition is the case after agent \textit{a} has asked the question $(\varphi_1,...,\varphi_n)$ to agent \textit{b}", and \infop\: is read as "\proposition is the case after agent \textit{a} has logically inferred $\psi_c$ from premises $\{\psi_1,...,\psi_m\}$". All these require some notion of model update, which we will define by a given model similar to \cref{eq:3}, and a model $M'$ as:
+The public information update operator \pubop \: reads as "after public announcement of $\psi$, then \proposition is the case", with $\varphi, \psi \in \dynlang$. Formulas of the form \agquestop\: are read as "\proposition is the case after agent \textit{a} has asked the question $(\varphi_1,...,\varphi_n)$ to agent \textit{b}", and \infop\: is read as "\proposition is the case after agent \textit{a} has logically inferred $\psi_c$ from premises $\{\psi_1,...,\psi_m\}$". All these require some notion of model update, which we will define by a given model similar to \cref{eq:3}, and a model $M'$ as:
 \begin{flalign}
     M|\varphi & = M' \label{eq:4}                                                   \\
     M'        & = \langle W', \sim'_{a\in Ag}, V', R'_{a\in Ag}\rangle \label{eq:5}
@@ -115,7 +113,7 @@ In which $\proposition \in \dynlang$. Note that the expression $M|\varphi$ in \c
     \item $V' := V | W'$
     \item $R'_{a\in Ag} := R_{a\in Ag} | W'$
 \end{itemize}
-While all three operators are inherently information updates and follow the above listed transformations, the \textit{agent question operator}, which we will denote as $Q_{A}?$ with $Q_A = (\varphi_1,...,\varphi_n)$ and the \textit{inference operator} denoted by $I$, where $I = \{\psi_1,...,\psi_m \}\hookrightarrow \psi_c$, have additional constraints. An agent should not be able to ask a question without knowledge of it's presupposition and it should be a part of the opposing agent's answer set. This can be described as:
+While all three operators are inherently information updates and follow the above listed transformations, the \textit{agent question operator}, which we will denote as $Q_{A}?$ with $Q_A = (\varphi_1,...,\varphi_n)$ and the \textit{inference operator} denoted by $I$, where $I = \{\psi_1,...,\psi_m \}\hookrightarrow \psi_c$, have additional constraints. An agent should not be able to ask a question without knowledge of it's presupposition, and it should be a part of the opposing agent's answer set. This can be described as:
 \begin{itemize}
     \item When $Q_A = (\varphi_1,...,\varphi_n) \in \powset(\staticlang)$, then if there
           exists $\varphi \in Q_A$ such that $M, w \models K_b\varphi$ and $(Q_A,
@@ -125,7 +123,7 @@ While all three operators are inherently information updates and follow the abov
           \end{align}
     \item Otherwise, $M^{a,b}_{Q_{A}}?(w) := M$
 \end{itemize}
-Such that the updated model satisfy the worlds in which \proposition\: is also satisfied. Informally this can described as the updated model $M|\varphi_i$ contains the worlds in which the answer to $Q_A$ is also the expected answer, based on the answering rule \cref{sem:5}. Note that the semantic description do not specify when an agent should choose which answer. This we leave for the implementation in \cref{sec:implementation}. Additionally we constrain the operator, such that agent $a$ asking question $Q_A$ should have knowledge about at least one of the propositions. This is necessary since questions are regarded as potentially a series of questions, and during an interrogation an agent can infer from intermediate answers. We formally describe the precondition to $Q_A?$ in \dynlang, where $Q_A = (\varphi_1,...,\varphi_n)$:
+Such that the updated model satisfy the worlds in which \proposition\: is also satisfied. Informally this can described as the updated model $M|\varphi_i$ contains the worlds in which the answer to $Q_A$ is also the expected answer, based on the answering rule \cref{sem:5}. Note that the semantic description does not specify how an agent should choose an answer. This we leave for the implementation in \cref{sec:implementation}. Additionally, we constrain the operator, such that agent $a$ asking question $Q_A$ should have knowledge about at least one of the propositions. This is necessary since questions are regarded as potentially a series of questions, and during an interrogation an agent can infer from intermediate answers. We formally describe the precondition to $Q_A?$ in \dynlang, where $Q_A = (\varphi_1,...,\varphi_n)$:
 
 \begin{gather}
     pre_{a,b}(Q_A) := K_a\Biggl(\bigvee\limits_{i\in 1,n}\varphi_i\Biggr)
@@ -140,18 +138,18 @@ The inference operator $I$ as we described earlier, can simply be denoted as a m
               M^a_I(w) := M|\psi_c
           \end{gather}
 \end{itemize}
-Similar to the definition of the precondition to the \textit{agent operator}, we also require the agent to be knowledgeable about both the premise, and that the conclusion follows from these. We describe this by:
+Similar to the definition of the precondition to the \textit{agent question operator}, we also require the agent to be knowledgeable about both the premise, and that the conclusion follows from these. We describe this by:
 \begin{gather}
     \nonumber pre_{a}(I) := \\ \bigwedge\limits_{i\in1,m}K_a\psi_i \land K_a\Biggl(\Biggl(\:\bigwedge\limits_{i\in 1,m}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
 \end{gather}
 We now have the prerequisites for defining the semantics of our dynamic language \dynlang. They are based on the previous listed in \crefrange{sem:1}{sem:5} describing the \staticlang, extending it with the newly introduced \textit{information update operator}, \textit{agent question operator} and \textit{inference operator}:
 \begin{gather}
-	M, w \models [\psi!]\varphi \iff \\
-	\nonumber M, w \models \psi \implies M|\psi, w \models \varphi \\\nonumber \\
-	M, w \models [Q_A?]_{a,b}\varphi \iff \\
-	\nonumber M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi\\\nonumber\\
-	M, w \models [I]_a\varphi \iff \\
-	\nonumber M, w \models pre_a(I) \implies M^a_I(w), w \models \varphi
+    M, w \models [\psi!]\varphi \iff \\
+    \nonumber M, w \models \psi \implies M|\psi, w \models \varphi \\\nonumber \\
+    M, w \models [Q_A?]_{a,b}\varphi \iff \\
+    \nonumber M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi\\\nonumber\\
+    M, w \models [I]_a\varphi \iff \\
+    \nonumber M, w \models pre_a(I) \implies M^a_I(w), w \models \varphi
 \end{gather}
 Informally, these simply explain that the semantics for the update of worlds only hold if their preconditions hold, which then in turn implies that the worlds accessible after the model update includes the conclusive proposition. \\
 
