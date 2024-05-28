@@ -2,22 +2,22 @@
 \begin{center}
 	\section*{Summary}\label{sec:summary}
 \end{center}
-This paper investigates the disparity between win-rates of opposing teams in
+This paper investigates the disparity between win-rates of opposing teams, in
 social deduction games with an abundance of special roles. To do  this, an
 approach based on epistemic logic and common sense is used to create a
 simulation that emulates physical games of this type. The formalization of the
-game is based on similar approaches within the same field, combining previous works based on dynamic epistemology with inquiry epistemology,
+game is based on similar approaches within the field, combining previous works based on dynamic epistemology with inquiry epistemology,
 which we hypothesize to more realistically reflect the actual game. This formalization allows agents to model the anticipated answer to any question, and then build goal-oriented
 paths of questions to other agents, from which they can deduce and infer facts or reveal lies. Additionally, agents are able to update their modelled view of worlds, based on newly acquired facts.
-This combination of fields in epistemology lays the groundwork of inference in the simulation,
+This combination of fields in epistemology lay the groundwork of inference in the simulation,
 as well as providing a formal framework for the description of behaviour
 reliant on logical formulae within the simulation. \\
-The game that we have modelled is phase based. This means that in different phases, the players can make different actions. During the day phase, the players can communicate with each other, and share their beliefs and knowledge. In the night phase some players may take a nightly action. The players are divided into two factions. The town faction and the mafia. Further, each player is assigned a role based on which faction they are. Each role has a unique nightly action.\\ \textit{As an example}: The sheriff may look at another player, and see what faction they belong to. The sheriff is one of two investigative roles that belong to the town. The consigliere is the only investigative role, that belongs to the mafia. The consigliere may look at another player and reveal their exact role. In this game, all mafia members have knowledge of each other, and because of that, the nightly action and targeting preferences of the consigliere is different to the sheriff.
-When a player has to decide who they are going to use their action on, we utilize the knowledge and beliefs they have gathered using our dynamic epistemic inquiry language. \\
+The game that we have modelled is phase based. This means that in different phases, the agents can take different actions. During the day phase, the agents can communicate with each other, and share their beliefs and knowledge. In the night phase some agents may take a nightly action. The agents are divided into two factions. The town faction and the mafia. Further, each agent is assigned a role based on which faction they have been assigned. Each role has a unique nightly action.\\ \textit{As an example}: The sheriff may look at another agent, and see what faction they belong to. The sheriff is one of two investigative roles that belong to the town. The consigliere is the only investigative role, that belongs to the mafia. The consigliere may look at another agent and reveal their exact role. In this game, all mafia members have knowledge of each other, and because of that, the nightly action and targeting preferences of the consigliere are different to the sheriff's.
+Agents utilize the knowledge and beliefs they have gathered using our dynamic epistemic inquiry language to choose the target of their actions. \\
 The simulation was built with a truth-table approach, resulting in a heavy
 computational burden, but with the benefit of being easy to understand
 intuitively. \\
 The simulation was run with a multitude of different team compositions. This
-resulted in the revelation that the most important factor to consider, when
-aiming for the creation of balanced social deduction games, is that killing-heavy mafia teams perform better than any other composition. Secondly, the ratio of mafia members to town members, is very impactful, but killing-heavy compositions may equalize this imbalance somewhat. Lastly, excluding killing-heavy teams showed that teams with the ability to acquire new information quickly performed better than those who could stop the town from performing their nightly actions.\\
+resulted in the revelation that there are multiple important factors to consider, when
+aiming for the creation of balanced social deduction games. The most important of these, is that elimination-heavy mafia teams perform better than any other composition. Secondly, the ratio of mafia members to town members, is very impactful, but elimination-heavy compositions may equalize this imbalance somewhat. Lastly, excluding elimination-heavy teams showed that teams with the ability to acquire new information quickly performed better than those who could stop the town from performing their nightly actions.\\
 \twocolumn
