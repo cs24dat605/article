@@ -19,8 +19,8 @@ players, leading to a game setup of 3 mafia members and 7 town members.
 \end{figure}
 \vspace{-5px}
 The use of this game setup in our simulation leads to the mafia having a clear
-advantage, as can be seen on figure \ref{fig:VariousSimulations} (MMGS \&
-MMGSD)\footnote{MMGS Refers to Mafioso, Mafioso, Godfather, Sheriff, and
+advantage, as can be seen on figure \ref{fig:VariousSimulations} columns MMGS, and
+MMGSD\footnote{MMGS Refers to Mafioso, Mafioso, Godfather, Sheriff, and
     Doctor, as a role abbreviation, others can be found in \ref{app:roles}.}. This
 is likely due to the expanded elimination capabilities in the form of the
 mafioso and the godfather. \\ Should one instead reduce the number of mafia
@@ -29,8 +29,8 @@ win-rates for the two teams equalize significantly, but still being to the
 mafias favour (MGSD \& MGS).\\ Getting to the subject of this report: How a
 mafia fares against a powerful town\footnote{A powerful town being defined as
     one that uses all roles from appendix \ref{app:A}.}, one can look at all of the
-columns after the "Powerful Town" label on the figure
-(\ref{fig:VariousSimulations}). The only consistent feature of the mafia teams
+columns after the "Powerful Town" label on
+\cref{fig:VariousSimulations}. The only consistent feature of the mafia teams
 represented by these columns are the presence of 1 godfather in each
 configuration. They display that, against a powerful town, many configurations
 of mafia-roles are quite balanced, resulting in mostly a 50/50 win-rate for
@@ -39,11 +39,9 @@ most significant of which being MMG, with a win-rate of 74\% for the mafia.
 Furthermore, it seems that one of the only roles that can somewhat replace a
 mafioso in mixed-roles compositions is the consigliere, as such compositions
 (CgCtG \& CgBG) fare comparably to ones including a mafioso. \\
-Based on this graph we can deduce that mafiosi and
+Based on \cref{fig:VariousSimulations} we can deduce that mafiosi and
 consiglieri are more
-impactful for the mafia than both consorts and blackmailers. But it also seems
-that the varied team consisting of one mafioso, consigliere, and godfather,
-performs marginally better than other mixed configurations. \\
+impactful for the mafia than both consorts and blackmailers.
 The results indicate that when playing
 against a powerful town, it is most
 important for the mafia to be able to
@@ -52,11 +50,11 @@ be seen in column MMG on figure
 \ref{fig:VariousSimulations}, as this
 role-composition is the most successful for
 the mafia, and the one able to continue
-eliminating town-members for the longest.\\
+eliminating town-members for the longest time.\\
 It would be interesting to see which of the non-eliminating mafia roles perform
-best when they are on their own, and which composition of them performs best.
-This type of game removes the mafias ability to eliminate town memebers during the night.
-Figure \ref{fig:VariousSimulationsNonKilling} shows the results of such games:
+best when they are on their own, and which composition of these performs the best.
+This type of game removes the mafias' ability to eliminate town members during the night.
+\Cref{fig:VariousSimulationsNonKilling} shows the results of such games:
 \begin{figure}[H]
     \includegraphics[width=1\linewidth]{figures/Winrates_NonKilling}
     \caption{Graph of the win-rate of various
@@ -65,8 +63,8 @@ Figure \ref{fig:VariousSimulationsNonKilling} shows the results of such games:
         All of the runs were against the previously explained powerful town.}
     \label{fig:VariousSimulationsNonKilling}
 \end{figure}
-\vspace{-5px} As can be seen on \cref{fig:VariousSimulationsNonKilling} we can once again conclude that
-consiglieri are more impactful than either consorts or blackmailers. This may
+\vspace{-5px} As can be seen on \cref{fig:VariousSimulationsNonKilling} we can conclude that
+consiglieri are more impactful than either consorts or blackmailers, as can be seen in column CgCgCg having the highest win rate for the mafia. This may
 be due to their ability in finding the sheriff, enabling them to
 collectively vote them out. It also seems that no mixed-combination of
 non-killing mafia roles can compete with the pure-consiglieri team, except for BBCg.
