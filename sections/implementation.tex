@@ -19,7 +19,7 @@ that specific world's role composition. This relation is depicted in
 	\centering
 	\scalebox{0.8}{
 		\begin{tikzpicture}
-			\begin{class}[text width= 3cm]{Game}{-1,0}
+			\begin{class}[text width= 3cm]{Game}{-0.5, -0.63}
 				\attribute{agents : list}
 				\operation{runDayPhase()}
 				\operation{runNightPhase()}
@@ -34,13 +34,13 @@ that specific world's role composition. This relation is depicted in
 				\operation{nightAction()}
 				\operation{communication()}
 			\end{class}
-			\begin{class}[text width=4cm]{World}{-0.5,-5}
+			\begin{class}[text width=4cm]{World}{-0.5,-4.85}
 				\attribute{possibleAgents: list}
 				\attribute{marks : integer}
 				\attribute{isActive : boolean}
 				\attribute{isPrivateActive : boolean}
 			\end{class}
-			\begin{class}[text width=3.5cm]{PossibleAgent}{5.5,-5}
+			\begin{class}[text width=3.5cm]{PossibleAgent}{5,-5}
 				\attribute{actualAgent: agnet}
 				\attribute{isActive : boolean}
 				\attribute{possibleRole : string}
