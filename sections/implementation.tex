@@ -68,11 +68,11 @@ role, will become villagers.
 \end{equation}
 
 For each subsequent role, $R_1, R_2, .., R_n$ that is added, the complexity
-expands with:
+expands to:
 \begin{equation}
 	\begin{gathered}
 		W: A, R_0 = 0, R_1, ..., R_n, n\in  \mathbb{N} \mapsto \\
-		\frac{\prod\limits_{i=0}^{n}(A-\sum\limits_{j=0}^{i}R_j)!}{\prod\limits_{i=1}^{n}R_i!(A-\sum\limits_{j=1}^{i}R_j)!}
+		\frac{\prod\limits_{i=1}^{n}(A-\sum\limits_{j=1}^{i}R_{j-1})!}{\prod\limits_{i=1}^{n}R_i!(A-\sum\limits_{j=1}^{i}R_j)!}
 		\label{eq:numofworlds}
 	\end{gathered}\footnote{If the number of agents equals the
 		number of roles, then the formula collapses into A!.}
@@ -366,24 +366,24 @@ the rest are villagers. This round is viewed from the sheriffs perspective, so
 he does not know the roles of the other agents, only the amount of each role
 that is in the game, i.e. 1 sheriff, 1 godfather, and 8 villagers. He then has
 a set of propositions \{$\varphi$, $\psi$, $\chi$, $...$\} where $\varphi$ =
-"agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor .. )$ = "agent
-\textit{x} is a villager or godfather or ..." for all 3 roles, except sheriff,
-which agent \textit{a} knows he himself is, for each agent $x \in \text{\textbf{Ag}}$. \\ In our simulation, we begin the game, by
-loading the game-configuration and generate the worlds $W$ by creating all
-possible worlds, in accordance with \cref{alg:StartGame}. A round then starts
-as described by \cref{alg:dayPhase} with communicative actions, where agent
-\textit{b} says "I am villager", represented for agent \textit{a} by $((p \land
-	\neg q) \lor (\neg p \land q))$, where p is "agent \textit{b} is a villager and
-is telling the truth", and q is "agent b is not a villager and is lying". The
-expression essentially represents that agent \textit{a} does not yet know
-whether agent \textit{b}'s statement is true or false. But, by inference he may
-deduce that if what agent \textit{b} says is correct, then it is also true that
-they are the mentioned role. This is represented by $(p \land \neg q)
-	\rightarrow \psi_1$ where $\psi_1$ is agent \textit{b} is a villager, and
-oppositely $(\neg p \land q) \rightarrow \neg \psi_1$ where $\neg \psi_1$ is
-agent \textit{b} is not a villager. \\ Agent \textit{c} also says that they are
-a villager, represented by $((g \land \neg h) \lor (\neg g \land h))$ in a
-similar manner.
+"agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor ... )$ =
+"agent \textit{x} is a villager or godfather or ..." for all 3 roles, except
+sheriff, which agent \textit{a} knows he himself is, for each agent $x \in
+	\text{\textbf{Ag}}$. \\ In our simulation, we begin the game, by loading the
+game-configuration and generate the worlds $W$ by creating all possible worlds,
+in accordance with \cref{alg:StartGame}. A round then starts as described by
+\cref{alg:dayPhase} with communicative actions, where agent \textit{b} says "I
+am villager", represented for agent \textit{a} by $((p \land \neg q) \lor (\neg
+	p \land q))$, where p is "agent \textit{b} is a villager and is telling the
+truth", and q is "agent b is not a villager and is lying". The expression
+essentially represents that agent \textit{a} does not yet know whether agent
+\textit{b}'s statement is true or false. But, by inference he may deduce that
+if what agent \textit{b} says is correct, then it is also true that they are
+the mentioned role. This is represented by $(p \land \neg q) \rightarrow
+	\psi_1$ where $\psi_1$ is agent \textit{b} is a villager, and oppositely $(\neg
+	p \land q) \rightarrow \neg \psi_1$ where $\neg \psi_1$ is agent \textit{b} is
+not a villager. \\ Agent \textit{c} also says that they are a villager,
+represented by $((g \land \neg h) \lor (\neg g \land h))$ in a similar manner.
 
 When the agents communicate this, they choose which action to take, based on
 \cref{alg:communicate}, which itself invokes \cref{alg:GetHighInfoGainP},
@@ -392,23 +392,23 @@ sequence of communications can be expressed by the following formula:
 
 \begin{align}
 	\begin{split}
-		G = K_a(\varphi \land \psi \land\chi)\land                        \\
-		p \rightarrow \psi_1 \land \neg p \rightarrow \neg \psi_1 \land     \\
+		G = K_a(\varphi \land \psi \land\chi)\land                      \\
+		p \rightarrow \psi_1 \land \neg p \rightarrow \neg \psi_1 \land \\
 		q \rightarrow \chi_1 \land \neg q \rightarrow \neg \chi_1 \land \\
-		((p \land \neg q) \lor (\neg p \land q)) \land                      \\
+		((p \land \neg q) \lor (\neg p \land q)) \land                  \\
 		((g \land \neg h) \lor (\neg g \land h))
 		\label{eq:7}
 	\end{split}
 \end{align}
-These proporsitions are informally represented by the marks added by \cref{alg:updatePossibleWorlds}.\\
+These proporsitions are informally represented by the marks added by \cref{alg:updatePossibleWorlds}. After communication have ceased the voting phase begins. For the simplicity of this example we assume a tie in the voting phase resulting in no eliminations.  \\
 When the night phase comes, agent \textit{a}, who is the sheriff, will use \cref{alg:nightPhase} with agent \textit{b} as the target. This results in agent \textit{a} knowing the faction of agent \textit{b}. Agent
 \textit{a} will come to know that agent \textit{b} is a member of the mafia.
 Directly proving $\neg p$, since the role of a villager belongs to the town
 faction, not the mafia faction. This action also excludes all active world from
 the sheriff's knowledge, where agent \textit{b} is a member of the town,
-leaving him only with world wherein he is a member of the mafia, which in this
+leaving him only with worlds wherein agent \textit{b} is a member of the mafia, which in this
 case means he must be the godfather. During the same night, agent \textit{b}
-targets, agent \textit{c}, killing him. The killing is then publicly announced
+targets agent \textit{c}, eliminating them. The elimination is then publicly announced
 during the morning phase, along with the role of the victim. Recall from
 \cref{eq:6}, we can say $\varphi_1!G\land\varphi_1$, which informally is that
 everything before the public announcement, and the announcement itself, is now
@@ -426,5 +426,4 @@ being either a godfather, or a villager, and they now know that they are not a
 villager, they can infer that they must be a godfather, since that is the only
 world that has not been excluded, based on the knowledge they gained during the
 night. \\
-The game then continues with a new communication phase, and the game goes on,
-for a short while longer, until the godfather has been voted out.
+The game then continues with a new communication phase, and the game goes on.

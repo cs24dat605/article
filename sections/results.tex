@@ -1,73 +1,67 @@
 \section{Results}\label{sec:results}
-The simulations were run with various 
-role-compositions. The specific compositions 
-can be decoded by using the label for each 
-column and referring to the abbreviations for 
-roles in appendix \ref{app:A}. The first five 
-columns in figure 
-\ref{fig:VariousSimulations} depicts runs 
-where all undefined roles are defined to be 
-villagers. In the following columns, after 
-the label "Powerful Town", the undefined 
-roles are determined to be one of each town 
-role from appendix \ref{app:A}. There were 10 
-agents in each simulation, and each 
-simulation was run 100 times.\\\\
-The original rules for the mafia game 
-excluded roles altogether, instead
-preferring the simplest version of the game consisting of two teams, the mafia
-and the town. Using these rules\cite{MafiaRules}, it was recommended to have 1
-mafia member per. 3 players, leading to a game setup of 3 mafia members and 7
-town members. The use of this game setup in our simulation leads to the mafia
-having a clear advantage, as can be seen on figure \ref{fig:VariousSimulations}
-(MMGS \& MMGSD)\footnote{MMGS Refers to Mafioso, Mafioso, Godfather, Sheriff,
-    and Doctor, as a role abbreviation, others can be found in \ref{app:roles}}.
-This is likely due to the expanded elimination capabilities in the form of the
+The simulations were run with various role-compositions. The specific
+compositions can be decoded by using the label for each column and referring to
+the abbreviations for each role in appendix \ref{app:A}. The first five columns
+in figure \ref{fig:VariousSimulations} depicts runs where all undefined roles
+are defined to be villagers. In the following columns, after the label
+"Powerful Town", the undefined roles are determined to be one of each town role
+from appendix \ref{app:A}. There were 10 agents in each simulation, and each
+simulation was run 100 times.\\\\ The original rules for the mafia game
+excluded roles altogether, instead preferring the simplest version of the game
+consisting of two teams, the mafia and the town. Using these
+rules\cite{MafiaRules}, it was recommended to have 1 mafia member per. 3
+players, leading to a game setup of 3 mafia members and 7 town members.
+\begin{figure}[H]
+    \includegraphics[width=1\linewidth]{figures/Winrates}
+    \caption{Graph of the win-rate of various
+        simulated game compositions.}
+    \label{fig:VariousSimulations}
+\end{figure}
+\vspace{-5px}
+The use of this game setup in our simulation leads to the mafia having a clear
+advantage, as can be seen on figure \ref{fig:VariousSimulations} (MMGS \&
+MMGSD)\footnote{MMGS Refers to Mafioso, Mafioso, Godfather, Sheriff, and
+    Doctor, as a role abbreviation, others can be found in \ref{app:roles}.}. This
+is likely due to the expanded elimination capabilities in the form of the
 mafioso and the godfather. \\ Should one instead reduce the number of mafia
 members to 2, and as a result increase the number of town members to 8, the
-win-rates for the two teams equalize significantly more, but still being to the
+win-rates for the two teams equalize significantly, but still being to the
 mafias favour (MGSD \& MGS).\\ Getting to the subject of this report: How a
 mafia fares against a powerful town\footnote{A powerful town being defined as
     one that uses all roles from appendix \ref{app:A}.}, one can look at all of the
 columns after the "Powerful Town" label on the figure
 (\ref{fig:VariousSimulations}). The only consistent feature of the mafia teams
-represented by these columns are the presence of 1 godfather in each configuration. They
-display that, against a powerful town, many configurations of mafia-roles are
-quite balanced, resulting in mostly a 50/50 win-rate for each team. The main
-exceptions for this is elimination-heavy compositions the most significant of
-which being MMG, with a win-rate of 74\% for the mafia. Furthermore, it seems
-that one of the only roles that can somewhat replace a mafioso in mixed-roles
-compositions is the consigliere, as such compositions (CgCtG \& CgBG) fare
-comparably to ones including a mafioso. \\ 
-\begin{figure}[H]
-    \includegraphics[width=1\linewidth]{figures/Winrates}
-    \caption{Graph of the win-rate of various 
-    simulated game compositions.}
-    \label{fig:VariousSimulations}
-\end{figure}
-\vspace{-5px}Based on this graph we can deduce that mafiosi and
+represented by these columns are the presence of 1 godfather in each
+configuration. They display that, against a powerful town, many configurations
+of mafia-roles are quite balanced, resulting in mostly a 50/50 win-rate for
+each team. The main exceptions for this is elimination-heavy compositions the
+most significant of which being MMG, with a win-rate of 74\% for the mafia.
+Furthermore, it seems that one of the only roles that can somewhat replace a
+mafioso in mixed-roles compositions is the consigliere, as such compositions
+(CgCtG \& CgBG) fare comparably to ones including a mafioso. \\
+Based on this graph we can deduce that mafiosi and
 consiglieri are more
 impactful for the mafia than both consorts and blackmailers. But it also seems
 that the varied team consisting of one mafioso, consigliere, and godfather,
 performs marginally better than other mixed configurations. \\
-The results indicate that when playing 
+The results indicate that when playing
 against a powerful town, it is most
-important for the mafia to be able to 
-continually eliminate town members. This can 
-be seen in column MMG on figure 
-\ref{fig:VariousSimulations}, as this 
-role-composition is the most successful for 
-the mafia, and the one able to continue 
+important for the mafia to be able to
+continually eliminate town members. This can
+be seen in column MMG on figure
+\ref{fig:VariousSimulations}, as this
+role-composition is the most successful for
+the mafia, and the one able to continue
 eliminating town-members for the longest.\\
 It would be interesting to see which of the non-eliminating mafia roles perform
 best when they are on their own, and which composition of them performs best.
-This type of game removes the mafias ability to eliminate town memebers during the night. 
+This type of game removes the mafias ability to eliminate town memebers during the night.
 Figure \ref{fig:VariousSimulationsNonKilling} shows the results of such games:
 \begin{figure}[H]
     \includegraphics[width=1\linewidth]{figures/Winrates_NonKilling}
-    \caption{Graph of the win-rate of various 
-    simulated game compositions with only 
-    non-eliminating mafia roles.\\
+    \caption{Graph of the win-rate of various
+        simulated game compositions with only
+        non-eliminating mafia roles.\\
         All of the runs were against the previously explained powerful town.}
     \label{fig:VariousSimulationsNonKilling}
 \end{figure}
