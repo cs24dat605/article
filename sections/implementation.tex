@@ -365,12 +365,10 @@ b, c, ..., j\}, where \textit{a} is a sheriff, \textit{b} is a godfather, and
 the rest are villagers. This round is viewed from the sheriffs perspective, so
 he does not know the roles of the other agents, only the amount of each role
 that is in the game, i.e. 1 sheriff, 1 godfather, and 8 villagers. He then has
-a set of propositions \{$\varphi$, $\psi$\, $\gamma$, ...\} where $\varphi$ =
-"agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2)$ = "agent
-\textit{b} is a villager or godfather or ..." for all 3 roles, except sheriff,
-which agent \textit{a} knows he himself is. $\gamma$ = $(\gamma_1 \lor \gamma_2
-	\lor .. \lor \gamma_{n-1}) $ = "agent \textit{c} is a villager or godfather
-or...", and so on for each agent. \\ In our simulation, we begin the game, by
+a set of propositions \{$\varphi$, $\psi$, $\chi$, $...$\} where $\varphi$ =
+"agent \textit{a} is a sheriff". $\psi$ = $(\psi_1 \lor \psi_2 \lor .. )$ = "agent
+\textit{x} is a villager or godfather or ..." for all 3 roles, except sheriff,
+which agent \textit{a} knows he himself is, for each agent $x \in \text{\textbf{Ag}}$. \\ In our simulation, we begin the game, by
 loading the game-configuration and generate the worlds $W$ by creating all
 possible worlds, in accordance with \cref{alg:StartGame}. A round then starts
 as described by \cref{alg:dayPhase} with communicative actions, where agent
@@ -394,9 +392,9 @@ sequence of communications can be expressed by the following formula:
 
 \begin{align}
 	\begin{split}
-		G = K_a(\varphi \land \psi \land\gamma)\land                        \\
+		G = K_a(\varphi \land \psi \land\chi)\land                        \\
 		p \rightarrow \psi_1 \land \neg p \rightarrow \neg \psi_1 \land     \\
-		q \rightarrow \gamma_1 \land \neg q \rightarrow \neg \gamma_1 \land \\
+		q \rightarrow \chi_1 \land \neg q \rightarrow \neg \chi_1 \land \\
 		((p \land \neg q) \lor (\neg p \land q)) \land                      \\
 		((g \land \neg h) \lor (\neg g \land h))
 		\label{eq:7}
@@ -418,10 +416,10 @@ applicable. As previously mentioned, this is performed by using algorithm
 \ref{alg:updatePossibleWorlds}, which iterates over all agents and all their
 respective worlds, and updates the information. Now recall back to \cref{eq:7},
 after the newly acquired information of both $\neg \psi_1$, the knowledge that
-agent \textit{b} is not a villager, and $\gamma_2$, the role of agent
+agent \textit{b} is not a villager, and $\chi_2$, the role of agent
 \textit{c} we can now simplify the previous expression, which results in:
 \begin{align}
-	G' = K_a(\varphi \land \neg \psi_1 \land \gamma_1) \land \neg p \land q
+	G' = K_a(\varphi \land \neg \psi_1 \land \chi_1) \land \neg p \land q
 \end{align}
 Furthermore, as agent \textit{a} began with the knowledge of agent \textit{b}
 being either a godfather, or a villager, and they now know that they are not a
