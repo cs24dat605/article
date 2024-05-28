@@ -81,16 +81,16 @@ where:
 \end{itemize}
 Where $\mathscr{P}$ denotes the power-set. We introduce the answer operator, so agents are able to model or predict in possible worlds, based on what they know, what another agent will answer. They are modelled as pairs of a series of questions to one answer, because the provided answer to a series of questions can be a conjunction of propositions. We hypothesize that answering correctly according to a world, should imply some sense of truthfulness to this world. By our static epistemic language \staticlang\: and model $M$, we can define the following semantics:
 
-\begin{gather}
-    M, w |= p \iff p \in V(w) \label{sem:1}\\
-    M, w |= \neg\varphi \iff M, w \not\models \varphi \label{sem:2}\\
-    M, w |= (\varphi \land \psi) \iff M, w |= \varphi \land M, w |= \psi \label{sem:3}\\
-    M, w |= (\varphi \lor \psi) \iff M, w |= \varphi \lor M, w |= \psi\label{sem:or}
+\begin{flalign}
+    M, w |= p & \iff p \in V(w) \label{sem:1}\\
+    M, w |= \neg\varphi  & \iff M, w \not\models \varphi \label{sem:2}\\
+    M, w |= (\varphi \land \psi) & \iff M, w |= \varphi \land M, w |= \psi \label{sem:3}\\
+    M, w |= (\varphi \lor \psi) & \iff M, w |= \varphi \lor M, w |= \psi\label{sem:or}
     \\
-    M, w |= \nonumber (\varphi \rightarrow \psi) \iff\\ M, w |= \varphi \implies M, w |= \psi \: or \: M, w \not\models \varphi \land M, w \not\models \psi\label{sem:implies}\\
-    M, w |= \know \iff \forall u\in W, u \sim_{a} w \implies M, u |= \varphi \label{sem:4} \\
-    M, w |= R_a \iff \aset \in R_a(w) \label{sem:5}
-\end{gather}
+    M, w |= \nonumber (\varphi \rightarrow \psi) & \iff M, w |= \varphi \implies M, w |= \psi \\ or & \iff M, w \not\models \varphi \land M, w \not\models \psi\label{sem:implies}\\
+    M, w |= \nonumber \know & \iff \forall u\in W, u \sim_{a} w \implies\\ & \qquad\:\:\:\: M, u |= \varphi \label{sem:4} \\
+    M, w |= R_a & \iff \aset \in R_a(w) \label{sem:5}
+\end{flalign}
 While \cref{sem:1,sem:2,sem:3,sem:or,sem:implies} are trivial, \cref{sem:4} explains that the knowledge of some proposition \proposition is satisfied in world $w \in W$ if and only if it is also satisfied in all epistemically equivalent worlds by the indistinguishability relation $\sim_a$ for agent \textit{a}. That is, the agent does not distinguish between worlds, which by the knowledge in this does not have conflicting propositions. The answer function \cref{sem:5} is likewise only satisfied in a world given a model, when some pair of questions and answer is in the set of the agent answering operator.
 
 \subsubsection*{Information Update}
@@ -143,14 +143,11 @@ Similar to the definition of the precondition to the \textit{agent question oper
     \nonumber pre_{a}(I) := \\ \bigwedge\limits_{i\in1,m}K_a\psi_i \land K_a\Biggl(\Biggl(\:\bigwedge\limits_{i\in 1,m}\psi_i\Biggr) \hookrightarrow \psi_c \Biggr)
 \end{gather}
 We now have the prerequisites for defining the semantics of our dynamic language \dynlang. They are based on the previous listed in \crefrange{sem:1}{sem:5} describing the \staticlang, extending it with the newly introduced \textit{information update operator}, \textit{agent question operator} and \textit{inference operator}:
-\begin{gather}
-    M, w \models [\psi!]\varphi \iff \\
-    \nonumber M, w \models \psi \implies M|\psi, w \models \varphi \\\nonumber \\
-    M, w \models [Q_A?]_{a,b}\varphi \iff \\
-    \nonumber M, w \models pre_{a,b}(Q_A) \implies M^{a,b}_{Q_A?}(w), w \models \varphi\\\nonumber\\
-    M, w \models [I]_a\varphi \iff \\
-    \nonumber M, w \models pre_a(I) \implies M^a_I(w), w \models \varphi
-\end{gather}
+\begin{flalign}
+    \nonumber M, w \models [\psi!]\varphi \iff& M, w \models \psi \implies\\& M|\psi, w \models \varphi \\ 
+    \nonumber M, w \models [Q_A?]_{a,b}\varphi \iff& M, w \models pre_{a,b}(Q_A) \implies \\& M^{a,b}_{Q_A?}(w), w \models \varphi\\
+    \nonumber M, w \models [I]_a\varphi \iff& M, w \models pre_a(I) \implies\\& M^a_I(w), w \models \varphi 
+\end{flalign}
 Informally, these simply explain that the semantics for the update of worlds only hold if their preconditions hold, which then in turn implies that the worlds accessible after the model update includes the conclusive proposition. \\
 
 We have now formally described the definitive language of \dynlang, which lays
